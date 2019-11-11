@@ -6,17 +6,21 @@ Businesses are registered with the state level in the U.S. and most states provi
 
 ### Data
 
-| State | Son    | Daughter| 
-|-------|--------|---------|
-|  AL   |  1000+ |  126    |
-|  NV   |  1440  |  20     |
-|  MT   |    |  66     |
-|  OR   |  1000+ |  227    |
-|  PA   |   NA   |  NA     |
-|       |        |         |
-|  WA   |  1440  |  161    |
-|  WI   |  845   |  43     |
-| 
+| State | Son    | Daughter| Son/Daughter Ratio |
+|-------|--------|---------|--------------------|
+|  AL   |  1000+ |  126    |        8           |
+|  CA   |  3609  |  150    |        24          |
+|  HI   |   -    |  88     |        -           |
+|  MI   |  2265  |  93     |        24          |
+|  MT   |        |  66     |                    |
+|  NV   |  1440  |  20     |        72          |
+|  OH   |  2550  |  100    |        26          |
+|  OR   |  1000+ |  227    |        -           |
+|  PA   |   NA   |  NA     |        -           |
+|       |        |         |                    |
+|  WA   |  1440  |  161    |        9           |
+|  WI   |  845   |  43     |        20          |
+
 
 
 ### Underlying Data
@@ -30,8 +34,21 @@ Businesses are registered with the state level in the U.S. and most states provi
 * [AL](https://www.sos.alabama.gov/government-records/business-entity-records)
     - caps returns at 1000.
 
+* [CA](https://businesssearch.sos.ca.gov/)
+    - gives the number of results. 
+    - you need to do separate searches for corporations and llc. 
+
+* [HI](https://hbe.ehawaii.gov/documents/search.html)
+    - gives counts but returns only 300. 
+    - problematic regex search as counts words with son in them and funny things like 'son of a beach'
+
+* [MI](https://cofs.lara.state.mi.us/SearchApi/Search/Search)
+    - keyword search
+    - returns number of results
+
 * [MT](https://sosmt.gov/business/)
     - offers downloadable list
+    - doesn't do a good regex search. need to run regex.
 
 * [NV](https://esos.nv.gov/EntitySearch/OnlineEntitySearch)
     - pop-up tells us the number of search results if search results > 500
