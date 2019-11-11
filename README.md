@@ -11,6 +11,7 @@ Businesses are registered with the state level in the U.S. and most states provi
 |  AL   |  1000+ |  126    |
 |  NV   |  1440  |  20     |
 |  MT   |    |  66     |
+|  OR   |  1000+ |  227    |
 |  PA   |   NA   |  NA     |
 |       |        |         |
 |  WA   |  1440  |  161    |
@@ -34,6 +35,10 @@ Businesses are registered with the state level in the U.S. and most states provi
 
 * [NV](https://esos.nv.gov/EntitySearch/OnlineEntitySearch)
     - pop-up tells us the number of search results if search results > 500
+
+* [OR](http://egov.sos.state.or.us/br/pkg_web_name_srch_inq.login)
+    - max results capped at 1000
+    - can copy and paste easily
 
 * [PA](https://www.corporations.pa.gov/Search/corpsearch) 
     - doesn't seem to allow for exhaustive search
