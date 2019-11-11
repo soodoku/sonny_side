@@ -67,11 +67,3 @@ Businesses are registered with the state level in the U.S. and most states provi
     - Searches for "son" as a separate word.
     - Had to do multiple searches---breaking by time---for son as results > 500
 
-
-### Scripts
-
-* 
-
-### Figures
-
-* [Figures](figs/)
