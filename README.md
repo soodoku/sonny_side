@@ -2,7 +2,7 @@
 
 I estimate bias for sons by examining the extent to which the word son(s) is more common in business names than the word daughter(s). 
 
-Businesses are registered with the state level in the U.S. and most states provide a way to search the data so that new businesses can pick names that haven't been used before. I run searches to estimate how often 
+Businesses are registered with the state level in the U.S. and most states provide a way to search the data so that new businesses can pick names that haven't been used before. I search for 'son' and 'daughter' in state's databases for business names.
 
 ### Data
 
