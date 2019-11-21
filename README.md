@@ -2,7 +2,9 @@
 
 I estimate bias for sons by examining the extent to which the word son(s) is more common in business names than the word daughter(s). 
 
-Businesses are registered with the state level in the U.S. and most states provide a way to search the data so that new businesses can pick names that haven't been used before. I search for 'son' and 'daughter' in state's databases for business names.
+Businesses are registered with the state level in the U.S. and most states provide a way to search the data so that new businesses can pick names that haven't been used before. 
+
+I search for 'son' and 'daughter' in states' databases for business names.
 
 ### Data
 
@@ -11,23 +13,26 @@ Businesses are registered with the state level in the U.S. and most states provi
 |  AL   |  1000+ |  126    |        8           |
 |  CA   |  3609  |  150    |        24          |
 |  HI   |   -    |  88     |        -           |
+|  ID   |  60    |  39     |        -           |
 |  MI   |  2265  |  93     |        24          |
 |  MT   |        |  66     |                    |
 |  NV   |  1440  |  20     |        72          |
 |  OH   |  2550  |  100    |        26          |
 |  OR   |  1000+ |  227    |        -           |
 |  PA   |   NA   |  NA     |        -           |
-|       |        |         |                    |
 |  WA   |  1440  |  161    |        9           |
 |  WI   |  845   |  43     |        20          |
-
 
 
 ### Underlying Data
 
 **Notes**
+
 1. Searched on 11/10/2019 or later
+
 2. Existence of "son" in the name doesn't preclude existence of the word daughter. Vice versa. 
+
+3. For links to [all 50 SoS Business Entity Search Links](https://www.llcuniversity.com/50-secretary-of-state-sos-business-entity-search/)
 
 **By State**
 
@@ -38,9 +43,14 @@ Businesses are registered with the state level in the U.S. and most states provi
     - gives the number of results. 
     - you need to do separate searches for corporations and llc. 
 
+* [CT](https://www.concord-sots.ct.gov/CONCORD/online?sn=PublicInquiry&eid=9740)
+
 * [HI](https://hbe.ehawaii.gov/documents/search.html)
     - gives counts but returns only 300. 
     - problematic regex search as counts words with son in them and funny things like 'son of a beach'
+
+* [ID](https://sosbiz.idaho.gov/search/business)
+    - regex used: `.*_son(s)_.*` and `.*_daughter(s)_.*`
 
 * [MI](https://cofs.lara.state.mi.us/SearchApi/Search/Search)
     - keyword search
