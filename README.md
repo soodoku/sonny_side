@@ -1,10 +1,19 @@
 ## Sons and Daughters
 
-I estimate bias for sons by examining the extent to which the word son(s) is more common in business names than the word daughter(s). 
+I estimate bias for sons by examining the extent to which `son(s)` is more common than `daughter(s)` in names of businesses. 
 
-Businesses are registered with the state level in the U.S. and most states provide a way to search the data so that new businesses can pick names that haven't been used before. 
+Businesses are registered with the state in the U.S. All states provide a way to search business names online so that new businesses can pick names that haven't been used before, etc. But not all states allow for regex searches or provide a full set of results. I begin by searching for `son(s)` and `daughter` in states' databases of business names. Even where we can use regex to estimate business names with the word 'son' and 'sons', there are at least three issues that mean raw comparisons would be misleading:
 
-I search for 'son' and 'daughter' in states' databases for business names.
+1. son is a Korean name. 
+2. some businesses use the word `son` playfully, like `son of a beach`
+
+So, some care is needed in interpreting the results.
+
+Let's start with cases where we get all the data and we can do a good regex search. [MT](data/mt/) provides all the search results and we run a regex to narrow down to cases where son(s) is a separate word. A brief glimpse suggests all of the results are legitimate, of the variety `X and Son(s)` etc. There the ratio between business names with the word son and daughter is about 4. [OH](data/oh/) also provides entire data. Here the ratio is about 26 to 1.   
+
+[OR](data/or/) doesn't return more than 1,000 results. But when you apply regex to the 1,000, 985 come up as true positive. So the most conservative son:daughter ratio is 4. 
+
+[WA](data/wa/) returns all the results and after applying the regex, we get 2,424 results for son(s). This means a ratio of 15. 
 
 ### Data
 
@@ -15,14 +24,21 @@ I search for 'son' and 'daughter' in states' databases for business names.
 |  HI   |   -    |  88     |        -           |
 |  ID   |  60    |  39     |        -           |
 |  MI   |  2265  |  93     |        24          |
-|  MT   |        |  66     |                    |
+|  MT   |  240   |  66     |        4           |
 |  NV   |  1440  |  20     |        72          |
 |  OH   |  2550  |  100    |        26          |
 |  OR   |  1000+ |  227    |        -           |
 |  PA   |   NA   |  NA     |        -           |
-|  WA   |  1440  |  161    |        9           |
+|  WA   |  2424  |  161    |        15          |
 |  WI   |  845   |  43     |        20          |
 
+### Script
+
+* [Regex Script](scripts/dson.R)
+    - MT
+    - OH
+    - OR
+    - WA
 
 ### Underlying Data
 
