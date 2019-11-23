@@ -6,8 +6,13 @@ setwd("sons_and_daughters/data/")
 library(readr)
 library(stringr)
 
+## AL
+
+al_son <-  or_son <- read_csv("al/al_sons.csv")
+al_son$`Entity Name`[sapply(lapply(str_extract_all(tolower(al_son$`Entity Name`), "\\w+"), function(x) str_detect(x, "^son$|^sons$")), sum) > 0]
+
+
 ## Montana
-# read data
 mt_son <- read_csv("mt/export-11_10_19_5_52_PM_son.csv")
 
 mt_son[[1]][5:3754]

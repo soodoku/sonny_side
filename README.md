@@ -9,32 +9,39 @@ Businesses are registered with the state in the U.S. All states provide a way to
 
 So, some care is needed in interpreting the results.
 
-Let's start with cases where we get all the data and we can do a good regex search. [MT](data/mt/) provides all the search results and we run a regex to narrow down to cases where son(s) is a separate word. A brief glimpse suggests all of the results are legitimate, of the variety `X and Son(s)` etc. There the ratio between business names with the word son and daughter is about 4. [OH](data/oh/) also provides entire data. Here the ratio is about 26 to 1.   
+Let's start with cases where we get all the data and we can do a good regex search. 
 
-[OR](data/or/) doesn't return more than 1,000 results. But when you apply regex to the 1,000, 985 come up as true positive. So the most conservative son:daughter ratio is 4. 
+[AL](data/al) returns at max. 1000 results. Results for son are over a 1000. But when you apply regex to the 1,000, 884 come up as true positive. So the most conservative son:daughter ratio is 4. 
+
+[MT](data/mt/) provides all the search results and we run a regex to narrow down to cases where son(s) is a separate word. A brief glimpse suggests all of the results are legitimate, of the variety `X and Son(s)` etc. There the ratio between business names with the word son and daughter is about 4. 
+
+[OH](data/oh/) also provides entire data. Here the ratio is about 26 to 1.   
+
+[OR](data/or/) doesn't return more than 1,000 results. Results for son are over a 1000. But when you apply regex to the 1,000, 985 come up as true positive. So the most conservative son:daughter ratio is 4. 
 
 [WA](data/wa/) returns all the results and after applying the regex, we get 2,424 results for son(s). This means a ratio of 15. 
 
 ### Data
 
-| State | Son    | Daughter| Son/Daughter Ratio |
-|-------|--------|---------|--------------------|
-|  AL   |  1000+ |  126    |        8           |
-|  CA   |  3609  |  150    |        24          |
-|  HI   |   -    |  88     |        -           |
-|  ID   |  60    |  39     |        -           |
-|  MI   |  2265  |  93     |        24          |
-|  MT   |  240   |  66     |        4           |
-|  NV   |  1440  |  20     |        72          |
-|  OH   |  2550  |  100    |        26          |
-|  OR   |  1000+ |  227    |        -           |
-|  PA   |   NA   |  NA     |        -           |
-|  WA   |  2424  |  161    |        15          |
-|  WI   |  845   |  43     |        20          |
+| State | Son    | Daughter| Son/Daughter Ratio | Conservative Est  | 
+|-------|--------|---------|--------------------|-------------------|
+|  AL   |  1000+ |  126    |        8           |        7          |
+|  CA   |  3609  |  150    |        24          |                   |
+|  HI   |   -    |  88     |        -           |                   |
+|  ID   |  60    |  39     |        -           |                   | 
+|  MI   |  2265  |  93     |        24          |                   |
+|  MT   |  240   |  66     |        4           |         4         |
+|  NV   |  1440  |  20     |        72          |                   |
+|  OH   |  2550  |  100    |        26          |        26         |
+|  OR   |  1000+ |  227    |        -           |         4         |
+|  PA   |   NA   |  NA     |        -           |                   |
+|  WA   |  2424  |  161    |        15          |         15        |
+|  WI   |  845   |  43     |        20          |                   |
 
 ### Script
 
 * [Regex Script](scripts/dson.R)
+    - AL
     - MT
     - OH
     - OR
