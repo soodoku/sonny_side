@@ -1,4 +1,4 @@
-## Sonny Side: The Son Bias in US
+## The Son Bias in the US: Evidence from Business Names
 
 I estimate bias for sons by examining the extent to which `son(s)` is more common than `daughter(s)` in names of businesses. 
 
