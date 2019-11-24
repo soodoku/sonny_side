@@ -1,29 +1,42 @@
-## The Son Bias in the US: Evidence from Business Names
+## Son Bias in US: Evidence from Business Names
 
-I estimate bias for sons by examining the extent to which `son(s)` is more common than `daughter(s)` in names of businesses. 
+I estimate bias for sons by examining the extent to which the word `son(s)` is more common than `daughter(s)` in the names of businesses. 
 
-Businesses are registered with the state in the U.S. All states provide a way to search business names online so that new businesses can pick names that haven't been used before, etc. But not all states allow for regex searches or provide a full set of results. I begin by searching for `son(s)` and `daughter` in states' databases of business names. Even where we can use regex to estimate business names with the word 'son' and 'sons', there are at least three issues that mean raw comparisons would be misleading:
 
-1. son is a Korean name. 
-2. some businesses use the word `son` playfully, like `son of a beach`
+In the US, businesses are registered with the state. All states provide a way to search business names, partly so that new companies can pick names that haven't been used before. 
 
-So, some care is needed in interpreting the results.
+I begin by searching for `son(s)` and `daughter` in states' databases of business names. But results of searches for `son(s)` are inflated because of three reasons:
 
-Let's start with cases where we get all the data and we can do a good regex search. 
+`son` is part of a variety of words, from names such as `Jason` and `Robinson` to ordinary English words like mason. 
+`son` is a Korean name. 
+some businesses use the word `son` playfully. For instance, `son' is a homonym of `sun` and some people use it to create names like `son of a beach`
 
-[AL](data/al) returns at max. 1000 results. Results for son are over a 1000. But when you apply regex to the 1,000, 884 come up as true positive. So the most conservative son:daughter ratio is 4. 
+We can address the first concern by resorting to a regex that only looks at freestanding words. But not all states allow for sophisticated regex searches or allow people to download a full set of results. Where possible, we try to draw a lower bound. But some care is needed in interpreting the results.
+
+### Script
+
+Script for addressing the first concern.
+
+* [Regex Script](scripts/dson.R)
+    - AL
+    - MT
+    - OH
+    - OR
+    - WA
+
+### Results 
+
+[AL](data/al) returns at max. 1000 results. Results for `son(s)` are over a 1000. But when you apply regex to the 1,000, 884 come up as true positive. So the most conservative son:daughter ratio is 4. 
 
 [MT](data/mt/) provides all the search results and we run a regex to narrow down to cases where son(s) is a separate word. A brief glimpse suggests all of the results are legitimate, of the variety `X and Son(s)` etc. There the ratio between business names with the word son and daughter is about 4. 
 
-[OH](data/oh/) also provides entire data. Here the ratio is about 26 to 1.   
+[OH](data/oh/) also provides an easy way to download the results. The ratio is about 26 to 1.   
 
 [OR](data/or/) doesn't return more than 1,000 results. Results for son are over a 1000. But when you apply regex to the 1,000, 985 come up as true positive. So the most conservative son:daughter ratio is 4. 
 
 [WA](data/wa/) returns all the results and after applying the regex, we get 2,424 results for son(s). This means a ratio of 15. 
 
-### Data
-
-| State | Son    | Daughter| Son/Daughter Ratio | Conservative Est  | 
+| State | Son    | Daughter| Son/Daughter Ratio | Conservative Est.  | 
 |-------|--------|---------|--------------------|-------------------|
 |  AL   |  1000+ |  126    |        8           |        7          |
 |  CA   |  3609  |  150    |        24          |                   |
@@ -37,15 +50,6 @@ Let's start with cases where we get all the data and we can do a good regex sear
 |  PA   |   NA   |  NA     |        -           |                   |
 |  WA   |  2424  |  161    |        15          |         15        |
 |  WI   |  845   |  43     |        20          |                   |
-
-### Script
-
-* [Regex Script](scripts/dson.R)
-    - AL
-    - MT
-    - OH
-    - OR
-    - WA
 
 ### Underlying Data
 
