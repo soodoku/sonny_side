@@ -28,6 +28,8 @@ Script for addressing the first concern.
 
 [AL](data/al) returns at max. 1000 results. Results for `son(s)` are over a 1000. But when you apply regex to the 1,000, 884 come up as true positive. So the most conservative son:daughter ratio is 4. 
 
+[CA](data/ca) returns a max. of 500 results. But it gives you total results (3609 vs. 150). We download the 500 results for `son(s)` and apply the regex. 499 come up as true positive. So the most conservative son:daughter ratio is 24. 
+
 [MT](data/mt/) provides all the search results and we run a regex to narrow down to cases where son(s) is a separate word. A brief glimpse suggests all of the results are legitimate, of the variety `X and Son(s)` etc. There the ratio between business names with the word son and daughter is about 4. 
 
 [OH](data/oh/) also provides an easy way to download the results. The ratio is about 26 to 1.   
@@ -36,10 +38,10 @@ Script for addressing the first concern.
 
 [WA](data/wa/) returns all the results and after applying the regex, we get 2,424 results for son(s). This means a ratio of 15. 
 
-| State | Son    | Daughter| Son/Daughter Ratio | Conservative Est.  | 
+| State | Son    | Daughter| Son/Daughter Ratio | Conservative Est. | 
 |-------|--------|---------|--------------------|-------------------|
 |  AL   |  1000+ |  126    |        8           |        7          |
-|  CA   |  3609  |  150    |        24          |                   |
+|  CA   |  3609  |  150    |        24          |        24         |
 |  HI   |   -    |  88     |        -           |                   |
 |  ID   |  60    |  39     |        -           |                   | 
 |  MI   |  2265  |  93     |        24          |                   |
