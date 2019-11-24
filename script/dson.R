@@ -16,6 +16,11 @@ al_son$`Entity Name`[sapply(lapply(str_extract_all(tolower(al_son$`Entity Name`)
 ca_son <-  read_csv("ca/son_corp.csv")
 ca_son$`Entity Name`[sapply(lapply(str_extract_all(tolower(ca_son$`Entity Name`), "\\w+"), function(x) str_detect(x, "^son$|^sons$")), sum) > 0]
 
+## HI
+
+hi_son <-  read_csv("hi/hi_sons.csv")
+hi_son$`Name`[sapply(lapply(str_extract_all(tolower(hi_son$`Name`), "\\w+"), function(x) str_detect(x, "^son$|^sons$")), sum) > 0]
+
 ## Montana
 mt_son <- read_csv("mt/export-11_10_19_5_52_PM_son.csv")
 
