@@ -1,17 +1,20 @@
 ## Son Bias in the US: Evidence from Business Names
 
-I estimate bias for sons by examining the extent to which the word `son(s)` is more common than `daughter(s)` in the names of businesses. 
+I estimate the bias for sons by examining how common words `son` or `sons` are compared to `daughter(s)` in the names of businesses.
 
+In the US, all businesses have to register with a state. All states provide a way to search business names, in part so that new companies can pick names that haven't been used before.
 
-In the US, businesses are registered with the state. All states provide a way to search business names, partly so that new companies can pick names that haven't been used before. 
+I begin by searching for `son(s)` and `daughter(s)` in states' databases of business names. But the results of searching `son` are inflated because of three reasons:
 
-I begin by searching for `son(s)` and `daughter` in states' databases of business names. But results of searches for `son(s)` are inflated because of three reasons:
+* `son` is part of many English words, from names such as `Jason` and `Robinson` to ordinary English words like mason (which can also be a name).
 
-`son` is part of a variety of words, from names such as `Jason` and `Robinson` to ordinary English words like mason. 
-`son` is a Korean name. 
-some businesses use the word `son` playfully. For instance, `son' is a homonym of `sun` and some people use it to create names like `son of a beach`
+* `son` is a Korean name. 
 
-We can address the first concern by resorting to a regex that only looks at freestanding words. But not all states allow for sophisticated regex searches or allow people to download a full set of results. Where possible, we try to draw a lower bound. But some care is needed in interpreting the results.
+* some businesses use the word `son` playfully. For instance, `son` is a homonym of sun and some people use that to create names like `son of a beach`
+
+I address the first concern by using a regex that only looks at words that exactly match `son` or `sons`. But not all states allow for regex searches or allow people to download a full set of results. Where possible, I try to draw a lower bound. But still some care is needed in interpreting the results.
+
+In all, I find that the conservative estimate of son to daughter ratio is between 4 to 1 to 26 to 1 across states.
 
 ### Script
 
