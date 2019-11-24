@@ -1,4 +1,4 @@
-## Son Bias in US: Evidence from Business Names
+## Son Bias in the US: Evidence from Business Names
 
 I estimate bias for sons by examining the extent to which the word `son(s)` is more common than `daughter(s)` in the names of businesses. 
 
