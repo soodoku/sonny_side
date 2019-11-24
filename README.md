@@ -19,6 +19,8 @@ Script for addressing the first concern.
 
 * [Regex Script](scripts/dson.R)
     - AL
+    - CA
+    - HI
     - MT
     - OH
     - OR
