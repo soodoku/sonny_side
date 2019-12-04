@@ -1,6 +1,7 @@
 # setwd
-setwd(githubdir)
-setwd("sons_and_daughters/data/")
+#setwd(githubdir)
+#setwd("sons_and_daughters/data/")
+setwd("C:\\Users\\wguil\\OneDrive\\Documents\\GitHub\\sonny_side\\data")
 
 # Load libs
 library(readr)
@@ -20,6 +21,13 @@ ca_son$`Entity Name`[sapply(lapply(str_extract_all(tolower(ca_son$`Entity Name`)
 hi_son <-  read_csv("hi/hi_sons.csv")
 hi_son$Name[sapply(lapply(str_extract_all(tolower(hi_son$Name), "\\w+"), function(x) str_detect(x, "^son$|^sons$")), sum) > 0]
 hi_son$Name[sapply(lapply(str_extract_all(tolower(hi_son$Name), "\\w+"), function(x) str_detect(x, "^daughters$|^daughter$")), sum) > 0]
+
+#Kansas
+ks_daughter <- read.csv("ks/ks-daughter.csv", stringsAsFactors = FALSE)
+ks_daughter$Name[sapply(lapply(str_extract_all(tolower(ks_daughter$Name), "\\w+"), function(x) str_detect(x, "^daughters$|^daughter$")), sum) > 0]
+ks_son <- read.csv("ks/ks-son.csv", stringsAsFactors = FALSE)
+ks_son$Name[sapply(lapply(str_extract_all(tolower(ks_son$Name), "\\w+"), function(x) str_detect(x, "^son$|^sons$")), sum) > 0]
+75/14
 
 ## Montana
 mt_son <- read_csv("mt/export-11_10_19_5_52_PM_son.csv")
