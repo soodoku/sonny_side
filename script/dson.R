@@ -29,6 +29,13 @@ ks_son <- read.csv("ks/ks-son.csv", stringsAsFactors = FALSE)
 ks_son$Name[sapply(lapply(str_extract_all(tolower(ks_son$Name), "\\w+"), function(x) str_detect(x, "^son$|^sons$")), sum) > 0]
 75/14
 
+#Kentucky
+ky_daughter <- read.csv("ky/ky-daughter.csv", stringsAsFactors = FALSE)
+ky_daughter$CompanyName[sapply(lapply(str_extract_all(tolower(ky_daughter$CompanyName), "\\w+"), function(x) str_detect(x, "^daughters$|^daughter$")), sum) > 0]
+ky_son <- read.csv("ky/ky-son.csv", stringsAsFactors = FALSE)
+ky_son_dedup <- ky_son[!duplicated(ky_son$CompanyName), ]
+ky_son_dedup$CompanyName[sapply(lapply(str_extract_all(tolower(ky_son_dedup$CompanyName), "\\w+"), function(x) str_detect(x, "^sons$|^son$")), sum) > 0]
+
 ## Montana
 mt_son <- read_csv("mt/export-11_10_19_5_52_PM_son.csv")
 
