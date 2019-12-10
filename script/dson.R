@@ -36,6 +36,32 @@ ky_son <- read.csv("ky/ky-son.csv", stringsAsFactors = FALSE)
 ky_son_dedup <- ky_son[!duplicated(ky_son$CompanyName), ]
 ky_son_dedup$CompanyName[sapply(lapply(str_extract_all(tolower(ky_son_dedup$CompanyName), "\\w+"), function(x) str_detect(x, "^sons$|^son$")), sum) > 0]
 
+#Maine
+me_daughter <- read.csv("me/me-daughter.csv", stringsAsFactors = FALSE)
+me_daughter$Entity[sapply(lapply(str_extract_all(tolower(me_daughter$Entity), "\\w+"), function(x) str_detect(x, "^daughters$|^daughter$")), sum) > 0]
+me_son <- read.csv("me/me-son.csv", stringsAsFactors = FALSE)
+me_son_dedup <- me_son[!duplicated(me_son$Entity), ]
+me_son_dedup$Entity[sapply(lapply(str_extract_all(tolower(me_son_dedup$Entity), "\\w+"), function(x) str_detect(x, "^sons$|^son$")), sum) > 0]
+
+#Maryland
+md_daughter <- read.csv("md/md_daughter.csv", stringsAsFactors = FALSE)
+md_daughter$BusinessName[sapply(lapply(str_extract_all(tolower(md_daughter$BusinessName), "\\w+"), function(x) str_detect(x, "^daughters$|^daughter$")), sum) > 0]
+md_son <- read.csv("md/md_son.csv", stringsAsFactors = FALSE)
+md_son_dedup <- md_son[!duplicated(md_son$BusinessName), ]
+md_son_dedup$BusinessName[sapply(lapply(str_extract_all(tolower(md_son_dedup$BusinessName), "\\w+"), function(x) str_detect(x, "^sons$|^son$")), sum) > 0]
+
+#Massachusets
+ma_daughter <- read.csv("ma/ma_daughter.csv", stringsAsFactors = FALSE) 
+ma_daughter <- ma_daughter[ma_daughter$Entity.Name != "", ] #brought empty lines so need to remove
+ma_daughter_dedup <- ma_daughter[!duplicated(ma_daughter$Entity.Name), ]
+ma_daughter_dedup$Entity.Name[sapply(lapply(str_extract_all(tolower(ma_daughter_dedup$Entity.Name), "\\w+"), function(x) str_detect(x, "^daughters$|^daughter$")), sum) > 0]
+ma_son <- read.csv("ma/ma_son.csv", stringsAsFactors = FALSE) 
+ma_son <- ma_son[ma_son$Entity.Name != "", ] #brought empty lines so need to remove
+ma_son_dedup <- ma_son[!duplicated(ma_son$Entity.Name), ]
+ma_son_dedup$Entity.Name[sapply(lapply(str_extract_all(tolower(ma_son_dedup$Entity.Name), "\\w+"), function(x) str_detect(x, "^sons$|^son$")), sum) > 0]
+
+
+
 ## Montana
 mt_son <- read_csv("mt/export-11_10_19_5_52_PM_son.csv")
 
