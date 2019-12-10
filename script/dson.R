@@ -60,7 +60,14 @@ ma_son <- ma_son[ma_son$Entity.Name != "", ] #brought empty lines so need to rem
 ma_son_dedup <- ma_son[!duplicated(ma_son$Entity.Name), ]
 ma_son_dedup$Entity.Name[sapply(lapply(str_extract_all(tolower(ma_son_dedup$Entity.Name), "\\w+"), function(x) str_detect(x, "^sons$|^son$")), sum) > 0]
 
-
+#Minnesota
+mn_daughter <- read.csv("mn/mn_daughter.csv", stringsAsFactors = FALSE) 
+mn_daughter_dedup <- mn_daughter[!duplicated(mn_daughter$Business.Name), ]
+mn_daughter_dedup[sapply(lapply(str_extract_all(tolower(mn_daughter_dedup), "\\w+"), function(x) str_detect(x, "^daughters$|^daughter$")), sum) > 0]
+mn_son <- read.csv("mn/mn_son.csv", stringsAsFactors = FALSE) 
+mn_son_dedup <- mn_son[!duplicated(mn_son$Business.Name), ]
+mn_son_dedup[sapply(lapply(str_extract_all(tolower(mn_son_dedup), "\\w+"), function(x) str_detect(x, "^sons$|^son$")), sum) > 0]
+222/212
 
 ## Montana
 mt_son <- read_csv("mt/export-11_10_19_5_52_PM_son.csv")
@@ -73,6 +80,15 @@ mt_son[[1]][5:3754][a]
 
 mt_son[[1]][5:3754][sapply(lapply(str_extract_all(tolower(mt_son[[1]][5:3754]), "\\w+"), function(x) str_detect(x, "^son$|^sons$")), sum) > 0]
 mt_son[[1]][5:3754][sapply(lapply(str_extract_all(tolower(mt_son[[1]][5:3754]), "\\w+"), function(x) str_detect(x, "^daughter$|^daughters$")), sum) > 0]
+
+#Nebraska
+ne_daughter <- read.csv("ne/ne_daughter.csv", stringsAsFactors = FALSE) 
+ne_daughter$Name[sapply(lapply(str_extract_all(tolower(ne_daughter$Name), "\\w+"), function(x) str_detect(x, "^daughters$|^daughter$")), sum) == 0]
+#[1] "DADANDDAUGHTERBUYHOUSES.COM"
+#so all are actually
+41
+
+
 
 ## Ohio
 oh_son <- read_csv("oh/Ohio Secretary of State Business Search-Business Name-son.csv")
