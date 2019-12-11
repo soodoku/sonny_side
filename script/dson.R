@@ -88,8 +88,6 @@ ne_daughter$Name[sapply(lapply(str_extract_all(tolower(ne_daughter$Name), "\\w+"
 #so all are actually
 41
 
-
-
 ## Ohio
 oh_son <- read_csv("oh/Ohio Secretary of State Business Search-Business Name-son.csv")
 oh_son$Name[sapply(lapply(str_extract_all(tolower(oh_son$Name), "\\w+"), function(x) str_detect(x, "^son$|^sons$")), sum) > 0]
@@ -99,6 +97,33 @@ oh_son$Name[sapply(lapply(str_extract_all(tolower(oh_son$Name), "\\w+"), functio
 or_son <- read_csv("or/son.csv")
 or_son$Name[sapply(lapply(str_extract_all(tolower(or_son$Name), "\\w+"), function(x) str_detect(x, "^son$|^sons$")), sum) > 0]
 or_son$Name[sapply(lapply(str_extract_all(tolower(or_son$Name), "\\w+"), function(x) str_detect(x, "^daughters$|^daughter$")), sum) > 0]
+
+#Rhode Island
+ri_daughter <- read.csv("ri/ri-daughter.csv", stringsAsFactors = FALSE) 
+ri_daughter$Entity.Name[sapply(lapply(str_extract_all(tolower(ri_daughter$Entity.Name), "\\w+"), function(x) str_detect(x, "^daughters$|^daughter$")), sum) > 0]
+ri_son <- read.csv("ri/ri_son.csv", stringsAsFactors = FALSE) 
+ri_son_dedup <- ri_son[!duplicated(ri_son$Entity.Name), ]
+ri_son_dedup$Entity.Name[sapply(lapply(str_extract_all(tolower(ri_son_dedup$Entity.Name), "\\w+"), function(x) str_detect(x, "^sons$|^son$")), sum) > 0]
+206/12
+
+#South Carolina
+sc_daughter <- read.csv("sc/sc_daughter.csv", stringsAsFactors = FALSE) 
+sc_daughter$Entity.Name[sapply(lapply(str_extract_all(tolower(sc_daughter$Entity.Name), "\\w+"), function(x) str_detect(x, "^daughters$|^daughter$")), sum) > 0]
+59/60 #daugther
+sc_son <- read.csv("sc/sc_son.csv", stringsAsFactors = FALSE) 
+sc_son$Entity.Name[sapply(lapply(str_extract_all(tolower(sc_son$Entity.Name), "\\w+"), function(x) str_detect(x, "^sons$|^son$")), sum) > 0]
+9/60 #son
+
+#South Dakota
+sd_daughter <- read.csv("sd/sd_daughter.csv", stringsAsFactors = FALSE) 
+sd_daughter_dedup <- sd_daughter[!duplicated(sd_daughter$Name), ]
+sd_daughter_dedup$Name[sapply(lapply(str_extract_all(tolower(sd_daughter_dedup$Name), "\\w+"), function(x) str_detect(x, "^daughters$|^daughter$")), sum) > 0]
+sd_son <- read.csv("sd/sd_son.csv", stringsAsFactors = FALSE) 
+sd_son_dedup <- sd_son[!duplicated(sd_son$Name), ]
+sd_son_dedup$Name[sapply(lapply(str_extract_all(tolower(sd_son_dedup$Name), "\\w+"), function(x) str_detect(x, "^sons$|^son$")), sum) > 0]
+129/11
+
+
 
 ## WA
 wa_son <-  read_csv("wa/Business Search Result son.csv")
