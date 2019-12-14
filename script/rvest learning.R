@@ -1,6 +1,34 @@
 #Learning to rvest
 
 #-----------------------------------------------------------------------------------------------
+#Alaska
+#-----------------------------------------------------------------------------------------------
+
+#Specify URL
+base_url <- "https://www.commerce.alaska.gov/cbp/main/search/entities" #won't work because it doesn't generate a URL after I typed "son" search
+webpage <- read_html(base_url)
+
+entities <- html_nodes(webpage, "td:nth-child(3)")
+(entities <- as.character(html_text(entities)))
+
+#IMDB quickie
+#Get top 10 movie titles ever
+
+
+base_url <- "https://www.imdb.com/chart/top/?ref_=nv_mv_250" 
+webpage <- read_html(base_url)
+
+movies <- html_nodes(webpage, ".titleColumn a")
+(movies <- as.character(html_text(movies)))
+#this works!
+
+
+
+
+
+
+
+#-----------------------------------------------------------------------------------------------
 #Billboard songs tutorial
 #https://towardsdatascience.com/learn-to-create-your-own-datasets-web-scraping-in-r-f934a31748a5
 #-----------------------------------------------------------------------------------------------
@@ -103,6 +131,11 @@ artists
 
 #Identify the url from where you want to extract data
 #????
+
+#another good tutorial
+#https://www.analyticsvidhya.com/blog/2017/03/beginners-guide-on-web-scraping-in-r-using-rvest-with-hands-on-knowledge/
+
+
 
 
 
