@@ -22,7 +22,12 @@ movies <- html_nodes(webpage, ".titleColumn a")
 (movies <- as.character(html_text(movies)))
 #this works!
 
-
+u <-'http://myanimelist.net/anime/25731/Cross_Ange:_Tenshi_to_Ryuu_no_Rondo/stats'
+a <- html(u)
+b <- (html_nodes(a,"#content table")) %>% html_table(fill = T)
+colnames(b[[4]]) <- b[[4]][1,] %>% unlist %>% as.character
+b[[4]] <- b[[4]][2:nrow(b[[4]]),]
+head(b[[4]])
 
 
 

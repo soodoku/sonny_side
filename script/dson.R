@@ -6,6 +6,14 @@ setwd("C:\\Users\\wguil\\OneDrive\\Documents\\GitHub\\sonny_side\\data")
 # Load libs
 library(readr)
 library(stringr)
+library(rvest)
+
+# Alaska AK
+base_url <- "https://www.commerce.alaska.gov/cbp/main/Search/EntitiesResults?EntityName=son&IsStartsWithSearch=False&CurrentOnly=False&&pageNumber=1"
+webpage <- read_html(base_url)
+entities <- html_nodes(webpage, "td:nth-child(3)")
+(entities <- as.character(html_text(entities)))
+#Not working but why? 
 
 ## AL
 al_son <-  read_csv("al/al_sons.csv")
@@ -16,6 +24,34 @@ al_son$`Entity Name`[sapply(lapply(str_extract_all(tolower(al_son$`Entity Name`)
 ca_son <-  read_csv("ca/son_corp.csv")
 ca_son$`Entity Name`[sapply(lapply(str_extract_all(tolower(ca_son$`Entity Name`), "\\w+"), function(x) str_detect(x, "^son$|^sons$")), sum) > 0]
 ca_son$`Entity Name`[sapply(lapply(str_extract_all(tolower(ca_son$`Entity Name`), "\\w+"), function(x) str_detect(x, "^daughters$|^daughter$")), sum) > 0]
+
+#Connecticut
+ct_son <- read.csv("ct/ct_son.csv", stringsAsFactors = FALSE)
+ct_son_dedup <- ct_son[!duplicated(ct_son$Business.Name), ]
+ct_son_dedup$Business.Name[sapply(lapply(str_extract_all(tolower(ct_son_dedup$Business.Name), "\\w+"), function(x) str_detect(x, "^sons$|^son$")), sum) > 0]
+ct_daughter <- read.csv("ct/ct-daughter.csv", stringsAsFactors = FALSE)
+#ct_daughter_dedup <- ct_daughter[!duplicated(ct_daughter$Business.Name), ] #not needed since already dedeupd
+ct_daughter$Business.Name[sapply(lapply(str_extract_all(tolower(ct_daughter$Business.Name), "\\w+"), function(x) str_detect(x, "^daughters$|^daughter$")), sum) > 0]
+875/43
+
+#Florida
+url <- "http://search.sunbiz.org/Inquiry/CorporationSearch/SearchResults?inquiryType=EntityName&searchNameOrder=DAUGHTER&searchTerm=daughter"
+webpage <- read_html(url)
+entities <- html_nodes(webpage, ".large-width")
+(entities <- as.character(html_text(entities)))
+#Works but needs more work to get all URLs
+
+#daugther links to parse
+#http://search.sunbiz.org/Inquiry/CorporationSearch/SearchResults?inquiryType=EntityName&searchNameOrder=DAUGHTER&searchTerm=daughter
+#http://search.sunbiz.org/Inquiry/CorporationSearch/SearchResults?InquiryType=EntityName&inquiryDirectionType=ForwardList&searchNameOrder=DAUGHTERSAIRCONDITIONING%20P150000284920&SearchTerm=daughter&entityId=P15000028492&listNameOrder=DAUGHTERBEAR%20L180001340680
+#http://search.sunbiz.org/Inquiry/CorporationSearch/SearchResults?InquiryType=EntityName&inquiryDirectionType=ForwardList&searchNameOrder=DAUGHTERSDESTINYINTERNATIONALM%20N100000072850&SearchTerm=daughter&entityId=N10000007285&listNameOrder=DAUGHTERSAMERICANREVOLUTION%20X005230
+#http://search.sunbiz.org/Inquiry/CorporationSearch/SearchResults?InquiryType=EntityName&inquiryDirectionType=ForwardList&searchNameOrder=DAUGHTERSFAITHCLEANING%20P040001235880&SearchTerm=daughter&entityId=P04000123588&listNameOrder=DAUGHTERSDESTINYOUTREACHMINIST%20N060000012260
+#http://search.sunbiz.org/Inquiry/CorporationSearch/SearchResults?InquiryType=EntityName&inquiryDirectionType=ForwardList&searchNameOrder=DAUGHTERSINTERLINE%20P930000863780&SearchTerm=daughter&entityId=P93000086378&listNameOrder=DAUGHTERSFAITHINTERNATIONAL%20N190000002520
+#http://search.sunbiz.org/Inquiry/CorporationSearch/SearchResults?InquiryType=EntityName&inquiryDirectionType=ForwardList&searchNameOrder=DAUGHTERSLEGACY%20L040000468030&SearchTerm=daughter&entityId=L04000046803&listNameOrder=DAUGHTERSINVIRTUOUSATTITUDES%20N100000055470
+#http://search.sunbiz.org/Inquiry/CorporationSearch/SearchResults?InquiryType=EntityName&inquiryDirectionType=ForwardList&searchNameOrder=DAUGHTERSPRESS%20L180002033410&SearchTerm=daughter&entityId=L18000203341&listNameOrder=DAUGHTERSLEGACY%20L170001931391
+#http://search.sunbiz.org/Inquiry/CorporationSearch/SearchResults?InquiryType=EntityName&inquiryDirectionType=ForwardList&searchNameOrder=DAUGHTERSSONS%20L100000469040&SearchTerm=daughter&entityId=L10000046904&listNameOrder=DAUGHTERSPURPOSE%20N120000048760
+#http://search.sunbiz.org/Inquiry/CorporationSearch/SearchResults?InquiryType=EntityName&inquiryDirectionType=ForwardList&searchNameOrder=DAUGHTERSZION%20N097590&SearchTerm=daughter&entityId=N09759&listNameOrder=DAUGHTERSSONS%20P190000486570
+
 
 ## HI
 hi_son <-  read_csv("hi/hi_sons.csv")
