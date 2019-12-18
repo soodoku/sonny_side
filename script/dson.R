@@ -4,7 +4,7 @@
 setwd("C:\\Users\\wguil\\OneDrive\\Documents\\GitHub\\sonny_side\\data")
 
 # Load libs
-library(readr)
+#library(readr)
 library(stringr)
 library(rvest)
 
@@ -25,6 +25,17 @@ ca_son <-  read_csv("ca/son_corp.csv")
 ca_son$`Entity Name`[sapply(lapply(str_extract_all(tolower(ca_son$`Entity Name`), "\\w+"), function(x) str_detect(x, "^son$|^sons$")), sum) > 0]
 ca_son$`Entity Name`[sapply(lapply(str_extract_all(tolower(ca_son$`Entity Name`), "\\w+"), function(x) str_detect(x, "^daughters$|^daughter$")), sum) > 0]
 
+# Colorado
+base_url <- "https://www.sos.state.co.us/biz/BusinessEntityResultsAdv.do?&cmd=passgo&pi1=1"
+webpage <- read_html(base_url)
+entities <- html_nodes(webpage, "td:nth-child(4)")
+(entities <- as.character(html_text(entities)))
+#https://www.sos.state.co.us/biz/BusinessEntityResultsAdv.do?&cmd=passgo&pi1=1
+#https://www.sos.state.co.us/biz/BusinessEntityResultsAdv.do?&cmd=passgo&pi1=2
+#https://www.sos.state.co.us/biz/BusinessEntityResultsAdv.do?&cmd=passgo&pi1=3
+#td:nth-child(4)
+#Why it's not working?
+
 #Connecticut
 ct_son <- read.csv("ct/ct_son.csv", stringsAsFactors = FALSE)
 ct_son_dedup <- ct_son[!duplicated(ct_son$Business.Name), ]
@@ -34,23 +45,51 @@ ct_daughter <- read.csv("ct/ct-daughter.csv", stringsAsFactors = FALSE)
 ct_daughter$Business.Name[sapply(lapply(str_extract_all(tolower(ct_daughter$Business.Name), "\\w+"), function(x) str_detect(x, "^daughters$|^daughter$")), sum) > 0]
 875/43
 
-#Florida
-url <- "http://search.sunbiz.org/Inquiry/CorporationSearch/SearchResults?inquiryType=EntityName&searchNameOrder=DAUGHTER&searchTerm=daughter"
-webpage <- read_html(url)
-entities <- html_nodes(webpage, ".large-width")
-(entities <- as.character(html_text(entities)))
-#Works but needs more work to get all URLs
+#Delaware
+de_son <- read.csv("de/de_son.csv", stringsAsFactors = FALSE)
+de_son_dedup <- de_son[!duplicated(de_son$FILE.NUMBER), ]
+de_son_dedup$ENTITY.NAME[sapply(lapply(str_extract_all(tolower(de_son_dedup$ENTITY.NAME), "\\w+"), function(x) str_detect(x, "^sons$|^son$")), sum) > 0]
+de_daughter <- read.csv("de/de-daughter.csv", stringsAsFactors = FALSE)
+de_daughter_dedup <- de_daughter[!duplicated(de_daughter$ENTITY.NAME), ]
+de_daughter_dedup$ENTITY.NAME[sapply(lapply(str_extract_all(tolower(de_daughter_dedup$ENTITY.NAME), "\\w+"), function(x) str_detect(x, "^daughters$|^daughter$")), sum) > 0]
+24/33
 
-#daugther links to parse
-#http://search.sunbiz.org/Inquiry/CorporationSearch/SearchResults?inquiryType=EntityName&searchNameOrder=DAUGHTER&searchTerm=daughter
-#http://search.sunbiz.org/Inquiry/CorporationSearch/SearchResults?InquiryType=EntityName&inquiryDirectionType=ForwardList&searchNameOrder=DAUGHTERSAIRCONDITIONING%20P150000284920&SearchTerm=daughter&entityId=P15000028492&listNameOrder=DAUGHTERBEAR%20L180001340680
-#http://search.sunbiz.org/Inquiry/CorporationSearch/SearchResults?InquiryType=EntityName&inquiryDirectionType=ForwardList&searchNameOrder=DAUGHTERSDESTINYINTERNATIONALM%20N100000072850&SearchTerm=daughter&entityId=N10000007285&listNameOrder=DAUGHTERSAMERICANREVOLUTION%20X005230
-#http://search.sunbiz.org/Inquiry/CorporationSearch/SearchResults?InquiryType=EntityName&inquiryDirectionType=ForwardList&searchNameOrder=DAUGHTERSFAITHCLEANING%20P040001235880&SearchTerm=daughter&entityId=P04000123588&listNameOrder=DAUGHTERSDESTINYOUTREACHMINIST%20N060000012260
-#http://search.sunbiz.org/Inquiry/CorporationSearch/SearchResults?InquiryType=EntityName&inquiryDirectionType=ForwardList&searchNameOrder=DAUGHTERSINTERLINE%20P930000863780&SearchTerm=daughter&entityId=P93000086378&listNameOrder=DAUGHTERSFAITHINTERNATIONAL%20N190000002520
-#http://search.sunbiz.org/Inquiry/CorporationSearch/SearchResults?InquiryType=EntityName&inquiryDirectionType=ForwardList&searchNameOrder=DAUGHTERSLEGACY%20L040000468030&SearchTerm=daughter&entityId=L04000046803&listNameOrder=DAUGHTERSINVIRTUOUSATTITUDES%20N100000055470
-#http://search.sunbiz.org/Inquiry/CorporationSearch/SearchResults?InquiryType=EntityName&inquiryDirectionType=ForwardList&searchNameOrder=DAUGHTERSPRESS%20L180002033410&SearchTerm=daughter&entityId=L18000203341&listNameOrder=DAUGHTERSLEGACY%20L170001931391
-#http://search.sunbiz.org/Inquiry/CorporationSearch/SearchResults?InquiryType=EntityName&inquiryDirectionType=ForwardList&searchNameOrder=DAUGHTERSSONS%20L100000469040&SearchTerm=daughter&entityId=L10000046904&listNameOrder=DAUGHTERSPURPOSE%20N120000048760
-#http://search.sunbiz.org/Inquiry/CorporationSearch/SearchResults?InquiryType=EntityName&inquiryDirectionType=ForwardList&searchNameOrder=DAUGHTERSZION%20N097590&SearchTerm=daughter&entityId=N09759&listNameOrder=DAUGHTERSSONS%20P190000486570
+#Florida
+#First parse the hard coded links in excel and get get the usual regex
+daughter_links <- c("http://search.sunbiz.org/Inquiry/CorporationSearch/SearchResults?inquiryType=EntityName&searchNameOrder=DAUGHTER&searchTerm=daughter",
+                    "http://search.sunbiz.org/Inquiry/CorporationSearch/SearchResults?InquiryType=EntityName&inquiryDirectionType=ForwardList&searchNameOrder=DAUGHTERSAIRCONDITIONING%20P150000284920&SearchTerm=daughter&entityId=P15000028492&listNameOrder=DAUGHTERBEAR%20L180001340680",
+                    "http://search.sunbiz.org/Inquiry/CorporationSearch/SearchResults?InquiryType=EntityName&inquiryDirectionType=ForwardList&searchNameOrder=DAUGHTERSDESTINYINTERNATIONALM%20N100000072850&SearchTerm=daughter&entityId=N10000007285&listNameOrder=DAUGHTERSAMERICANREVOLUTION%20X005230",
+                    "http://search.sunbiz.org/Inquiry/CorporationSearch/SearchResults?InquiryType=EntityName&inquiryDirectionType=ForwardList&searchNameOrder=DAUGHTERSFAITHCLEANING%20P040001235880&SearchTerm=daughter&entityId=P04000123588&listNameOrder=DAUGHTERSDESTINYOUTREACHMINIST%20N060000012260",
+                    "http://search.sunbiz.org/Inquiry/CorporationSearch/SearchResults?InquiryType=EntityName&inquiryDirectionType=ForwardList&searchNameOrder=DAUGHTERSINTERLINE%20P930000863780&SearchTerm=daughter&entityId=P93000086378&listNameOrder=DAUGHTERSFAITHINTERNATIONAL%20N190000002520",
+                    "http://search.sunbiz.org/Inquiry/CorporationSearch/SearchResults?InquiryType=EntityName&inquiryDirectionType=ForwardList&searchNameOrder=DAUGHTERSLEGACY%20L040000468030&SearchTerm=daughter&entityId=L04000046803&listNameOrder=DAUGHTERSINVIRTUOUSATTITUDES%20N100000055470",
+                    "http://search.sunbiz.org/Inquiry/CorporationSearch/SearchResults?InquiryType=EntityName&inquiryDirectionType=ForwardList&searchNameOrder=DAUGHTERSPRESS%20L180002033410&SearchTerm=daughter&entityId=L18000203341&listNameOrder=DAUGHTERSLEGACY%20L170001931391",
+                    "http://search.sunbiz.org/Inquiry/CorporationSearch/SearchResults?InquiryType=EntityName&inquiryDirectionType=ForwardList&searchNameOrder=DAUGHTERSSONS%20L100000469040&SearchTerm=daughter&entityId=L10000046904&listNameOrder=DAUGHTERSPURPOSE%20N120000048760",
+                    "http://search.sunbiz.org/Inquiry/CorporationSearch/SearchResults?InquiryType=EntityName&inquiryDirectionType=ForwardList&searchNameOrder=DAUGHTERSZION%20N097590&SearchTerm=daughter&entityId=N09759&listNameOrder=DAUGHTERSSONS%20P190000486570"
+                    )
+fl_daughter <- c()
+for (i in 1:length(daughter_links)){ 
+  url <- daughter_links[i]
+  print(url)
+  webpage <- read_html(url)
+  entities <- html_nodes(webpage, "td.large-width")
+  entities <- as.character(html_text(entities))
+  fl_daughter <- c(fl_daughter, entities)
+}
+
+fl_daughter[sapply(lapply(str_extract_all(tolower(fl_daughter), "\\w+"), function(x) str_detect(x, "^daughters$|^daughter$")), sum) > 0]
+
+fl_son <- c()
+for (i in 1:length(fl_son_links)){ #fl_son_links was defined at bottom of script since it's looonngg 
+  url <- fl_son_links[i]
+  print(url)
+  webpage <- read_html(url)
+  entities <- html_nodes(webpage, "td.large-width")
+  entities <- as.character(html_text(entities))
+  fl_son <- c(fl_son, entities)
+}
+
+fl_son[sapply(lapply(str_extract_all(tolower(fl_son), "\\w+"), function(x) str_detect(x, "^sons$|^son$")), sum) > 0]
+729/176
 
 
 ## HI
@@ -159,9 +198,143 @@ sd_son_dedup <- sd_son[!duplicated(sd_son$Name), ]
 sd_son_dedup$Name[sapply(lapply(str_extract_all(tolower(sd_son_dedup$Name), "\\w+"), function(x) str_detect(x, "^sons$|^son$")), sum) > 0]
 129/11
 
-
-
 ## WA
 wa_son <-  read_csv("wa/Business Search Result son.csv")
 wa_son$`Business Name`[sapply(lapply(str_extract_all(tolower(wa_son$`Business Name`), "\\w+"), function(x) str_detect(x, "^son$|^sons$")), sum) > 0]
 wa_son$`Business Name`[sapply(lapply(str_extract_all(tolower(wa_son$`Business Name`), "\\w+"), function(x) str_detect(x, "^daughters$|^daughter$")), sum) > 0]
+
+
+#--------------------------------------------------------------------------------------------------------------------
+# --  APPENDIX
+
+#Florida son links to parse
+fl_son_links <- c(
+  "http://search.sunbiz.org/Inquiry/CorporationSearch/SearchResults?inquiryType=EntityName&searchNameOrder=SON&searchTerm=son",
+  "http://search.sunbiz.org/Inquiry/CorporationSearch/SearchResults?InquiryType=EntityName&inquiryDirectionType=ForwardList&searchNameOrder=SONAAR%20L150002065850&SearchTerm=son&entityId=L15000206585&listNameOrder=SON%20F242780",
+  "http://search.sunbiz.org/Inquiry/CorporationSearch/SearchResults?InquiryType=EntityName&inquiryDirectionType=ForwardList&searchNameOrder=SONACITYPRO%20L140000498120&SearchTerm=son&entityId=L14000049812&listNameOrder=SONAB%20L130000107720",
+  "http://search.sunbiz.org/Inquiry/CorporationSearch/SearchResults?InquiryType=EntityName&inquiryDirectionType=ForwardList&searchNameOrder=SONADI%20P050001345840&SearchTerm=son&entityId=P05000134584&listNameOrder=SONACITYPRODUCTIONS%20L140000498121",
+  "http://search.sunbiz.org/Inquiry/CorporationSearch/SearchResults?InquiryType=EntityName&inquiryDirectionType=ForwardList&searchNameOrder=SONAFORMACENTRALFLORIDA%20P130000078140&SearchTerm=son&entityId=P13000007814&listNameOrder=SONADIGITAL%20L190001439860",
+  "http://search.sunbiz.org/Inquiry/CorporationSearch/SearchResults?InquiryType=EntityName&inquiryDirectionType=ForwardList&searchNameOrder=SONAINVILLEUSA%20L190002141400&SearchTerm=son&entityId=L19000214140&listNameOrder=SONAGALLERY%20P040001420670",
+  "http://search.sunbiz.org/Inquiry/CorporationSearch/SearchResults?InquiryType=EntityName&inquiryDirectionType=ForwardList&searchNameOrder=SONAL10551%20P140000387690&SearchTerm=son&entityId=P14000038769&listNameOrder=SONAIR%20L050000832640",
+  "http://search.sunbiz.org/Inquiry/CorporationSearch/SearchResults?InquiryType=EntityName&inquiryDirectionType=ForwardList&searchNameOrder=SONALIINVESTMENT%20P930000291460&SearchTerm=son&entityId=P93000029146&listNameOrder=SONAL786%20P090000392620",
+  "http://search.sunbiz.org/Inquiry/CorporationSearch/SearchResults?InquiryType=EntityName&inquiryDirectionType=ForwardList&searchNameOrder=SONALSTRANSPORT%20L180001416910&SearchTerm=son&entityId=L18000141691&listNameOrder=SONALIMANAGEMENT%20L070000260890",
+  "http://search.sunbiz.org/Inquiry/CorporationSearch/SearchResults?InquiryType=EntityName&inquiryDirectionType=ForwardList&searchNameOrder=SONANCE%20P110000415720&SearchTerm=son&entityId=P11000041572&listNameOrder=SONALURE%20P930000189660",
+  "http://search.sunbiz.org/Inquiry/CorporationSearch/SearchResults?InquiryType=EntityName&inquiryDirectionType=ForwardList&searchNameOrder=SONAPPROPERTIES%20P140000369800&SearchTerm=son&entityId=P14000036980&listNameOrder=SONANDAD%205663130",
+  "http://search.sunbiz.org/Inquiry/CorporationSearch/SearchResults?InquiryType=EntityName&inquiryDirectionType=ForwardList&searchNameOrder=SONARCOMMUNICATIONSSYSTEMS%20G868540&SearchTerm=son&entityId=G86854&listNameOrder=SONAPREACHERMAN%20L190002866130",
+  "http://search.sunbiz.org/Inquiry/CorporationSearch/SearchResults?InquiryType=EntityName&inquiryDirectionType=ForwardList&searchNameOrder=SONARLEAKDETECTION%20L190000932500&SearchTerm=son&entityId=L19000093250&listNameOrder=SONARCONSULTING%20P010000130180",
+  "http://search.sunbiz.org/Inquiry/CorporationSearch/SearchResults?InquiryType=EntityName&inquiryDirectionType=ForwardList&searchNameOrder=SONARTMEDS%20P100000596610&SearchTerm=son&entityId=P10000059661&listNameOrder=SONARMARKETINTELLIGENCE%20P030000399960",
+  "http://search.sunbiz.org/Inquiry/CorporationSearch/SearchResults?InquiryType=EntityName&inquiryDirectionType=ForwardList&searchNameOrder=SONASSTAFFING%20P180000929190&SearchTerm=son&entityId=P18000092919&listNameOrder=SONARTREALESTATEINVESTMENTS%20L190000114480",
+  "http://search.sunbiz.org/Inquiry/CorporationSearch/SearchResults?InquiryType=EntityName&inquiryDirectionType=ForwardList&searchNameOrder=SONATAOSCEOLAMANAGER%20L190002205080&SearchTerm=son&entityId=L19000220508&listNameOrder=SONATACOCONUTCREEK%20L160001821860",
+  "http://search.sunbiz.org/Inquiry/CorporationSearch/SearchResults?InquiryType=EntityName&inquiryDirectionType=ForwardList&searchNameOrder=SONATAWESTORANGE%20L120000277590&SearchTerm=son&entityId=L12000027759&listNameOrder=SONATAPARTNERS%20P100000652920",
+  "http://search.sunbiz.org/Inquiry/CorporationSearch/SearchResults?InquiryType=EntityName&inquiryDirectionType=ForwardList&searchNameOrder=SONAUSAHOLDINGS%20L190002139490&SearchTerm=son&entityId=L19000213949&listNameOrder=SONATECH%20P120000497920",
+  "http://search.sunbiz.org/Inquiry/CorporationSearch/SearchResults?InquiryType=EntityName&inquiryDirectionType=ForwardList&searchNameOrder=SONBEACHCHARTERS%20P030000401630&SearchTerm=son&entityId=P03000040163&listNameOrder=SONAV%20T040000002670",
+  "http://search.sunbiz.org/Inquiry/CorporationSearch/SearchResults?InquiryType=EntityName&inquiryDirectionType=ForwardList&searchNameOrder=SONBRIGHTDIVERSIFIEDSERVICES%20P130001020860&SearchTerm=son&entityId=P13000102086&listNameOrder=SONBEAMMINISTRIESDESIGN%209178070",
+  "http://search.sunbiz.org/Inquiry/CorporationSearch/SearchResults?InquiryType=EntityName&inquiryDirectionType=ForwardList&searchNameOrder=SONCARPENTRY%20P150000547680&SearchTerm=son&entityId=P15000054768&listNameOrder=SONBRIGHTDIVERSIFIEDSERVICES%20P180000017540",
+  "http://search.sunbiz.org/Inquiry/CorporationSearch/SearchResults?InquiryType=EntityName&inquiryDirectionType=ForwardList&searchNameOrder=SONCO%20P980000723210&SearchTerm=son&entityId=P98000072321&listNameOrder=SONCARTAGENAENTERTAINMENTPRODU%20P090000447460",
+  "http://search.sunbiz.org/Inquiry/CorporationSearch/SearchResults?InquiryType=EntityName&inquiryDirectionType=ForwardList&searchNameOrder=SONCOASTPROCUREMENT%20L140000105000&SearchTerm=son&entityId=L14000010500&listNameOrder=SONCOAST%20L060000457660",
+  "http://search.sunbiz.org/Inquiry/CorporationSearch/SearchResults?InquiryType=EntityName&inquiryDirectionType=ForwardList&searchNameOrder=SONCOSERVICES%20P090000077460&SearchTerm=son&entityId=P09000007746&listNameOrder=SONCOASTPROPERTIES%20L160001816140",
+  "http://search.sunbiz.org/Inquiry/CorporationSearch/SearchResults?InquiryType=EntityName&inquiryDirectionType=ForwardList&searchNameOrder=SONDADPAINTING%205058740&SearchTerm=son&entityId=505874&listNameOrder=SONCOTTENTERPRISES%20S070280",
+  "http://search.sunbiz.org/Inquiry/CorporationSearch/SearchResults?InquiryType=EntityName&inquiryDirectionType=ForwardList&searchNameOrder=SONDAUGHTERGOD13GROUP%20L180000577550&SearchTerm=son&entityId=L18000057755&listNameOrder=SONDADREALESTATE%20L100000822640",
+  "http://search.sunbiz.org/Inquiry/CorporationSearch/SearchResults?InquiryType=EntityName&inquiryDirectionType=ForwardList&searchNameOrder=SONDEESDECORPAINTINGHOMEDECORA%20P050000338810&SearchTerm=son&entityId=P05000033881&listNameOrder=SONDAUGHTERHERNANDEZ%20P160000198000",
+  "http://search.sunbiz.org/Inquiry/CorporationSearch/SearchResults?InquiryType=EntityName&inquiryDirectionType=ForwardList&searchNameOrder=SONDERCAPITALINVESTMENTS%20L180001925480&SearchTerm=son&entityId=L18000192548&listNameOrder=SONDEJPREMIERSERVICES%20L060000251280",
+  "http://search.sunbiz.org/Inquiry/CorporationSearch/SearchResults?InquiryType=EntityName&inquiryDirectionType=ForwardList&searchNameOrder=SONDERMIAMI%20L190002325350&SearchTerm=son&entityId=L19000232535&listNameOrder=SONDERCONSULTING%20L190001580920",
+  "http://search.sunbiz.org/Inquiry/CorporationSearch/SearchResults?InquiryType=EntityName&inquiryDirectionType=ForwardList&searchNameOrder=SONDIAL%20P150001021070&SearchTerm=son&entityId=P15000102107&listNameOrder=SONDERMUSIC%20L160000637090",
+  "http://search.sunbiz.org/Inquiry/CorporationSearch/SearchResults?InquiryType=EntityName&inquiryDirectionType=PreviousList&searchNameOrder=SONDOVINTERNATIONAL%203297570&SearchTerm=son&entityId=329757&listNameOrder=SONDOVINTERNATIONAL%203297570",
+  "http://search.sunbiz.org/Inquiry/CorporationSearch/SearchResults?InquiryType=EntityName&inquiryDirectionType=ForwardList&searchNameOrder=SONDRO%204179530&SearchTerm=son&entityId=417953&listNameOrder=SONDRASCIARAPPA%20P960000897970",
+  "http://search.sunbiz.org/Inquiry/CorporationSearch/SearchResults?InquiryType=EntityName&inquiryDirectionType=ForwardList&searchNameOrder=SONELECTRICOMUSIC%20P060000382080&SearchTerm=son&entityId=P06000038208&listNameOrder=SONEEPHARMACYSERVICES%20P110000591600",
+  "http://search.sunbiz.org/Inquiry/CorporationSearch/SearchResults?InquiryType=EntityName&inquiryDirectionType=ForwardList&searchNameOrder=SONESTAREALESTATE%20L877980&SearchTerm=son&entityId=L87798&listNameOrder=SONESTABOUGAINVILLE%20H013380",
+  "http://search.sunbiz.org/Inquiry/CorporationSearch/SearchResults?InquiryType=EntityName&inquiryDirectionType=ForwardList&searchNameOrder=SONETMA%20P180000495840&SearchTerm=son&entityId=P18000049584&listNameOrder=SONESTASANIBELHARBOUR%20H013381",
+  "http://search.sunbiz.org/Inquiry/CorporationSearch/SearchResults?InquiryType=EntityName&inquiryDirectionType=ForwardList&searchNameOrder=SONEYCOMMERCIALPROPERTYMANAGEM%20P070001348840&SearchTerm=son&entityId=P07000134884&listNameOrder=SONETPROPERTIES%20L140001194700",
+  "http://search.sunbiz.org/Inquiry/CorporationSearch/SearchResults?InquiryType=EntityName&inquiryDirectionType=ForwardList&searchNameOrder=SONFATHERTRUCKING%20L170002165530&SearchTerm=son&entityId=L17000216553&listNameOrder=SONEYFLORIDAINVESTMENT%20P040001495310",
+  "http://search.sunbiz.org/Inquiry/CorporationSearch/SearchResults?InquiryType=EntityName&inquiryDirectionType=ForwardList&searchNameOrder=SONFLOWER%20P090000315250&SearchTerm=son&entityId=P09000031525&listNameOrder=SONFELI%20P070001078910",
+  "http://search.sunbiz.org/Inquiry/CorporationSearch/SearchResults?InquiryType=EntityName&inquiryDirectionType=ForwardList&searchNameOrder=SONGMASTERSTUDIOSEDUCATION%20L100000965810&SearchTerm=son&entityId=L10000096581&listNameOrder=SONGKRAN%20K494881",
+  "http://search.sunbiz.org/Inquiry/CorporationSearch/SearchResults?InquiryType=EntityName&inquiryDirectionType=ForwardList&searchNameOrder=SONGOSAURUS%20P970000423470&SearchTerm=son&entityId=P97000042347&listNameOrder=SONGMINJONG%20P980000666190",
+  "http://search.sunbiz.org/Inquiry/CorporationSearch/SearchResults?InquiryType=EntityName&inquiryDirectionType=ForwardList&searchNameOrder=SONGYPARTNERSREALTY%20A930000006540&SearchTerm=son&entityId=A93000000654&listNameOrder=SONGWRITERINSTITUTE%20L090001225510",
+  "http://search.sunbiz.org/Inquiry/CorporationSearch/SearchResults?InquiryType=EntityName&inquiryDirectionType=ForwardList&searchNameOrder=SONHOMESCONSTRUCTION%20P060001119210&SearchTerm=son&entityId=P06000111921&listNameOrder=SONGZI%20P130000015700",
+  "http://search.sunbiz.org/Inquiry/CorporationSearch/SearchResults?InquiryType=EntityName&inquiryDirectionType=ForwardList&searchNameOrder=SONIINVESTMENTS%20P030000395330&SearchTerm=son&entityId=P03000039533&listNameOrder=SONIFLOR%20P060001476440",
+  "http://search.sunbiz.org/Inquiry/CorporationSearch/SearchResults?InquiryType=EntityName&inquiryDirectionType=ForwardList&searchNameOrder=SONIMARPRODUCTIONS%20M150000101240&SearchTerm=son&entityId=M15000010124&listNameOrder=SONILAWFIRMPA%20P140000067390",
+  "http://search.sunbiz.org/Inquiry/CorporationSearch/SearchResults?InquiryType=EntityName&inquiryDirectionType=ForwardList&searchNameOrder=SONJACKSONVILLE%20V493570&SearchTerm=son&entityId=V49357&listNameOrder=SONIXCOMPUTER%20P990000580190",
+  "http://search.sunbiz.org/Inquiry/CorporationSearch/SearchResults?InquiryType=EntityName&inquiryDirectionType=ForwardList&searchNameOrder=SONJIV%20L160000920240&SearchTerm=son&entityId=L16000092024&listNameOrder=SONJASUNISEX%20H165460",
+  "http://search.sunbiz.org/Inquiry/CorporationSearch/SearchResults?InquiryType=EntityName&inquiryDirectionType=ForwardList&searchNameOrder=SONKINALVAREZMDSPA%205655490&SearchTerm=son&entityId=565549&listNameOrder=SONJOCRYJAMCONNECTIONS%20L070001071450",
+  "http://search.sunbiz.org/Inquiry/CorporationSearch/SearchResults?InquiryType=EntityName&inquiryDirectionType=ForwardList&searchNameOrder=SONLEE%20J309160&SearchTerm=son&entityId=J30916&listNameOrder=SONKINALVAREZSAYERMDSPA%205655491",
+  "http://search.sunbiz.org/Inquiry/CorporationSearch/SearchResults?InquiryType=EntityName&inquiryDirectionType=ForwardList&searchNameOrder=SONLIGHTCOMMUNITYCHURCH%20N233130&SearchTerm=son&entityId=N23313&listNameOrder=SONLIGHT%205349650",
+  "http://search.sunbiz.org/Inquiry/CorporationSearch/SearchResults?InquiryType=EntityName&inquiryDirectionType=ForwardList&searchNameOrder=SONLIGHTPRODUCTIONS%20M082490&SearchTerm=son&entityId=M08249&listNameOrder=SONLIGHTINDUSTRIES%20P950000445650",
+  "http://search.sunbiz.org/Inquiry/CorporationSearch/SearchResults?InquiryType=EntityName&inquiryDirectionType=ForwardList&searchNameOrder=SONLILYBOUTIQUE%20P070000910980&SearchTerm=son&entityId=P07000091098&listNameOrder=SONLIGHTPRODUCTIONS%20N110000011030",
+  "http://search.sunbiz.org/Inquiry/CorporationSearch/SearchResults?InquiryType=EntityName&inquiryDirectionType=ForwardList&searchNameOrder=SONLYS%20H362810&SearchTerm=son&entityId=H36281&listNameOrder=SONLINAPARTMENTS%203287390",
+  "http://search.sunbiz.org/Inquiry/CorporationSearch/SearchResults?InquiryType=EntityName&inquiryDirectionType=ForwardList&searchNameOrder=SONMARENTERPRISES%20P990000287960&SearchTerm=son&entityId=P99000028796&listNameOrder=SONMAINTENANCE%20P070000221360",
+  "http://search.sunbiz.org/Inquiry/CorporationSearch/SearchResults?InquiryType=EntityName&inquiryDirectionType=ForwardList&searchNameOrder=SONMAYPROPERTIES%20L170000202320&SearchTerm=son&entityId=L17000020232&listNameOrder=SONMARFTMYERS%20M970000004070",
+  "http://search.sunbiz.org/Inquiry/CorporationSearch/SearchResults?InquiryType=EntityName&inquiryDirectionType=ForwardList&searchNameOrder=SONMOON%20P010000799640&SearchTerm=son&entityId=P01000079964&listNameOrder=SONMDO%20L120000244740",
+  "http://search.sunbiz.org/Inquiry/CorporationSearch/SearchResults?InquiryType=EntityName&inquiryDirectionType=ForwardList&searchNameOrder=SONNEYTRAMMELL%20L040000219520&SearchTerm=son&entityId=L04000021952&listNameOrder=SONNEREMODELINGDESIGN%20L190001891580",
+  "http://search.sunbiz.org/Inquiry/CorporationSearch/SearchResults?InquiryType=EntityName&inquiryDirectionType=ForwardList&searchNameOrder=SONOMIXX%20P060000188010&SearchTerm=son&entityId=P06000018801&listNameOrder=SONOMEDICS%20P080000326110",
+  "http://search.sunbiz.org/Inquiry/CorporationSearch/SearchResults?InquiryType=EntityName&inquiryDirectionType=ForwardList&searchNameOrder=SONORAVENTUREGROUP%20P030000721891&SearchTerm=son&entityId=P03000072189&listNameOrder=SONORANSUNE501%20L160001320780",
+  "http://search.sunbiz.org/Inquiry/CorporationSearch/SearchResults?InquiryType=EntityName&inquiryDirectionType=ForwardList&searchNameOrder=SONPIZZHAIR%20L065490&SearchTerm=son&entityId=L06549&listNameOrder=SONOWAVESDIAGNOSTIC%20P930000776860",
+  "http://search.sunbiz.org/Inquiry/CorporationSearch/SearchResults?InquiryType=EntityName&inquiryDirectionType=ForwardList&searchNameOrder=SONRAH%20P010000112820&SearchTerm=son&entityId=P01000011282&listNameOrder=SONPLUMB%20L190002667880",
+  "http://search.sunbiz.org/Inquiry/CorporationSearch/SearchResults?InquiryType=EntityName&inquiryDirectionType=ForwardList&searchNameOrder=SONRI%20P960000742560&SearchTerm=son&entityId=P96000074256&listNameOrder=SONRAI%20L150000805550",
+  "http://search.sunbiz.org/Inquiry/CorporationSearch/SearchResults?InquiryType=EntityName&inquiryDirectionType=ForwardList&searchNameOrder=SONRISE%20P090001022470&SearchTerm=son&entityId=P09000102247&listNameOrder=SONRISAREALESTATEHOMEINSPECTIO%20P010000906660",
+  "http://search.sunbiz.org/Inquiry/CorporationSearch/SearchResults?InquiryType=EntityName&inquiryDirectionType=ForwardList&searchNameOrder=SONRISEAUTOMOTIVE%20L110001447960&SearchTerm=son&entityId=L11000144796&listNameOrder=SONRISE%20P940000279200",
+  "http://search.sunbiz.org/Inquiry/CorporationSearch/SearchResults?InquiryType=EntityName&inquiryDirectionType=ForwardList&searchNameOrder=SONRISEINVESTMENTSONE%20L050000150230&SearchTerm=son&entityId=L05000015023&listNameOrder=SONRISEFOUNDATION%20N030000012830",
+  "http://search.sunbiz.org/Inquiry/CorporationSearch/SearchResults?InquiryType=EntityName&inquiryDirectionType=ForwardList&searchNameOrder=SONRISENUTRITION%20P140000389410&SearchTerm=son&entityId=P14000038941&listNameOrder=SONRISEISPRECIOUS%20L130000299541",
+  "http://search.sunbiz.org/Inquiry/CorporationSearch/SearchResults?InquiryType=EntityName&inquiryDirectionType=ForwardList&searchNameOrder=SONRISERETREAT%20N443260&SearchTerm=son&entityId=N44326&listNameOrder=SONRISEOASIS%20P990000049410",
+  "http://search.sunbiz.org/Inquiry/CorporationSearch/SearchResults?InquiryType=EntityName&inquiryDirectionType=ForwardList&searchNameOrder=SONRISEVILLASII%20L020000316010&SearchTerm=son&entityId=L02000031601&listNameOrder=SONRISESALOON%20N150000001580",
+  "http://search.sunbiz.org/Inquiry/CorporationSearch/SearchResults?InquiryType=EntityName&inquiryDirectionType=ForwardList&searchNameOrder=SONROSE%20P170000108870&SearchTerm=son&entityId=P17000010887&listNameOrder=SONRISEVILLASII%20L050000062590",
+  "http://search.sunbiz.org/Inquiry/CorporationSearch/SearchResults?InquiryType=EntityName&inquiryDirectionType=ForwardList&searchNameOrder=SONSAFE%20L060000585410&SearchTerm=son&entityId=L06000058541&listNameOrder=SONROSEENTERPRISES%20K504000",
+  "http://search.sunbiz.org/Inquiry/CorporationSearch/SearchResults?InquiryType=EntityName&inquiryDirectionType=ForwardList&searchNameOrder=SONSAMERICANLEGIONSQUADRONPOST%20N170000009130&SearchTerm=son&entityId=N17000000913&listNameOrder=SONSAKADISTRIBUTIONS%20L170001547000",
+  "http://search.sunbiz.org/Inquiry/CorporationSearch/SearchResults?InquiryType=EntityName&inquiryDirectionType=ForwardList&searchNameOrder=SONSANDLAR%20L020000314700&SearchTerm=son&entityId=L02000031470&listNameOrder=SONSAMERICANREVOLUTION%20X005250",
+  "http://search.sunbiz.org/Inquiry/CorporationSearch/SearchResults?InquiryType=EntityName&inquiryDirectionType=ForwardList&searchNameOrder=SONSBEACHES%20P130000052820&SearchTerm=son&entityId=P13000005282&listNameOrder=SONSANO%20P190000409060",
+  "http://search.sunbiz.org/Inquiry/CorporationSearch/SearchResults?InquiryType=EntityName&inquiryDirectionType=ForwardList&searchNameOrder=SONSCHRIST%20N074000&SearchTerm=son&entityId=N07400&listNameOrder=SONSBEACHESBAYCOUNTYFLORIDA%20N010000004130",
+  "http://search.sunbiz.org/Inquiry/CorporationSearch/SearchResults?InquiryType=EntityName&inquiryDirectionType=ForwardList&searchNameOrder=SONSCYPRESS%20P080000951260&SearchTerm=son&entityId=P08000095126&listNameOrder=SONSCIRCLE%20P020000423850",
+  "http://search.sunbiz.org/Inquiry/CorporationSearch/SearchResults?InquiryType=EntityName&inquiryDirectionType=ForwardList&searchNameOrder=SONSDAUGHTERSPEARLHARBORSURVIV%207288570&SearchTerm=son&entityId=728857&listNameOrder=SONSDAUGHTER%20P070000610910",
+  "http://search.sunbiz.org/Inquiry/CorporationSearch/SearchResults?InquiryType=EntityName&inquiryDirectionType=ForwardList&searchNameOrder=SONSENGINEERING%20L150000682000&SearchTerm=son&entityId=L15000068200&listNameOrder=SONSDAUGHTERSSOUTH%20N950000000490",
+  "http://search.sunbiz.org/Inquiry/CorporationSearch/SearchResults?InquiryType=EntityName&inquiryDirectionType=ForwardList&searchNameOrder=SONSETPRISONMINISTRY%20N209860&SearchTerm=son&entityId=N20986&listNameOrder=SONSENTERPRISES%20P140000142440",
+  "http://search.sunbiz.org/Inquiry/CorporationSearch/SearchResults?InquiryType=EntityName&inquiryDirectionType=ForwardList&searchNameOrder=SONSGODMCMINISTRYCECCHAPTER%20P110000034700&SearchTerm=son&entityId=P11000003470&listNameOrder=SONSETRECORDS%20L080000433530",
+  "http://search.sunbiz.org/Inquiry/CorporationSearch/SearchResults?InquiryType=EntityName&inquiryDirectionType=ForwardList&searchNameOrder=SONSHINECHRISTIANACADEMY%20N940000049020&SearchTerm=son&entityId=N94000004902&listNameOrder=SONSHINEBEHAVIORSERVICESBCBA%20L180001229840",
+  "http://search.sunbiz.org/Inquiry/CorporationSearch/SearchResults?InquiryType=EntityName&inquiryDirectionType=ForwardList&searchNameOrder=SONSHINEELECTRICALCONTRACTORS%20P000000718851&SearchTerm=son&entityId=P00000071885&listNameOrder=SONSHINECURSILLOMOVEMENT%207401690",
+  "http://search.sunbiz.org/Inquiry/CorporationSearch/SearchResults?InquiryType=EntityName&inquiryDirectionType=ForwardList&searchNameOrder=SONSHINEELECTRICALCONTRACTORS%20P000000718851&SearchTerm=son&entityId=P00000071885&listNameOrder=SONSHINECURSILLOMOVEMENT%207401690",
+  "http://search.sunbiz.org/Inquiry/CorporationSearch/SearchResults?InquiryType=EntityName&inquiryDirectionType=ForwardList&searchNameOrder=SONSHINEFOOTANKLECENTER%20P000000668520&SearchTerm=son&entityId=P00000066852&listNameOrder=SONSHINEEMPOWERMENT%20N120000014720",
+  "http://search.sunbiz.org/Inquiry/CorporationSearch/SearchResults?InquiryType=EntityName&inquiryDirectionType=ForwardList&searchNameOrder=SONSHINEPOULTRY%20P030000957360&SearchTerm=son&entityId=P03000095736&listNameOrder=SONSHINEMOTORS%20L100000367230",
+  "http://search.sunbiz.org/Inquiry/CorporationSearch/SearchResults?InquiryType=EntityName&inquiryDirectionType=ForwardList&searchNameOrder=SONSHINESPRAYERS%20L080000089320&SearchTerm=son&entityId=L08000008932&listNameOrder=SONSHINESCLEANING%20L170002309990",
+  "http://search.sunbiz.org/Inquiry/CorporationSearch/SearchResults?InquiryType=EntityName&inquiryDirectionType=ForwardList&searchNameOrder=SONSHIPYACHTSALESFLORIDA%20L030000285320&SearchTerm=son&entityId=L03000028532&listNameOrder=SONSHIPBUILDERS%20M664970",
+  "http://search.sunbiz.org/Inquiry/CorporationSearch/SearchResults?InquiryType=EntityName&inquiryDirectionType=ForwardList&searchNameOrder=SONSINVESTMENTCLUB%20P990000453230&SearchTerm=son&entityId=P99000045323&listNameOrder=SONSHIRAM%20P060000863210",
+  "http://search.sunbiz.org/Inquiry/CorporationSearch/SearchResults?InquiryType=EntityName&inquiryDirectionType=ForwardList&searchNameOrder=SONSITALYHOLIDAYISLELODGENO225%207245980&SearchTerm=son&entityId=724598&listNameOrder=SONSIOINTERNATIONALFLORIDA%20F050000039670",
+  "http://search.sunbiz.org/Inquiry/CorporationSearch/SearchResults?InquiryType=EntityName&inquiryDirectionType=ForwardList&searchNameOrder=SONSKINGMINISTRIES%20P950000645770&SearchTerm=son&entityId=P95000064577&listNameOrder=SONSITALYINAMERICASTPETERSBURG%207237600",
+  "http://search.sunbiz.org/Inquiry/CorporationSearch/SearchResults?InquiryType=EntityName&inquiryDirectionType=ForwardList&searchNameOrder=SONSMARINEINDUSTRIAL%20P150000687750&SearchTerm=son&entityId=P15000068775&listNameOrder=SONSKOSSMUSIC%20L190000299680",
+  "http://search.sunbiz.org/Inquiry/CorporationSearch/SearchResults?InquiryType=EntityName&inquiryDirectionType=ForwardList&searchNameOrder=SONSOBE%20P020001337920&SearchTerm=son&entityId=P02000133792&listNameOrder=SONSMASONSMASONRY%20P160000625060",
+  "http://search.sunbiz.org/Inquiry/CorporationSearch/SearchResults?InquiryType=EntityName&inquiryDirectionType=ForwardList&searchNameOrder=SONSOUNDSOLUTIONS%20L180001785230&SearchTerm=son&entityId=L18000178523&listNameOrder=SONSOFLIBERTYPARTNERS%20L140001811050",
+  "http://search.sunbiz.org/Inquiry/CorporationSearch/SearchResults?InquiryType=EntityName&inquiryDirectionType=ForwardList&searchNameOrder=SONSRABALAC%20L120000815290&SearchTerm=son&entityId=L12000081529&listNameOrder=SONSOURCE%20L190000014670",
+  "http://search.sunbiz.org/Inquiry/CorporationSearch/SearchResults?InquiryType=EntityName&inquiryDirectionType=ForwardList&searchNameOrder=SONSSHINERANCH%20L090000357120&SearchTerm=son&entityId=L09000035712&listNameOrder=SONSRABALAC%20N140000096760",
+  "http://search.sunbiz.org/Inquiry/CorporationSearch/SearchResults?InquiryType=EntityName&inquiryDirectionType=ForwardList&searchNameOrder=SONSSTONEINVESTMENTS%20P040001485090&SearchTerm=son&entityId=P04000148509&listNameOrder=SONSSHINESIDING%20P000000255100",
+  "http://search.sunbiz.org/Inquiry/CorporationSearch/SearchResults?InquiryType=EntityName&inquiryDirectionType=ForwardList&searchNameOrder=SONSTHUNDEROUTREACH%20N980000033710&SearchTerm=son&entityId=N98000003371&listNameOrder=SONSSTONEINVESTMENTS%20P080000719260",
+  "http://search.sunbiz.org/Inquiry/CorporationSearch/SearchResults?InquiryType=EntityName&inquiryDirectionType=ForwardList&searchNameOrder=SONSUN%20P070000680920&SearchTerm=son&entityId=P07000068092&listNameOrder=SONSTHUNDERPRODUCTIONS%20L160001042160",
+  "http://search.sunbiz.org/Inquiry/CorporationSearch/SearchResults?InquiryType=EntityName&inquiryDirectionType=ForwardList&searchNameOrder=SONTAG%20F675410&SearchTerm=son&entityId=F67541&listNameOrder=SONSUNIONVETERANSCIVILWAR%20X005570",
+  "http://search.sunbiz.org/Inquiry/CorporationSearch/SearchResults?InquiryType=EntityName&inquiryDirectionType=ForwardList&searchNameOrder=SONTAY2%20P090000958580&SearchTerm=son&entityId=P09000095858&listNameOrder=SONTAG%20J970300",
+  "http://search.sunbiz.org/Inquiry/CorporationSearch/SearchResults?InquiryType=EntityName&inquiryDirectionType=ForwardList&searchNameOrder=SONTHORDESIGN%20L180000164540&SearchTerm=son&entityId=L18000016454&listNameOrder=SONTEAY%20P040000469580",
+  "http://search.sunbiz.org/Inquiry/CorporationSearch/SearchResults?InquiryType=EntityName&inquiryDirectionType=ForwardList&searchNameOrder=SONTRANS%20P980000734700&SearchTerm=son&entityId=P98000073470&listNameOrder=SONTHOUSANDPROPERTIES%20P120000240940",
+  "http://search.sunbiz.org/Inquiry/CorporationSearch/SearchResults?InquiryType=EntityName&inquiryDirectionType=ForwardList&searchNameOrder=SONUBU%20P100000534910&SearchTerm=son&entityId=P10000053491&listNameOrder=SONTRONICS%20P080001113730",
+  "http://search.sunbiz.org/Inquiry/CorporationSearch/SearchResults?InquiryType=EntityName&inquiryDirectionType=ForwardList&searchNameOrder=SONUSINTERNATIONAL%20M412920&SearchTerm=son&entityId=M41292&listNameOrder=SONUELECTRICAL%20P020000752980",
+  "http://search.sunbiz.org/Inquiry/CorporationSearch/SearchResults?InquiryType=EntityName&inquiryDirectionType=ForwardList&searchNameOrder=SONVIVIAN%20P110000930730&SearchTerm=son&entityId=P11000093073&listNameOrder=SONUSLAND%20P130000978120",
+  "http://search.sunbiz.org/Inquiry/CorporationSearch/SearchResults?InquiryType=EntityName&inquiryDirectionType=ForwardList&searchNameOrder=SONYOPTICALARCHIVE%20F160000034830&SearchTerm=son&entityId=F16000003483&listNameOrder=SONYLATINMUSICPUBLISHING%20F930000029000",
+  "http://search.sunbiz.org/Inquiry/CorporationSearch/SearchResults?InquiryType=EntityName&inquiryDirectionType=ForwardList&searchNameOrder=SONYSCARPETFLOOR%20P120000038910&SearchTerm=son&entityId=P12000003891&listNameOrder=SONYPANAMASA%20P202890",
+  "http://search.sunbiz.org/Inquiry/CorporationSearch/SearchResults?InquiryType=EntityName&inquiryDirectionType=ForwardList&searchNameOrder=SONYTRANSPORT%20P080000427750&SearchTerm=son&entityId=P08000042775&listNameOrder=SONYSCLEANSERVICES%20P090000122360",
+  "http://search.sunbiz.org/Inquiry/CorporationSearch/SearchResults?InquiryType=EntityName&inquiryDirectionType=ForwardList&searchNameOrder=SONZFRANCHISING%20L050001205090&SearchTerm=son&entityId=L05000120509&listNameOrder=SONYTRANSPORTSERVICES%20P180000386900"
+)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
