@@ -97,6 +97,14 @@ hi_son <-  read_csv("hi/hi_sons.csv")
 hi_son$Name[sapply(lapply(str_extract_all(tolower(hi_son$Name), "\\w+"), function(x) str_detect(x, "^son$|^sons$")), sum) > 0]
 hi_son$Name[sapply(lapply(str_extract_all(tolower(hi_son$Name), "\\w+"), function(x) str_detect(x, "^daughters$|^daughter$")), sum) > 0]
 
+# Iowa
+url <- "https://sos.iowa.gov/search/business/results.aspx?q=MI0p_RDYIXTq-Lzw4n6v0a7GMqtM0u6xAU3Y-wIyA7g4QiHX9FC_BAPt4PUVSlTGLkQiEob5rnXSkB4q1uOHagHzR6kFVa77GId5YqZm-O_jiKuYgtK8or5mlg4VIvu9teoMdPeZW8tdPEN5fKRV0A5UG0RYYMuEbAqAy0jVlIP7itdBzXn1d1NAz4GsXu57Lj5dG_bTAjtXchzv2LQc7UFe2Nts-MJLg4wIS8gMoW-CikDaWmyMj3a8tC656ayV9jIuQKghkTptr3QffJHt4UMZ67UT7Fz2KWr0MRZGB7JL_6vpWn8rxDYbq5livcqKeSNIjVLX16EZepJdRN_IjmgjrrjQ7asrMJFRjDYe0-VRdy_hEvbupQJHab_SkjTg0"
+webpage <- read_html(url)
+entities <- html_nodes(webpage, "td:nth-child(2)")
+(entities <- as.character(html_text(entities)))
+#not working and should work, don't know why.
+
+
 #Kansas
 ks_daughter <- read.csv("ks/ks-daughter.csv", stringsAsFactors = FALSE)
 ks_daughter$Name[sapply(lapply(str_extract_all(tolower(ks_daughter$Name), "\\w+"), function(x) str_detect(x, "^daughters$|^daughter$")), sum) > 0]
@@ -136,13 +144,67 @@ ma_son_dedup <- ma_son[!duplicated(ma_son$Entity.Name), ]
 ma_son_dedup$Entity.Name[sapply(lapply(str_extract_all(tolower(ma_son_dedup$Entity.Name), "\\w+"), function(x) str_detect(x, "^sons$|^son$")), sum) > 0]
 
 #Minnesota
-mn_daughter <- read.csv("mn/mn_daughter.csv", stringsAsFactors = FALSE) 
-mn_daughter_dedup <- mn_daughter[!duplicated(mn_daughter$Business.Name), ]
-mn_daughter_dedup[sapply(lapply(str_extract_all(tolower(mn_daughter_dedup), "\\w+"), function(x) str_detect(x, "^daughters$|^daughter$")), sum) > 0]
-mn_son <- read.csv("mn/mn_son.csv", stringsAsFactors = FALSE) 
-mn_son_dedup <- mn_son[!duplicated(mn_son$Business.Name), ]
+#Minnesota was redone with proper spider below
+#mn_daughter <- read.csv("mn/mn_daughter.csv", stringsAsFactors = FALSE) 
+#mn_daughter_dedup <- mn_daughter[!duplicated(mn_daughter$Business.Name), ]
+#mn_daughter_dedup[sapply(lapply(str_extract_all(tolower(mn_daughter_dedup), "\\w+"), function(x) str_detect(x, "^daughters$|^daughter$")), sum) > 0]
+#mn_son <- read.csv("mn/mn_son.csv", stringsAsFactors = FALSE) 
+#mn_son_dedup <- mn_son[!duplicated(mn_son$Business.Name), ]
+#mn_son_dedup[sapply(lapply(str_extract_all(tolower(mn_son_dedup), "\\w+"), function(x) str_detect(x, "^sons$|^son$")), sum) > 0]
+
+#Minnesota with spider
+
+#son
+#results are capped at 500 so I generate several URLs to maximize results:
+#2 scope (begins, contains) x 2 status (active, inactive) x 2 search terms (son, sons) = 8 URLs
+mn_son_urls <- c(
+  "https://mblsportal.sos.state.mn.us/Business/BusinessSearch?BusinessName=son&IncludePriorNames=False&Status=Active&Type=BeginsWith",
+  "https://mblsportal.sos.state.mn.us/Business/BusinessSearch?BusinessName=son&IncludePriorNames=False&Status=Inactive&Type=BeginsWith",
+  "https://mblsportal.sos.state.mn.us/Business/BusinessSearch?BusinessName=son&IncludePriorNames=False&Status=Active&Type=Contains",
+  "https://mblsportal.sos.state.mn.us/Business/BusinessSearch?BusinessName=son&IncludePriorNames=False&Status=Inactive&Type=Contains",
+  "https://mblsportal.sos.state.mn.us/Business/BusinessSearch?BusinessName=sons&IncludePriorNames=False&Status=Active&Type=BeginsWith",
+  "https://mblsportal.sos.state.mn.us/Business/BusinessSearch?BusinessName=sons&IncludePriorNames=False&Status=Inactive&Type=BeginsWith",
+  "https://mblsportal.sos.state.mn.us/Business/BusinessSearch?BusinessName=sons&IncludePriorNames=False&Status=Active&Type=Contains",
+  "https://mblsportal.sos.state.mn.us/Business/BusinessSearch?BusinessName=sons&IncludePriorNames=False&Status=Inactive&Type=Contains"
+  )
+
+mn_son <- c()
+for (i in 1:length(mn_son_urls)){ 
+  url <- mn_son_urls[i]
+  webpage <- read_html(url)
+  entities <- html_nodes(webpage, "strong")
+  entities <- as.character(html_text(entities))
+  mn_son <- c(mn_son, entities)
+}
+mn_son_dedup <- mn_son[!duplicated(mn_son)]
 mn_son_dedup[sapply(lapply(str_extract_all(tolower(mn_son_dedup), "\\w+"), function(x) str_detect(x, "^sons$|^son$")), sum) > 0]
-222/212
+
+#daughter
+#results are capped at 500 so I generate several URLs to maximize results:
+#2 scope (begins, contains) x 2 status (active, inactive) x 2 search terms (daughter, daughters) = 8 URLs
+mn_daughter_urls <- c(
+  "https://mblsportal.sos.state.mn.us/Business/BusinessSearch?BusinessName=daughter&IncludePriorNames=False&Status=Active&Type=BeginsWith",
+  "https://mblsportal.sos.state.mn.us/Business/BusinessSearch?BusinessName=daughter&IncludePriorNames=False&Status=Inactive&Type=BeginsWith",
+  "https://mblsportal.sos.state.mn.us/Business/BusinessSearch?BusinessName=daughter&IncludePriorNames=False&Status=Active&Type=Contains",
+  "https://mblsportal.sos.state.mn.us/Business/BusinessSearch?BusinessName=daughter&IncludePriorNames=False&Status=Inactive&Type=Contains",
+  "https://mblsportal.sos.state.mn.us/Business/BusinessSearch?BusinessName=daughters&IncludePriorNames=False&Status=Active&Type=BeginsWith",
+  "https://mblsportal.sos.state.mn.us/Business/BusinessSearch?BusinessName=daughters&IncludePriorNames=False&Status=Inactive&Type=BeginsWith",
+  "https://mblsportal.sos.state.mn.us/Business/BusinessSearch?BusinessName=daughters&IncludePriorNames=False&Status=Active&Type=Contains",
+  "https://mblsportal.sos.state.mn.us/Business/BusinessSearch?BusinessName=daughters&IncludePriorNames=False&Status=Inactive&Type=Contains"
+)
+
+mn_daughter <- c()
+for (i in 1:length(mn_daughter_urls)){ 
+  url <- mn_daughter_urls[i]
+  webpage <- read_html(url)
+  entities <- html_nodes(webpage, "strong")
+  entities <- as.character(html_text(entities))
+  mn_daughter <- c(mn_daughter, entities)
+}
+
+mn_daughter_dedup <- mn_daughter[!duplicated(mn_daughter)]
+mn_daughter_dedup[sapply(lapply(str_extract_all(tolower(mn_daughter_dedup), "\\w+"), function(x) str_detect(x, "^daughters$|^daughter$")), sum) > 0]
+392/213
 
 ## Montana
 mt_son <- read_csv("mt/export-11_10_19_5_52_PM_son.csv")
