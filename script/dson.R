@@ -225,6 +225,174 @@ ne_daughter$Name[sapply(lapply(str_extract_all(tolower(ne_daughter$Name), "\\w+"
 #so all are actually
 41
 
+#New York
+
+#ny son search
+#results capped at 500 so doing a few combos to get more search results; can't do son search for contains since asking for 4+letters
+#could have done function but was lazy and trying this time
+
+#all entities begin with son (n=500, 25rows in 20 pages), do it fast cause captcha expires
+url_part1 <- "https://appext20.dos.ny.gov/corp_public/CORPSEARCH.SELECT_ENTITY?p_captcha=11455&p_captcha_check=09CCE55B478EEA884DBBA5DB5C8BDEB337481C4E64CB2B552FEEDD34B4BA90B33896BDDF303E37CCBA6B1410FB270833&p_srch_results_page="
+url_part2 <- "&p_entity_name=%73%6F%6E&p_name_type=%25&p_search_type=%42%45%47%49%4E%53"
+ny_begin_son_all <- c()
+for (i in 1:20){
+  print(i)
+  url <- paste(url_part1,i,url_part2, sep ="")
+  webpage <- read_html(url)
+  entities <- html_nodes(webpage, "td a")
+  (entities <- as.character(html_text(entities)))
+  print(entities)
+  ny_begin_son_all <- c(ny_begin_son_all, entities)
+}
+
+#active entities begin with son
+url_part1 <- "https://appext20.dos.ny.gov/corp_public/CORPSEARCH.SELECT_ENTITY?p_captcha=17563&p_captcha_check=3EC0F71D0273C26E2142DD694966562738D1683DB092B7A0F2CA14D9CB0EC621F33C6588312F5B352B4CC8FAA9502F37&p_srch_results_page="
+url_part2 <- "&p_entity_name=%73%6F%6E&p_name_type=%41&p_search_type=%42%45%47%49%4E%53"
+ny_begin_son_act <- c()
+for (i in 1:20){
+  print(i)
+  url <- paste(url_part1,i,url_part2, sep ="")
+  webpage <- read_html(url)
+  entities <- html_nodes(webpage, "td a")
+  (entities <- as.character(html_text(entities)))
+  print(entities)
+  ny_begin_son_act <- c(ny_begin_son_act, entities)
+}
+
+#all entities begin with sons (242 in 10 pages)
+url_part1 <- "https://appext20.dos.ny.gov/corp_public/CORPSEARCH.SELECT_ENTITY?p_captcha=17131&p_captcha_check=9CA5212BEC574C56DE03B23233ADE1AFEC23D7D3E6473720EC390E8E9BC0D89173F6382485A89ADC9C371A3B108AEE38&p_srch_results_page="
+url_part2 <- "&p_entity_name=%73%6F%6E%73&p_name_type=%25&p_search_type=%42%45%47%49%4E%53"
+ny_begin_sons_all <- c()
+for (i in 1:10){
+  print(i)
+  url <- paste(url_part1,i,url_part2, sep ="")
+  webpage <- read_html(url)
+  entities <- html_nodes(webpage, "td a")
+  (entities <- as.character(html_text(entities)))
+  print(entities)
+  ny_begin_sons_all <- c(ny_begin_sons_all, entities)
+}
+
+#all entities contain sons (500 in 20 pages)
+url_part1 <- "https://appext20.dos.ny.gov/corp_public/CORPSEARCH.SELECT_ENTITY?p_captcha=11955&p_captcha_check=39E89A7263D598AF9E09DDE158470F0DAD4A51BE991AA76C237B70427B4E4F5E41BD8F16FA1C2395D4D163C4A1093AA3&p_srch_results_page="
+url_part2 <- "&p_entity_name=%73%6F%6E%73&p_name_type=%25&p_search_type=%43%4F%4E%54%41%49%4E%53"
+ny_contain_sons_all <- c()
+for (i in 1:20){
+  print(i)
+  url <- paste(url_part1,i,url_part2, sep ="")
+  webpage <- read_html(url)
+  entities <- html_nodes(webpage, "td a")
+  (entities <- as.character(html_text(entities)))
+  print(entities)
+  ny_contain_sons_all <- c(ny_contain_sons_all, entities)
+}
+
+#active entities contain sons
+url <- "https://appext20.dos.ny.gov/corp_public/CORPSEARCH.SELECT_ENTITY?p_captcha=13141&p_captcha_check=FD134A844178E860EC88933635B1AB7C4D4A2C5D32B433C78E4E7033C01673F4DD799AF77B41DF5DA88CAD344E9D89DA&p_srch_results_page=1&p_entity_name=%73%6F%6E%73&p_name_type=%41&p_search_type=%43%4F%4E%54%41%49%4E%53"
+url_part1 <- unlist(strsplit(url,"srch_results_page=1"))[1]
+url_part2 <- unlist(strsplit(url,"srch_results_page=1"))[2]
+ny_contain_sons_act <- c()
+for (i in 1:20){
+  print(i)
+  url <- paste(url_part1,"srch_results_page=",i,url_part2, sep ="")
+  webpage <- read_html(url)
+  entities <- html_nodes(webpage, "td a")
+  (entities <- as.character(html_text(entities)))
+  print(entities)
+  ny_contain_sons_act <- c(ny_contain_sons_act, entities)
+}
+
+#combine all ny sons/son from above
+ny_son <- c(ny_begin_son_all, 
+            ny_begin_son_act,
+            ny_begin_sons_all,
+            ny_contain_sons_all,
+            ny_contain_sons_act)
+write.csv(ny_son, "./ny/ny_son.csv", col.names = FALSE, row.names = FALSE)
+ny_son_dedup <- ny_son[!duplicated(ny_son)]
+
+ny_son_dedup[sapply(lapply(str_extract_all(tolower(ny_son_dedup), "\\w+"), function(x) str_detect(x, "^sons$|^son$")), sum) > 0]
+length(ny_son_dedup[sapply(lapply(str_extract_all(tolower(ny_son_dedup), "\\w+"), function(x) str_detect(x, "^sons$|^son$")), sum) > 0])
+
+#ny daughter search
+#results capped at 500 so doing a few combos to get more search results; 
+
+#all containing daughter, 231
+url <- "https://appext20.dos.ny.gov/corp_public/CORPSEARCH.SELECT_ENTITY?p_captcha=18305&p_captcha_check=D9ACD705AA56A9797A0674DD45000AAF0E8BF757B73936089F201F0CDA1FB10C6165BB6D495B133D6857C4AD24C223C2&p_srch_results_page=1&p_entity_name=%64%61%75%67%68%74%65%72&p_name_type=%25&p_search_type=%43%4F%4E%54%41%49%4E%53"
+url_part1 <- unlist(strsplit(url,"srch_results_page=1"))[1]
+url_part2 <- unlist(strsplit(url,"srch_results_page=1"))[2]
+ny_contain_daughter_all <- c()
+for (i in 1:10){
+  print(i)
+  url <- paste(url_part1,"srch_results_page=",i,url_part2, sep ="")
+  webpage <- read_html(url)
+  entities <- html_nodes(webpage, "td a")
+  (entities <- as.character(html_text(entities)))
+  print(entities)
+  ny_contain_daughter_all <- c(ny_contain_daughter_all, entities)
+}
+
+#all containing daughters, capped at 500
+url <- "https://appext20.dos.ny.gov/corp_public/CORPSEARCH.SELECT_ENTITY?p_captcha=13995&p_captcha_check=3C73DB25469DD5F792B4A1A16AD0DE194451E8E387274F5005E99DF9022AAB4424C4B36CD83E456AF640317B0169F26F&p_srch_results_page=1&p_entity_name=%64%61%75%67%68%74%65%72%73&p_name_type=%25&p_search_type=%43%4F%4E%54%41%49%4E%53"
+url_part1 <- unlist(strsplit(url,"srch_results_page=1"))[1]
+url_part2 <- unlist(strsplit(url,"srch_results_page=1"))[2]
+ny_contain_daughters_all <- c()
+for (i in 1:20){
+  print(i)
+  url <- paste(url_part1,"srch_results_page=",i,url_part2, sep ="")
+  webpage <- read_html(url)
+  entities <- html_nodes(webpage, "td a")
+  (entities <- as.character(html_text(entities)))
+  print(entities)
+  ny_contain_daughters_all <- c(ny_contain_daughters_all, entities)
+}
+
+#active containing daughters, 368
+url <- "https://appext20.dos.ny.gov/corp_public/CORPSEARCH.SELECT_ENTITY?p_captcha=11156&p_captcha_check=9E62E9F2CF7380BD1C923C141B3EE72401C801A8748505F2FF182EE2EA0FFDA6FE47244698F32DFF69146FBC43A89F19&p_srch_results_page=1&p_entity_name=%64%61%75%67%68%74%65%72%73&p_name_type=%41&p_search_type=%43%4F%4E%54%41%49%4E%53"
+url_part1 <- unlist(strsplit(url,"srch_results_page=1"))[1]
+url_part2 <- unlist(strsplit(url,"srch_results_page=1"))[2]
+ny_contain_daughters_act <- c()
+for (i in 1:15){
+  print(i)
+  url <- paste(url_part1,"srch_results_page=",i,url_part2, sep ="")
+  webpage <- read_html(url)
+  entities <- html_nodes(webpage, "td a")
+  (entities <- as.character(html_text(entities)))
+  print(entities)
+  ny_contain_daughters_act <- c(ny_contain_daughters_act, entities)
+}
+
+#all beginning daughters, 99
+url <- "https://appext20.dos.ny.gov/corp_public/CORPSEARCH.SELECT_ENTITY?p_captcha=14817&p_captcha_check=57858246ABB9EE0532A9F2E0410D466B20E073CD8530F61D38EBF1A01C210D518FA93ED8FC52E93AB136B7FEFCF75482&p_srch_results_page=1&p_entity_name=%64%61%75%67%68%74%65%72%73&p_name_type=%25&p_search_type=%42%45%47%49%4E%53"
+url_part1 <- unlist(strsplit(url,"srch_results_page=1"))[1]
+url_part2 <- unlist(strsplit(url,"srch_results_page=1"))[2]
+ny_beg_daughters_all <- c()
+for (i in 1:4){
+  print(i)
+  url <- paste(url_part1,"srch_results_page=",i,url_part2, sep ="")
+  webpage <- read_html(url)
+  entities <- html_nodes(webpage, "td a")
+  (entities <- as.character(html_text(entities)))
+  print(entities)
+  ny_beg_daughters_all <- c(ny_beg_daughters_all, entities)
+}
+
+#Combine all ny daugthers
+ny_daughter <- c(ny_contain_daughter_all,
+                 ny_contain_daughters_all,
+                 ny_contain_daughters_act,
+                 ny_beg_daughters_all)
+write.csv(ny_daughter, "./ny/ny_daughter.csv", col.names = FALSE, row.names = FALSE)
+ny_daughter_dedup <- ny_daughter[!duplicated(ny_daughter)]
+
+ny_daughter_dedup[sapply(lapply(str_extract_all(tolower(ny_daughter_dedup), "\\w+"), function(x) str_detect(x, "^daughters$|^daughter$")), sum) > 0]
+
+1190/745
+
+#North Carolina
+
+
+
 ## Ohio
 oh_son <- read_csv("oh/Ohio Secretary of State Business Search-Business Name-son.csv")
 oh_son$Name[sapply(lapply(str_extract_all(tolower(oh_son$Name), "\\w+"), function(x) str_detect(x, "^son$|^sons$")), sum) > 0]
