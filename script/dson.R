@@ -389,9 +389,14 @@ ny_daughter_dedup[sapply(lapply(str_extract_all(tolower(ny_daughter_dedup), "\\w
 
 1190/745
 
-#North Carolina
-
-
+#North Dakota
+nd_daughter <- read.csv("nd/nd_daughter.csv", stringsAsFactors = FALSE) 
+nd_daughter_dedup <- nd_daughter[!duplicated(nd_daughter$Name),]#deduping since it has a lot of garbage 
+nd_daughter_dedup[sapply(lapply(str_extract_all(tolower(nd_daughter_dedup), "\\w+"), function(x) str_detect(x, "^daughters$|^daughter$")), sum) > 0]
+nd_son <- read.csv("nd/nd_son.csv", stringsAsFactors = FALSE) 
+nd_son_dedup <- nd_son[!duplicated(nd_son$Name),]#deduping since it has a lot of garbage and many repeats due to how search was done
+nd_son_dedup[sapply(lapply(str_extract_all(tolower(nd_son_dedup), "\\w+"), function(x) str_detect(x, "^sons$|^son$")), sum) > 0]
+605/23
 
 ## Ohio
 oh_son <- read_csv("oh/Ohio Secretary of State Business Search-Business Name-son.csv")
