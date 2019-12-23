@@ -4,7 +4,7 @@
 setwd("C:\\Users\\wguil\\OneDrive\\Documents\\GitHub\\sonny_side\\data")
 
 # Load libs
-#library(readr)
+library(readr)
 library(stringr)
 library(rvest)
 
@@ -433,10 +433,41 @@ sd_son_dedup <- sd_son[!duplicated(sd_son$Name), ]
 sd_son_dedup$Name[sapply(lapply(str_extract_all(tolower(sd_son_dedup$Name), "\\w+"), function(x) str_detect(x, "^sons$|^son$")), sum) > 0]
 129/11
 
+#Utah
+#UT-son
+url <- "https://secure.utah.gov/bes/nameSearchResults.html?pageNo=0"
+webpage <- read_html(url)
+entities <- html_nodes(webpage, ".entityName")
+(entities <- as.character(html_text(entities)))
+print(entities)
+#Doesn't work cause URL is not fully customized, blocked.
+
 ## WA
 wa_son <-  read_csv("wa/Business Search Result son.csv")
 wa_son$`Business Name`[sapply(lapply(str_extract_all(tolower(wa_son$`Business Name`), "\\w+"), function(x) str_detect(x, "^son$|^sons$")), sum) > 0]
 wa_son$`Business Name`[sapply(lapply(str_extract_all(tolower(wa_son$`Business Name`), "\\w+"), function(x) str_detect(x, "^daughters$|^daughter$")), sum) > 0]
+
+#West Virginia
+url <- "https://apps.wv.gov/SOS/BusinessEntitySearch/SearchResults.aspx?name=5lnEkwp0XdUTW8DNfgzlaw%3d%3d"
+webpage <- read_html(url)
+entities <- html_nodes(webpage, "td:nth-child(1)")
+(entities <- as.character(html_text(entities)))
+#It kind of works but I don't see a pattern in the URLs generated and for son there are 100 pages with same URL. blocked.
+
+#Wyoming
+wy_db <- read.csv("wy/FILING_edited.csv", stringsAsFactors = FALSE, sep = "|", row.names = NULL, na.strings = "") 
+wy_db <- wy_db[!is.na(wy_db$FILING_NAME),] #remove rows with no name
+wy_db <- wy_db[order(wy_db$FILING_NAME),]
+str(wy_db)
+dim(wy_db)
+wy_db$FILING_NAME[sapply(lapply(str_extract_all(tolower(wy_db$FILING_NAME), "\\w+"), function(x) str_detect(x, "^daughter$|^daughters$")), sum) > 0]
+wy_db$FILING_NAME[sapply(lapply(str_extract_all(tolower(wy_db$FILING_NAME), "\\w+"), function(x) str_detect(x, "^son$|^sons$")), sum) > 0]
+238/21
+
+
+
+
+
 
 
 #--------------------------------------------------------------------------------------------------------------------
