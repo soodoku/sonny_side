@@ -20,6 +20,24 @@ al_son <-  read_csv("al/al_sons.csv")
 al_son$`Entity Name`[sapply(lapply(str_extract_all(tolower(al_son$`Entity Name`), "\\w+"), function(x) str_detect(x, "^son$|^sons$")), sum) > 0]
 al_son$`Entity Name`[sapply(lapply(str_extract_all(tolower(al_son$`Entity Name`), "\\w+"), function(x) str_detect(x, "^daughters$|^daughter$")), sum) > 0]
 
+## Arkansas
+
+### Total results = 14555
+### Results per page = 250
+### Total pages = 14555/250 = 59 -- total returns are smaller at 14,305
+### Iterate over pages
+
+res <- list()
+
+for (i in 1:58) {
+  web_url <- paste0("https://www.sos.arkansas.gov/corps/search_corps.php?SEARCH=1&run=", i, "&corp_type_id=&corp_name=son&agent_search=&agent_city=&agent_state=&filing_number=&cmd=")
+  webpage <- read_html(web_url)
+  res <- rbind(res, html_table(webpage, fill = T)[[4]])
+  write_xml(webpage, file = paste0("data/ar/html_files/son_", i,".html"))
+}
+
+readr::write_csv(res, path = "data/ar/ar_son.csv")
+
 ## CA
 ca_son <-  read_csv("ca/son_corp.csv")
 ca_son$`Entity Name`[sapply(lapply(str_extract_all(tolower(ca_son$`Entity Name`), "\\w+"), function(x) str_detect(x, "^son$|^sons$")), sum) > 0]
