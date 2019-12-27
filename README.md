@@ -16,9 +16,9 @@ I address the first concern by using a regex that only looks at words that exact
 
 In all, I find that the conservative estimate of son to daughter ratio is between 4 to 1 to 26 to 1 across states.
 
-### Script
+### Scripts
 
-Script for addressing the first concern.
+Scripts for addressing the first concern.
 
 * [Regex Script](scripts/dson.R)
     - AL
@@ -28,6 +28,8 @@ Script for addressing the first concern.
     - OH
     - OR
     - WA
+
+* [Alaska Scraping Script](script/ak_son.ipynb)
 
 ### Results 
 
