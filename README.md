@@ -6,11 +6,11 @@ In the US, all businesses have to register with a state. All states provide a wa
 
 I begin by searching for `son(s)` and `daughter(s)` in states' databases of business names. But the results of searching `son` are inflated because of three reasons:
 
-* `son` is part of many English words, from names such as `Jason` and `Robinson` to ordinary English words like mason (which can also be a name).
+1. `son` is part of many English words, from names such as `Jason` and `Robinson` to ordinary English words like mason (which can also be a name).
 
-* `son` is a Korean name. 
+2. `son` is a Korean name. 
 
-* some businesses use the word `son` playfully. For instance, `son` is a homonym of sun and some people use that to create names like `son of a beach`
+3. some businesses use the word `son` playfully. For instance, `son` is a homonym of sun and some people use that to create names like `son of a beach`
 
 I address the first concern by using a regex that only looks at words that exactly match `son` or `sons`. I also check if the string contains the words `daughter` or `daughters`. But not all states allow for regex searches or allow people to download a full set of results. Where possible, I try to draw a lower bound. But still some care is needed in interpreting the results.
 
@@ -18,18 +18,19 @@ In all, I find that the conservative estimate of son to daughter ratio is betwee
 
 ### Scripts
 
+**Get Data**
+
+1. [Alaska Scraping Script](script/ak_son.ipynb)
+2. [Georgia Scraping Script](script/ga_son.ipynb)
+3. [Illinois Scraping Script](script/il_son.ipynb)
+4. [Indiana Scraping Script](script/in_son.ipynb)
+5. [Vermont Scraping Script](script/vt_son.ipynb)
+
+**Find Sons and Daughters**
+
 Scripts for addressing the first concern.
 
 * [Regex Script](scripts/dson.R)
-    - AL
-    - CA
-    - HI
-    - MT
-    - OH
-    - OR
-    - WA
-
-* [Alaska Scraping Script](script/ak_son.ipynb)
 
 ### Results 
 
@@ -50,17 +51,49 @@ Scripts for addressing the first concern.
 | State | Son    | Daughter| Son/Daughter Ratio | Conservative Est. | 
 |-------|--------|---------|--------------------|-------------------|
 |  AL   |  1000+ |  126    |        8           |        7          |
+|  AR   |   |       |                  |                 |
+|  AZ   |  -     |  -      |        -           |        -          |
 |  CA   |  3609  |  150    |        24          |        24         |
+|  CO   |   -    |   -     |        -           |         -         |
+|  CT   |       |        |        -           |                  |
+|  DE   |       |        |        -           |                  |
+|  FL   |       |        |        -           |                  |
+|  GA   |   |       |                  |                 |
 |  HI   |  1,454 |  88     |        17          |        17         |
+|  IA   |  60    |  39     |        -           |                   | 
 |  ID   |  60    |  39     |        -           |                   | 
+|  IL   |   |       |                  |                 |
+|  IN   |   |       |                  |                 |
+|  MA   |   |       |                  |                 |
+|  MD   |   |       |                  |                 |
+|  ME   |   |       |                  |                 |
 |  MI   |  2265  |  93     |        24          |                   |
+|  MN   |   |       |                  |                 |
+|  MO   |   |       |                  |                 |
+|  MS   |   |       |                  |                 |
 |  MT   |  240   |  66     |        4           |         4         |
+|  NC   |   |       |                  |                 |
+|  ND   |   |       |                  |                 |
+|  NH   |   |       |                  |                 |
+|  NJ   |   |       |                  |                 |
 |  NV   |  1440  |  20     |        72          |                   |
+|  NY   |   |       |                  |                 |
 |  OH   |  2550  |  100    |        26          |        26         |
 |  OR   |  1000+ |  227    |        -           |         4         |
 |  PA   |   NA   |  NA     |        -           |                   |
+|  OK   |   |       |                  |                 |
+|  OR   |   |       |                  |                 |
+|  RI   |   |       |                  |                 |
+|  SC   |   |       |                  |                 |
+|  SD   |   |       |                  |                 |
+|  TN   |   |       |                  |                 |
+|  TX   |   |       |                  |                 |
+|  UT   |   |       |                  |                 |
+|  VT   |   |       |                  |                 |
 |  WA   |  2424  |  161    |        15          |         15        |
 |  WI   |  845   |  43     |        20          |                   |
+|  WV   |   |       |                  |                 |
+|  WY   |   |       |                  |                 |
 
 ### Underlying Data
 
