@@ -18,7 +18,6 @@ ak_daughter_dedup <- ak_daughter[!duplicated(ak_daughter$Entity.Name),]
 ak_daughter$Entity.Name[sapply(lapply(str_extract_all(tolower(ak_daughter$Entity.Name), "\\w+"), function(x) str_detect(x, "^daughter$|^daughters$")), sum) > 0]
 246/22
 
-
 ## AL
 al_son <-  read_csv("al/al_sons.csv")
 al_son$`Entity Name`[sapply(lapply(str_extract_all(tolower(al_son$`Entity Name`), "\\w+"), function(x) str_detect(x, "^son$|^sons$")), sum) > 0]
@@ -41,6 +40,14 @@ for (i in 1:58) {
 }
 
 readr::write_csv(res, path = "data/ar/ar_son.csv")
+
+#Above works to scrape, now let's estimate ratio
+ar_son <- read.csv("./ar/ar_son.csv", stringsAsFactors = FALSE)
+ar_son$X1[sapply(lapply(str_extract_all(tolower(ar_son$X1), "\\w+"), function(x) str_detect(x, "^son$|^sons$")), sum) > 0]
+length(ar_son$X1[sapply(lapply(str_extract_all(tolower(ar_son$X1), "\\w+"), function(x) str_detect(x, "^son$|^sons$")), sum) > 0])
+ar_daughter <- read.csv("./ar/ar-daughter.csv", stringsAsFactors = FALSE)
+ar_daughter$Name[sapply(lapply(str_extract_all(tolower(ar_daughter$Name), "\\w+"), function(x) str_detect(x, "^daughter$|^daughters$")), sum) > 0]
+1482/87
 
 ## CA
 ca_son <-  read_csv("ca/son_corp.csv")
@@ -113,11 +120,37 @@ for (i in 1:length(fl_son_links)){ #fl_son_links was defined at bottom of script
 fl_son[sapply(lapply(str_extract_all(tolower(fl_son), "\\w+"), function(x) str_detect(x, "^sons$|^son$")), sum) > 0]
 729/176
 
+# Georgia
+# Gaurav did selenium and I am pulling csv from 7z file
+ga_dat <- read.csv("./ga/ga_son.csv", stringsAsFactors = FALSE)
+ga_dat_dedup <- ga_dat[!duplicated(ga_dat$Business.Name),]
+ga_dat$Business.Name[sapply(lapply(str_extract_all(tolower(ga_dat$Business.Name), "\\w+"), function(x) str_detect(x, "^sons$|^son$")), sum) > 0]
+length(ga_dat$Business.Name[sapply(lapply(str_extract_all(tolower(ga_dat$Business.Name), "\\w+"), function(x) str_detect(x, "^sons$|^son$")), sum) > 0])
+ga_dat$Business.Name[sapply(lapply(str_extract_all(tolower(ga_dat$Business.Name), "\\w+"), function(x) str_detect(x, "^daughters$|^daughter$")), sum) > 0]
+6002/74
+#Wrong, need to pull daughters from selenium
 
 ## HI
 hi_son <-  read_csv("hi/hi_sons.csv")
 hi_son$Name[sapply(lapply(str_extract_all(tolower(hi_son$Name), "\\w+"), function(x) str_detect(x, "^son$|^sons$")), sum) > 0]
 hi_son$Name[sapply(lapply(str_extract_all(tolower(hi_son$Name), "\\w+"), function(x) str_detect(x, "^daughters$|^daughter$")), sum) > 0]
+
+# Illinois
+il_dat <- read.csv("./il/il_son.csv", stringsAsFactors = FALSE)
+il_dat_dedup <- il_dat[!duplicated(il_dat$Corporation.LLC.Name),]
+il_dat_dedup$Corporation.LLC.Name[sapply(lapply(str_extract_all(tolower(il_dat_dedup$Corporation.LLC.Name), "\\w+"), function(x) str_detect(x, "^sons$|^son$")), sum) > 0]
+length(il_dat_dedup$Corporation.LLC.Name[sapply(lapply(str_extract_all(tolower(il_dat_dedup$Corporation.LLC.Name), "\\w+"), function(x) str_detect(x, "^sons$|^son$")), sum) > 0])
+il_dat_dedup$Corporation.LLC.Name[sapply(lapply(str_extract_all(tolower(il_dat_dedup$Corporation.LLC.Name), "\\w+"), function(x) str_detect(x, "^daughters$|^daughter$")), sum) > 0]
+#2284/
+#Data here is wrong cause doesn't include daughter search... need to add that
+
+# Indiana
+in_son <- read.csv("./in/in_son.csv", stringsAsFactors = FALSE)
+in_daughter <- read.csv("./in/in_daughter.csv", stringsAsFactors = FALSE)
+in_son$Business.Name[sapply(lapply(str_extract_all(tolower(in_son$Business.Name), "\\w+"), function(x) str_detect(x, "^sons$|^son$")), sum) > 0]
+length(in_son$Business.Name[sapply(lapply(str_extract_all(tolower(in_son$Business.Name), "\\w+"), function(x) str_detect(x, "^sons$|^son$")), sum) > 0])
+in_daughter$Business.Name[sapply(lapply(str_extract_all(tolower(in_daughter$Business.Name), "\\w+"), function(x) str_detect(x, "^daughters$|^daughter$")), sum) > 0]
+4928/195
 
 # Iowa
 url <- "https://sos.iowa.gov/search/business/results.aspx?q=MI0p_RDYIXTq-Lzw4n6v0a7GMqtM0u6xAU3Y-wIyA7g4QiHX9FC_BAPt4PUVSlTGLkQiEob5rnXSkB4q1uOHagHzR6kFVa77GId5YqZm-O_jiKuYgtK8or5mlg4VIvu9teoMdPeZW8tdPEN5fKRV0A5UG0RYYMuEbAqAy0jVlIP7itdBzXn1d1NAz4GsXu57Lj5dG_bTAjtXchzv2LQc7UFe2Nts-MJLg4wIS8gMoW-CikDaWmyMj3a8tC656ayV9jIuQKghkTptr3QffJHt4UMZ67UT7Fz2KWr0MRZGB7JL_6vpWn8rxDYbq5livcqKeSNIjVLX16EZepJdRN_IjmgjrrjQ7asrMJFRjDYe0-VRdy_hEvbupQJHab_SkjTg0"
@@ -455,6 +488,15 @@ sd_son_dedup <- sd_son[!duplicated(sd_son$Name), ]
 sd_son_dedup$Name[sapply(lapply(str_extract_all(tolower(sd_son_dedup$Name), "\\w+"), function(x) str_detect(x, "^sons$|^son$")), sum) > 0]
 129/11
 
+# Tennessee
+tn_son <- read.csv("tn/tn_son.csv", stringsAsFactors = FALSE) 
+tn_son_dedup <- tn_son[!duplicated(tn_son$Control),]
+tn_son_dedup$Name[sapply(lapply(str_extract_all(tolower(tn_son_dedup$Name), "\\w+"), function(x) str_detect(x, "^sons$|^son$")), sum) > 0]
+tn_daughter <- read.csv("tn/tn_daughter.csv", stringsAsFactors = FALSE) 
+tn_daughter_dedup <- tn_daughter[!duplicated(tn_daughter$Control),]
+tn_daughter_dedup$Name[sapply(lapply(str_extract_all(tolower(tn_daughter_dedup$Name), "\\w+"), function(x) str_detect(x, "^daughters$|^daughter$")), sum) > 0]
+203/132
+
 #Utah
 #UT-son
 url <- "https://secure.utah.gov/bes/nameSearchResults.html?pageNo=0"
@@ -463,6 +505,25 @@ entities <- html_nodes(webpage, ".entityName")
 (entities <- as.character(html_text(entities)))
 print(entities)
 #Doesn't work cause URL is not fully customized, blocked.
+
+#res <- list()
+
+#for (i in 1:1) {
+  #web_url <- paste0("https://www.sos.arkansas.gov/corps/search_corps.php?SEARCH=1&run=", i, "&corp_type_id=&corp_name=son&agent_search=&agent_city=&agent_state=&filing_number=&cmd=")
+  #web_url <- paste0("https://secure.utah.gov/bes/nameSearchResults.html?pageNo=", i)
+  #webpage <- read_html(web_url)
+  #res <- rbind(res, html_table(webpage, fill = T)[[5]])
+  #write_xml(webpage, file = paste0("data/ar/html_files/son_", i,".html"))
+#}
+
+
+# Vermont
+vt_son <- read.csv("vt/vt_son.csv", stringsAsFactors = FALSE) 
+vt_son$Business.Name[sapply(lapply(str_extract_all(tolower(vt_son$Business.Name), "\\w+"), function(x) str_detect(x, "^sons$|^son$")), sum) > 0]
+length(vt_son$Business.Name[sapply(lapply(str_extract_all(tolower(vt_son$Business.Name), "\\w+"), function(x) str_detect(x, "^sons$|^son$")), sum) > 0])
+vt_daughter <- read.csv("vt/vt_daughter.csv", stringsAsFactors = FALSE) 
+vt_daughter$Business.Name[sapply(lapply(str_extract_all(tolower(vt_daughter$Business.Name), "\\w+"), function(x) str_detect(x, "^daughter$|^daughters$")), sum) > 0]
+1361/63
 
 ## WA
 wa_son <-  read_csv("wa/Business Search Result son.csv")
