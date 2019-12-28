@@ -9,11 +9,15 @@ library(stringr)
 library(rvest)
 
 # Alaska AK
-base_url <- "https://www.commerce.alaska.gov/cbp/main/Search/EntitiesResults?EntityName=son&IsStartsWithSearch=False&CurrentOnly=False&&pageNumber=1"
-webpage <- read_html(base_url)
-entities <- html_nodes(webpage, "td:nth-child(3)")
-(entities <- as.character(html_text(entities)))
-#Not working but why? 
+# rvest didn't work so Gaurav did selenium pull
+ak_son <- read.csv("./ak/ak-son.csv", stringsAsFactors = FALSE)
+ak_son_dedup <- ak_son[!duplicated(ak_son$Entity.Name),]
+ak_son$Entity.Name[sapply(lapply(str_extract_all(tolower(ak_son$Entity.Name), "\\w+"), function(x) str_detect(x, "^son$|^sons$")), sum) > 0]
+ak_daughter <- read.csv("./ak/ak-daughter.csv", stringsAsFactors = FALSE)
+ak_daughter_dedup <- ak_daughter[!duplicated(ak_daughter$Entity.Name),]
+ak_daughter$Entity.Name[sapply(lapply(str_extract_all(tolower(ak_daughter$Entity.Name), "\\w+"), function(x) str_detect(x, "^daughter$|^daughters$")), sum) > 0]
+246/22
+
 
 ## AL
 al_son <-  read_csv("al/al_sons.csv")
