@@ -23,8 +23,8 @@ In all, I find that the conservative estimate of son to daughter ratio is betwee
 1. [Alaska](scripts/ak_son.ipynb)
 2. [Georgia](scripts/ga_son.ipynb)
 3. [Illinois](scripts/il_son.ipynb)
-4. [New Hampshire](scripts/il_son.ipynb)
-5. [Indiana](scripts/in_son.ipynb)
+4. [Indiana](scripts/in_son.ipynb)
+5. [New Hampshire](scripts/nh_son.ipynb)
 6. [Vermont](scripts/vt_son.ipynb)
 7. [West Virginia](scripts/wv_son.ipynb)
 
