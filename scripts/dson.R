@@ -288,8 +288,15 @@ nh_daughter <- read.csv("./nh/nh_daughter.csv", stringsAsFactors = FALSE)
 nh_daughter$Business.Name[sapply(lapply(str_extract_all(tolower(nh_daughter$Business.Name), "\\w+"), function(x) str_detect(x, "^daughters$|^daughter$")), sum) > 0]
 3203/119
 
-#New York
+#New Jersey
+nj_son <- read.csv("./nj/nj_son.csv", stringsAsFactors = FALSE)
+nj_son_dedup <- nj_son[!duplicated(nj_son$Business.Name),]
+nj_son_dedup$Business.Name[sapply(lapply(str_extract_all(tolower(nj_son_dedup$Business.Name), "\\w+"), function(x) str_detect(x, "^sons$|^son$")), sum) > 0]
+nj_daughter <- read.csv("./nj/nj_daughter.csv", stringsAsFactors = FALSE)
+nj_daughter$Business.Name[sapply(lapply(str_extract_all(tolower(nj_daughter$Business.Name), "\\w+"), function(x) str_detect(x, "^daughters$|^daughter$")), sum) > 0]
+173/73
 
+#New York
 #ny son search
 #results capped at 500 so doing a few combos to get more search results; can't do son search for contains since asking for 4+letters
 #could have done function but was lazy and trying this time
@@ -526,11 +533,11 @@ wa_son$`Business Name`[sapply(lapply(str_extract_all(tolower(wa_son$`Business Na
 wa_son$`Business Name`[sapply(lapply(str_extract_all(tolower(wa_son$`Business Name`), "\\w+"), function(x) str_detect(x, "^daughters$|^daughter$")), sum) > 0]
 
 #West Virginia
-url <- "https://apps.wv.gov/SOS/BusinessEntitySearch/SearchResults.aspx?name=5lnEkwp0XdUTW8DNfgzlaw%3d%3d"
-webpage <- read_html(url)
-entities <- html_nodes(webpage, "td:nth-child(1)")
-(entities <- as.character(html_text(entities)))
-#It kind of works but I don't see a pattern in the URLs generated and for son there are 100 pages with same URL. blocked.
+wv_son <- read.csv("./wv/wv_son.csv", stringsAsFactors = FALSE)
+wv_son$Name[sapply(lapply(str_extract_all(tolower(wv_son$Name), "\\w+"), function(x) str_detect(x, "^son$|^sons$")), sum) > 0]
+wv_daughter <- read.csv("./wv/wv_daughter.csv", stringsAsFactors = FALSE)
+wv_daughter$Name[sapply(lapply(str_extract_all(tolower(wv_daughter$Name), "\\w+"), function(x) str_detect(x, "^daughter$|^daughters$")), sum) > 0]
+128/72
 
 #Wyoming
 wy_db <- read.csv("wy/FILING_edited.csv", stringsAsFactors = FALSE, sep = "|", row.names = NULL, na.strings = "") 
