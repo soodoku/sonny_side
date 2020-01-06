@@ -280,6 +280,14 @@ ne_daughter$Name[sapply(lapply(str_extract_all(tolower(ne_daughter$Name), "\\w+"
 #so all are actually
 41
 
+#New Hampshire
+nh_son <- read.csv("./nh/nh_son.csv", stringsAsFactors = FALSE)
+nh_son$Business.Name[sapply(lapply(str_extract_all(tolower(nh_son$Business.Name), "\\w+"), function(x) str_detect(x, "^sons$|^son$")), sum) > 0]
+length(nh_son$Business.Name[sapply(lapply(str_extract_all(tolower(nh_son$Business.Name), "\\w+"), function(x) str_detect(x, "^sons$|^son$")), sum) > 0])
+nh_daughter <- read.csv("./nh/nh_daughter.csv", stringsAsFactors = FALSE)
+nh_daughter$Business.Name[sapply(lapply(str_extract_all(tolower(nh_daughter$Business.Name), "\\w+"), function(x) str_detect(x, "^daughters$|^daughter$")), sum) > 0]
+3203/119
+
 #New York
 
 #ny son search
