@@ -7,23 +7,155 @@ output: html_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+
+#Clean R environment
+rm(list = ls())
+
+#Set working directory
+setwd("C:/Users/wguil/OneDrive/Documents/GitHub/sonny_side/")
+
+#Load R packages
+library(tidyverse)
+
+```
+
+```{r load_data, include=FALSE}
+#Load CSV file from Excel with data collected for the states
+d <- read.csv("states-work-tracker.csv", stringsAsFactors = FALSE)
+str(d)
+summary(d)
+table(d$Status, useNA = "always") #36 states are done as expected
+d <- d[,c(2:7)] #drop raw and unneeded cols
+head(d)
+
+#Load CSV with region and division for each state
+regions <- read.csv("./data/_states/states_region_division.csv", stringsAsFactors = FALSE)
+regions <- regions[,-c(2)] #drop state code
+
+#Load CSV with population estimate by state
+pop <- read.csv("./data/_states/nst-est2019-alldata.csv", stringsAsFactors = FALSE)
+pop <- pop[pop$STATE != 0 & pop$STATE != 72,] #Excluse summary rows and Puerto Rico from file
+pop <- pop[,c("NAME","POPESTIMATE2019")] #Keep only columns of interest (state name and 2019 population)
+sum(pop$POPESTIMATE2019) #328.2M is estimated population
+pop$popestimate2019pct <- pop$POPESTIMATE2019 / sum(pop$POPESTIMATE2019) 
+
+#Load CSV with political party winnining 2016 election
+party <- read.csv("./data/_states/presidential_election.csv", stringsAsFactors = FALSE)
+
+#Load CSV with GDP by state
+gdp <- read.csv("./data/_states/gdp_by_state.csv", stringsAsFactors = FALSE)
+gdp <- gdp[,-c(1)] #remove rank column
+gdp$State <- trimws(gdp$State) #remove white space from name
+gdp$gdp_pct <- gdp$gdp_pct / 100 #make it as actual pct
+
+#Merge/Join data to have one master dataset
+d <- merge(d, regions, by.x = "Name", by.y = "State", all.x = TRUE)
+d <- merge(d, pop, by.x = "Name", by.y = "NAME", all.x = TRUE)
+d <- merge(d, party, by.x = "Name", by.y = "State", all.x = TRUE)
+d <- merge(d, gdp, by.x = "Name", by.y = "State", all.x = TRUE)
+
+#Keep only states with estimate data
+d <- d[d$Status %in% c("Done", "Gaurav did"),]
+summary(d)
 ```
 
 ```{r}
-setwd("C:/Users/wguil/OneDrive/Documents/GitHub/sonny_side/")
-d <- read.csv("states-work-tracker.csv", stringsAsFactors = FALSE)
-str(d)
-head(d)
-head(d[,c(1:7)])
-summary(d[,c(5,6,7)])
+
+#Dot Plot of all states with estimate data
+ggplot(d, aes(x = estimate, y = reorder(Name, estimate))) +
+	geom_point(color = "blue") +
+	scale_x_continuous(limits = c(0, 75),
+		breaks = seq(0, 75, 5)) +
+	xlab("\nRatio") +
+	ylab("State Name\n") +
+	ggtitle("Ratio of company names using word 'son' vs 'daughter'")
+
+#Dot plot for 10 states with highest estimate
+d %>% 
+  arrange(desc(estimate)) %>%
+  filter(estimate >=24) %>%
+  ggplot(.,aes(x = estimate, y = reorder(Name, estimate))) +
+	geom_point(color = "blue") +
+	scale_x_continuous(limits = c(20, 75),
+		breaks = seq(20, 75, 5)) +
+	xlab("\nRatio") +
+	ylab("State Name\n") +
+	ggtitle("10 States with highest ratio of names using word 'son' vs 'daughter'")
+
+
+
+
 ```
 
 
-## R Markdown
 
-### 3 cosos
-## 2 cosos
-# 1 coso
+
+## Abstract/Summary
+
+## Introduction
+
+## Data Overview
+
+## Results
+
+## Conclusion
+
+## References
+
+regions and divisions per state
+https://github.com/cphalpert/census-regions/blob/master/us%20census%20bureau%20regions%20and%20divisions.csv
+
+population by state
+https://www.census.gov/data/tables/time-series/demo/popest/2010s-state-total.html
+
+political party
+https://en.wikipedia.org/wiki/Political_party_strength_in_U.S._states
+
+
+## Appendix
+
+*******************************
+GAURAVS TEXT TO PROC
+
+for graphs, I think you can do a comparison across states with a dot plot
+
+PADDING AT TOP AND BOTTOM OF THIS:
+We estimate preference for passing on businesses to sons by examining how common words son and sons are compared to daughter and daughters in the names of businesses.
+
+In the US, all businesses have to register with a state. And all states provide a way to search business names, in part so that new companies can pick names that haven’t been used before.
+
+We begin by searching for son(s) and daughter in states’ databases of business names. But the results of searching son are inflated because of three reasons:
+
+son is part of many English words, from names such as Jason and Robinson to ordinary English words like mason (which can also be a name). 
+son is a Korean name.
+some businesses use the wordson playfully. For instance, sonis a homonym of sun and some people use that to create names like son of a beach.
+
+We address the first concern by using a regex that only looks at words that exactly match son or sons. But not all states allow for regex searches or allow people to download a full set of results. Where possible, I try to draw a lower bound. But still some care is needed in interpreting the results.
+
+Data and Scripts: https://github.com/soodoku/sonny_side
+
+In all, we find that a conservative estimate of son to daughter ratio is between 4 to 1 to 26 to 1 across states.
+
+n some ways the easiest section to write is the methods section. starting there is as good a place as many. that should be a rough paragraph, noting the problems etc.
+
+intro. = bias against women is common
+
+one way bias manifests itself is that people are less likely to transfer their businesses to their daughters
+
+we exploit a novel publicly available administrative source of data
+
+when describing data, good to have a bunch of numbers
+
+how many states
+
+what proportion of the US GDP is in those states
+
+what prop. of the pop. in those states
+
+do you anticipate serious bias --- we don't
+
+
+## R Markdown
 
 This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
 
