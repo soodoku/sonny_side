@@ -19,7 +19,7 @@ library(tidyverse)
 
 ```
 
-```{r load_data, include=FALSE}
+```{r data, include=FALSE}
 #Load CSV file from Excel with data collected for the states
 d <- read.csv("states-work-tracker.csv", stringsAsFactors = FALSE)
 str(d)
@@ -59,7 +59,7 @@ d <- d[d$Status %in% c("Done", "Gaurav did"),]
 summary(d)
 ```
 
-```{r}
+```{r charts}
 
 #Dot Plot of all states with estimate data
 ggplot(d, aes(x = estimate, y = reorder(Name, estimate))) +
