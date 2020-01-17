@@ -82,8 +82,24 @@ d %>%
 	ylab("State Name\n") +
 	ggtitle("10 States with highest ratio of names using word 'son' vs 'daughter'")
 
+boxplot(estimate ~ Region, d, horizontal = TRUE)
+aggregate(estimate ~ Region, d, FUN = median)
 
+boxplot(estimate ~ Division, d, horizontal = TRUE)
+aggregate(estimate ~ Division, d, FUN = median)
 
+boxplot(estimate ~ presidentialelection2016, d, horizontal = TRUE)
+aggregate(estimate ~ presidentialelection2016, d, FUN = median)
+
+plot(d$estimate, d$popestimate2019pct)
+cor(d$estimate, d$popestimate2019pct)
+
+plot(d$estimate, d$gdp_pct)
+cor(d$estimate, d$gdp_pct)
+
+sum(d$popestimate2019pct)
+
+sum(d$gdp_pct)
 
 ```
 
@@ -116,8 +132,6 @@ https://en.wikipedia.org/wiki/Political_party_strength_in_U.S._states
 
 *******************************
 GAURAVS TEXT TO PROC
-
-for graphs, I think you can do a comparison across states with a dot plot
 
 PADDING AT TOP AND BOTTOM OF THIS:
 We estimate preference for passing on businesses to sons by examining how common words son and sons are compared to daughter and daughters in the names of businesses.
