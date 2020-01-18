@@ -145,14 +145,13 @@ d %>%
 
 We know proceed to explore how these results vary by location of the state in the United States, by the state population and political party and by its GDP and number of bueinsss establishments.
 
-When we look at the estimate of son to daughter ratio by Region in USA we see states in the Midwest and Northeast with higher ratios when comparing to the West and particularly the South.
+When we look at the estimate of son to daughter ratio by Region in USA we see states in the Midwest and Northeast with higher ratios when comparing to the West and particularly the South.The biggest gap is Midwest vs South with a median ratio of 24.0 vs 5.5 respectively.
 
 ```{r, include=FALSE}
 table(d$Region)
+aggregate(estimate ~ Region, d, FUN = median)
 
 ```
-
-
 
 ```{r, echo=FALSE}
 ggplot(d, aes(x=Region, y=estimate)) + 
@@ -164,45 +163,33 @@ ggplot(d, aes(x=Region, y=estimate)) +
 
 ```
 
+When we look at the estimate ratio of son vs daughter with the population fo the state we don't see any relationship between these data points. In fact the correlation if basically zero as seen belown.
 
+```{r, include=FALSE}
+cor(d$POPESTIMATE2019, d$estimate)
+cor(d$popestimate2019pct, d$estimate)
+```
 
-population
+```{r, echo=FALSE}
+ggplot(d, aes(x=estimate, y=popestimate2019pct)) + 
+  geom_point() +
+  labs(title="\nEstimate of son to daughter ratio vs % of US population per state", x="\nEstimate of son to daughter ratio",y="\nPercentage of US population in State")
+  
+  #ggtitle("Estimate of son to daughter ratio by US Region") 
+  #geom_smooth(method=lm)
 
-political party
+#ggplot(d, aes(x=estimate, y=popestimate2019pct, shape=Region, color=Region)) + 
+# geom_point() 
+  #geom_smooth(method=lm)
+```
 
 gdp 
 
 establishments
 
+political party
 
 
-```{r charts, echo=FALSE}
-
-boxplot(estimate ~ Region, d, horizontal = TRUE)
-aggregate(estimate ~ Region, d, FUN = median)
-
-boxplot(estimate ~ Division, d, horizontal = TRUE)
-aggregate(estimate ~ Division, d, FUN = median)
-
-boxplot(estimate ~ presidentialelection2016, d, horizontal = TRUE)
-aggregate(estimate ~ presidentialelection2016, d, FUN = median)
-
-plot(d$estimate, d$popestimate2019pct)
-cor(d$estimate, d$popestimate2019pct)
-
-plot(d$estimate, d$gdp_pct)
-cor(d$estimate, d$gdp_pct)
-
-sum(d$popestimate2019pct)
-
-sum(d$gdp_pct)
-
-plot(d$estimate, d$establishments_pct)
-cor(d$estimate, d$establishments_pct)
-
-
-
-```
 
 ## Conclusion
 
