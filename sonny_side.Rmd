@@ -19,6 +19,9 @@ library(tidyverse)
 
 ```
 
+
+
+
 ```{r data, include=FALSE}
 #Load CSV file from Excel with data collected for the states
 d <- read.csv("states-work-tracker.csv", stringsAsFactors = FALSE)
@@ -48,18 +51,69 @@ gdp <- gdp[,-c(1)] #remove rank column
 gdp$State <- trimws(gdp$State) #remove white space from name
 gdp$gdp_pct <- gdp$gdp_pct / 100 #make it as actual pct
 
+#Load US Census data for # of businesses per state
+census <- read.csv("./data/_states/us_census_firms_2016.csv", stringsAsFactors = FALSE)
+census <- census[census$employment_size == "01:  Total",] #Keep only row with total per area/state
+census$establishments_pct <- census$establishments_num / 7757807 #% of establishments in US
+census <- census[,c("area", "establishments_num", "establishments_pct")] #Keep only columns of interest
+
 #Merge/Join data to have one master dataset
 d <- merge(d, regions, by.x = "Name", by.y = "State", all.x = TRUE)
 d <- merge(d, pop, by.x = "Name", by.y = "NAME", all.x = TRUE)
 d <- merge(d, party, by.x = "Name", by.y = "State", all.x = TRUE)
 d <- merge(d, gdp, by.x = "Name", by.y = "State", all.x = TRUE)
+d <- merge(d, census, by.x = "Name", by.y = "area", all.x = TRUE)
 
 #Keep only states with estimate data
 d <- d[d$Status %in% c("Done", "Gaurav did"),]
 summary(d)
 ```
 
-```{r charts}
+## Abstract
+Do we want one? Maybe write at the end.
+
+## Introduction
+Will write at the end.
+We estimate preference for passing on businesses to sons by examining how common words son and sons are compared to daughter and daughters in the names of businesses.
+intro. = bias against women is common
+one way bias manifests itself is that people are less likely to transfer their businesses to their daughters
+we exploit a novel publicly available administrative source of data
+
+## Data and Method Overview
+This process was done following two steps. First in the United States, businesses have to register with their state and all states provide a website to search for business names. The functionality of these websites vary by state which made the data acquisition harder. We began by searching for businesses with the words son(s) and daughter(s) on their names. These wasn't a trivial process for several reasons and some are worth highlighting here along with the solution.
+
+1. Search results for son(s) are inflated mainly for three reasons. (a) son is part of many English words, from names such as Jason and Robinson to ordinary English words like mason (which can also be a name), (b) son is a Korean name and (c) some businesses use the word son playfully; for instance, son is a homonym of sun and some people use that to create names like son of a beach. We address (a) by cleaning the data using regular expressions to only look for exact matches of son and sons.
+
+2. Some states limit the number of search results. For example, Alabama only displays up to 1,000 results. This is tricky because we know there are at least 1,000 companies with son(s) on their name but we don't know how many. In this case we can only derive a conservative estimate for the ratio of companies with son vs daughter and we note that on the results. In order to increase the number of samples in this case we do two searches, one for son and one for sons. we then combine the results knowing there might be some overlap but we dedup these before the analysis.
+
+3. The technologies used for these websites is different. In some cases we are able to simply copy and paste the results to our computer for analysis. But in other cases more sophisticated scrapping tools were built to parse and download the data using packages like rvest in R and selenium in Python.
+
+After acquirign the number of companies with the word son(s) and daughter(s) on their names we calcualted the son/daughter ratio which is the estimate of most concern in this paper. Additionaly, we enriched our dataset by acquiring state data from other sources to profile the results. These new attributes include: US Region of the state, US Division of the state, population of the state, GPD of the state, political party of the state and number of establishments on each state. The sources are identified in the References section of this paper.
+
+Due to the challenges outlined above some care is needed when interpreting the results. All in all, we were able to acquire data for 36 states. Though not all 50 states were covered we believe we have a good representation of the United States since these 36 states represent 69.9% of the US population, 71.2% of the US GDP and 71.% of the registered establishments. 
+
+```{r, include=FALSE}
+summary(d)
+sum(d$popestimate2019pct) #69.9%
+sum(d$gdp_pct) #71.2%
+sum(d$establishments_pct) #71.1%
+```
+
+The data and scripts used are posted here: https://github.com/soodoku/sonny_side
+
+A sample of the final dataset used for analysis is displayed here:
+
+NOTE: This table looks horrible. See if I can do stargazer package here?
+
+```{r, echo=FALSE }
+head(d[,c("Name", "estimate", "son", "daughter","Region","Division","popestimate2019pct", "presidentialelection2016", "gdp_pct", "establishments_pct")])
+```
+
+## Results
+In all, we find that a conservative estimate of son to daughter ratio is between 2 to 1 to 72 to 1 across the 36 states where we have data with a median of 12 to 1. This is displayed in the figure below.
+
+```{r, echo=FALSE}
+#summary(d)
 
 #Dot Plot of all states with estimate data
 ggplot(d, aes(x = estimate, y = reorder(Name, estimate))) +
@@ -70,6 +124,11 @@ ggplot(d, aes(x = estimate, y = reorder(Name, estimate))) +
 	ylab("State Name\n") +
 	ggtitle("Ratio of company names using word 'son' vs 'daughter'")
 
+```
+
+NOTE: If the above feels too busy we could show the top 10 only like this:
+
+```{r, echo=FALSE}
 #Dot plot for 10 states with highest estimate
 d %>% 
   arrange(desc(estimate)) %>%
@@ -81,6 +140,43 @@ d %>%
 	xlab("\nRatio") +
 	ylab("State Name\n") +
 	ggtitle("10 States with highest ratio of names using word 'son' vs 'daughter'")
+
+```
+
+We know proceed to explore how these results vary by location of the state in the United States, by the state population and political party and by its GDP and number of bueinsss establishments.
+
+When we look at the estimate of son to daughter ratio by Region in USA we see states in the Midwest and Northeast with higher ratios when comparing to the West and particularly the South.
+
+```{r, include=FALSE}
+table(d$Region)
+
+```
+
+
+
+```{r, echo=FALSE}
+ggplot(d, aes(x=Region, y=estimate)) + 
+  geom_boxplot() +
+  xlab("\nRegion") +
+  ylab("\nEstimate of son to daughter ratio") +
+  ggtitle("Estimate of son to daughter ratio by US Region") +
+  coord_flip()
+
+```
+
+
+
+population
+
+political party
+
+gdp 
+
+establishments
+
+
+
+```{r charts, echo=FALSE}
 
 boxplot(estimate ~ Region, d, horizontal = TRUE)
 aggregate(estimate ~ Region, d, FUN = median)
@@ -101,20 +197,18 @@ sum(d$popestimate2019pct)
 
 sum(d$gdp_pct)
 
+plot(d$estimate, d$establishments_pct)
+cor(d$estimate, d$establishments_pct)
+
+
+
 ```
 
-
-
-
-## Abstract/Summary
-
-## Introduction
-
-## Data Overview
-
-## Results
-
 ## Conclusion
+
+
+
+
 
 ## References
 
@@ -127,47 +221,16 @@ https://www.census.gov/data/tables/time-series/demo/popest/2010s-state-total.htm
 political party
 https://en.wikipedia.org/wiki/Political_party_strength_in_U.S._states
 
+census data for # of firms per state
+https://www.census.gov/data/tables/time-series/econ/susb/susb-historical.html
+
+
 
 ## Appendix
 
-*******************************
-GAURAVS TEXT TO PROC
 
-PADDING AT TOP AND BOTTOM OF THIS:
-We estimate preference for passing on businesses to sons by examining how common words son and sons are compared to daughter and daughters in the names of businesses.
 
-In the US, all businesses have to register with a state. And all states provide a way to search business names, in part so that new companies can pick names that haven’t been used before.
-
-We begin by searching for son(s) and daughter in states’ databases of business names. But the results of searching son are inflated because of three reasons:
-
-son is part of many English words, from names such as Jason and Robinson to ordinary English words like mason (which can also be a name). 
-son is a Korean name.
-some businesses use the wordson playfully. For instance, sonis a homonym of sun and some people use that to create names like son of a beach.
-
-We address the first concern by using a regex that only looks at words that exactly match son or sons. But not all states allow for regex searches or allow people to download a full set of results. Where possible, I try to draw a lower bound. But still some care is needed in interpreting the results.
-
-Data and Scripts: https://github.com/soodoku/sonny_side
-
-In all, we find that a conservative estimate of son to daughter ratio is between 4 to 1 to 26 to 1 across states.
-
-n some ways the easiest section to write is the methods section. starting there is as good a place as many. that should be a rough paragraph, noting the problems etc.
-
-intro. = bias against women is common
-
-one way bias manifests itself is that people are less likely to transfer their businesses to their daughters
-
-we exploit a novel publicly available administrative source of data
-
-when describing data, good to have a bunch of numbers
-
-how many states
-
-what proportion of the US GDP is in those states
-
-what prop. of the pop. in those states
-
-do you anticipate serious bias --- we don't
-
+- male vs female population
 
 ## R Markdown
 
