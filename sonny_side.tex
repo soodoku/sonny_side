@@ -1,0 +1,440 @@
+\documentclass[]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+\else % if luatex or xelatex
+  \ifxetex
+    \usepackage{mathspec}
+  \else
+    \usepackage{fontspec}
+  \fi
+  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+\fi
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+% use microtype if available
+\IfFileExists{microtype.sty}{%
+\usepackage{microtype}
+\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\usepackage[margin=1in]{geometry}
+\usepackage{hyperref}
+\hypersetup{unicode=true,
+            pdftitle={Son Bias in the US: Evidence from Business Names},
+            pdfauthor={Guillioli, Walter and Sood, Gaurav},
+            pdfborder={0 0 0},
+            breaklinks=true}
+\urlstyle{same}  % don't use monospace font for urls
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx,grffile}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+\IfFileExists{parskip.sty}{%
+\usepackage{parskip}
+}{% else
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+}
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{0}
+% Redefines (sub)paragraphs to behave more like sections
+\ifx\paragraph\undefined\else
+\let\oldparagraph\paragraph
+\renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+\let\oldsubparagraph\subparagraph
+\renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+
+%%% Use protect on footnotes to avoid problems with footnotes in titles
+\let\rmarkdownfootnote\footnote%
+\def\footnote{\protect\rmarkdownfootnote}
+
+%%% Change title format to be more compact
+\usepackage{titling}
+
+% Create subtitle command for use in maketitle
+\providecommand{\subtitle}[1]{
+  \posttitle{
+    \begin{center}\large#1\end{center}
+    }
+}
+
+\setlength{\droptitle}{-2em}
+
+  \title{Son Bias in the US: Evidence from Business Names}
+    \pretitle{\vspace{\droptitle}\centering\huge}
+  \posttitle{\par}
+    \author{Guillioli, Walter and Sood, Gaurav}
+    \preauthor{\centering\large\emph}
+  \postauthor{\par}
+      \predate{\centering\large\emph}
+  \postdate{\par}
+    \date{1/15/2020}
+
+
+\begin{document}
+\maketitle
+
+\hypertarget{abstract}{%
+\subsection{Abstract}\label{abstract}}
+
+Do we want one? Maybe write at the end.
+
+\hypertarget{introduction}{%
+\subsection{1. Introduction}\label{introduction}}
+
+NEEDS WORK. Will write at the end. We estimate preference for passing on
+businesses to sons by examining how common words son and sons are
+compared to daughter and daughters in the names of businesses. intro. =
+bias against women is common one way bias manifests itself is that
+people are less likely to transfer their businesses to their daughters
+we exploit a novel publicly available administrative source of data
+
+\hypertarget{data-and-methods-overview}{%
+\subsection{2. Data and Methods
+Overview}\label{data-and-methods-overview}}
+
+Our data acquisision process is divided in two steps which are briefly
+explained below.
+
+\hypertarget{acquire-business-names-across-us-states}{%
+\subsubsection{2.1 Acquire Business Names across US
+states}\label{acquire-business-names-across-us-states}}
+
+In the United States, businesses have to register with their state and
+all states provide a website to search for business names. The
+functionality of these websites vary by state which made the data
+acquisition harder. We began by searching for businesses with the words
+son(s) and daughter(s) on their names. These wasn't a trivial process
+for several reasons and some are worth highlighting here along with the
+solution.
+
+\hypertarget{a-search-results-for-sons-are-inflated}{%
+\paragraph{a) Search results for son(s) are
+inflated}\label{a-search-results-for-sons-are-inflated}}
+
+Search results for son(s) are inflated mainly for three reasons. (a) son
+is part of many English words, from names such as Jason and Robinson to
+ordinary English words like mason (which can also be a name), (b) son is
+a Korean name and (c) some businesses use the word son playfully; for
+instance, son is a homonym of sun and some people use that to create
+names like son of a beach. We address (a) by cleaning the data using
+regular expressions to only look for exact matches of son and sons.
+
+\hypertarget{b-limits-in-the-number-of-results-shown}{%
+\paragraph{b) Limits in the number of results
+shown}\label{b-limits-in-the-number-of-results-shown}}
+
+Some states limit the number of search results. For example, Alabama
+only displays up to 1,000 results. This is tricky because we know there
+are at least 1,000 companies with son(s) on their name but we don't know
+how many. In this case we can only derive a conservative estimate for
+the ratio of companies with son vs daughter and we note that on the
+results. In order to increase the number of samples in this case we do
+two searches, one for son and one for sons. we then combine the results
+knowing there might be some overlap but we dedup these before the
+analysis.
+
+\hypertarget{c-technological-challenges-in-data-acquisition}{%
+\paragraph{c) Technological challenges in data
+acquisition}\label{c-technological-challenges-in-data-acquisition}}
+
+The technologies used for these websites is different. In some cases we
+are able to simply copy and paste the results to our computer for
+analysis. But in other cases more sophisticated scrapping tools were
+built to parse and download the data using packages like rvest in R and
+selenium in Python.
+
+After acquirign the number of companies with the word son(s) and
+daughter(s) on their names we calcualted the son/daughter ratio which is
+the estimate of most concern in this paper.
+
+\hypertarget{additional-state-information}{%
+\subsubsection{2.2 Additional State
+Information}\label{additional-state-information}}
+
+Additionaly, we enriched our dataset by acquiring state data from other
+sources to profile the results. These new attributes include: US Region
+of the state, US Division of the state, population of the state, GPD of
+the state, political party of the state and number of establishments on
+each state. The sources are identified in the References section of this
+paper.
+
+\hypertarget{final-dataset-used-in-analysis}{%
+\subsubsection{2.3 Final Dataset used in
+Analysis}\label{final-dataset-used-in-analysis}}
+
+Due to the challenges outlined above some care is needed when
+interpreting the results. All in all, we were able to acquire data for
+36 states. Though not all 50 states were covered we believe we have a
+good representation of the United States since these 36 states represent
+69.9\% of the US population, 71.2\% of the US GDP and 71.\% of the
+registered establishments.
+
+The data and scripts used are posted here:
+\url{https://github.com/soodoku/sonny_side}
+
+A sample of the final dataset used for analysis is displayed here:
+
+NOTE: This table looks horrible. See if I can do stargazer package here?
+
+\begin{verbatim}
+##          Name estimate  son daughter    Region           Division
+## 1     Alabama        7  884      126     South East South Central
+## 2      Alaska       11  246       22      West            Pacific
+## 4    Arkansas       17 1482       87     South West South Central
+## 5  California       24 3609      150      West            Pacific
+## 7 Connecticut       20  875       43 Northeast        New England
+## 9     Florida        4  729      176     South     South Atlantic
+##   popestimate2019pct presidentialelection2016 gdp_pct establishments_pct
+## 1        0.014937826               Republican   0.011        0.012836617
+## 2        0.002228693               Republican   0.003        0.002716876
+## 4        0.009193908               Republican   0.006        0.008457416
+## 5        0.120376189               Democratic   0.145        0.118909506
+## 7        0.010861846               Democratic   0.013        0.011525938
+## 9        0.065433123               Republican   0.051        0.070408815
+\end{verbatim}
+
+Question for Gaurav -- do we want to do some univariate EDA and
+description? I doubt it.
+
+\hypertarget{results}{%
+\subsection{3. Results}\label{results}}
+
+In all, we find that a conservative estimate of son to daughter ratio is
+between 2 to 1 to 72 to 1 across the 36 states where we have data with a
+median of 12 to 1. This is displayed in the figure below.
+
+\includegraphics{sonny_side_files/figure-latex/unnamed-chunk-3-1.pdf}
+
+NOTE: If the above feels too busy we could show the top 10 only like
+this:
+
+\includegraphics{sonny_side_files/figure-latex/unnamed-chunk-4-1.pdf}
+
+We know proceed to explore how these results vary by location of the
+state in the United States, by the state population and political party
+and by its GDP and number of bueinsss establishments.
+
+NOTE: I CAN BRING \% OF MAILES VS FEMALES IN STATE TO SEE IF ANYTHING
+THERE? OR OTHER VARIABLES TO CORRELATE. MAYBE LATER.
+
+\hypertarget{differences-by-us-region}{%
+\subsubsection{3.1 Differences by US
+Region}\label{differences-by-us-region}}
+
+When we look at the estimate of son to daughter ratio by Region in USA
+we see states in the Midwest and Northeast with higher ratios when
+comparing to the West and particularly the South.The biggest gap is
+Midwest vs South with a median ratio of 24.0 vs 5.5 respectively.
+
+\includegraphics{sonny_side_files/figure-latex/unnamed-chunk-6-1.pdf}
+
+\hypertarget{relationship-with-the-population-size-of-the-state}{%
+\subsubsection{3.2 Relationship with the Population size of the
+State}\label{relationship-with-the-population-size-of-the-state}}
+
+When we look at the estimate ratio of son vs daughter with the
+population fo the state we don't see any relationship between these data
+points. In fact the correlation if basically zero as seen belown.
+
+\includegraphics{sonny_side_files/figure-latex/unnamed-chunk-8-1.pdf}
+
+\hypertarget{relationship-with-the-gdp-of-the-state}{%
+\subsubsection{3.3 Relationship with the GDP of the
+State}\label{relationship-with-the-gdp-of-the-state}}
+
+We also looked at how the differences of the ratio of business names
+using son vs daughter could vary by state as it relates to the size of
+the state in terms of percentage of the gross domesic product (GDP) of
+the country. We didn't find any evidence of relationship between these
+two with a correlation of basically zero, as seen in this figure.
+
+\includegraphics{sonny_side_files/figure-latex/unnamed-chunk-10-1.pdf}
+
+\hypertarget{relationship-with-the-number-of-establishments-of-the-state}{%
+\subsubsection{3.4 Relationship with the number of Establishments of the
+State}\label{relationship-with-the-number-of-establishments-of-the-state}}
+
+We also obtained data from the census organization from US that offers
+the number of registered establishments in the USA, this is not
+necesarily the same as the number of business companies registered per
+state but since obtaining that exact number wasn't not possible we use
+this as a proxy. Again, no evidence or correlation is seen per figure
+below.
+
+\includegraphics{sonny_side_files/figure-latex/unnamed-chunk-12-1.pdf}
+
+\hypertarget{relationship-with-the-major-political-party-of-the-state}{%
+\subsubsection{3.5 Relationship with the major Political Party of the
+State}\label{relationship-with-the-major-political-party-of-the-state}}
+
+Finally we looked at the voting data from the 2016 elections and compare
+how the ratio of son vs daughter is when separating states with a
+majority of Democratics vs Republicans. As can be seen below the ratio
+tends to be higher on Democratics states with a median of 17 vs a median
+of 11 for Republican states.
+
+\includegraphics{sonny_side_files/figure-latex/unnamed-chunk-14-1.pdf}
+
+\hypertarget{conclusion}{%
+\subsection{4. Conclusion}\label{conclusion}}
+
+There is clearly an inclination to name businesses including the word
+son(s) vs daughter(s). We found evidence for 36 states that that a
+conservative estimate of son to daughter ratio is between 2 to 1 to 72
+to 1 across the 36 states where we have data with a median of 12 to 1.
+Despite not having data for 50 states we feel this is a good
+representation of the whole country since these 36 states represent
+69.9\% of the US population, 71.2\% of the US GDP and 71.\% of the
+registered establishments.
+
+Although we didn't find any relatioship with the size of the states in
+terms of GDP, population or number of establishments we do see some
+differences across regions and political parties dominating the state.
+We cannot conclude any causality because of this but further exploration
+is recommended.
+
+\hypertarget{references}{%
+\subsection{References}\label{references}}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  Kingl, Arvid. Web Scraping in R: rvest Tutorial.
+  \url{https://www.datacamp.com/community/tutorials/r-web-scraping-rvest}
+\item
+  Halpert, Chris. US census bureau regions and divisions.
+  \url{https://github.com/cphalpert/census-regions/}
+\item
+  United States Census Bureau. State Population Totals and Components of
+  Change: 2010-2019.
+  \url{https://www.census.gov/data/tables/time-series/demo/popest/2010s-state-total.html}
+\item
+  Wikipedia contributors. (2020, January 13). Political party strength
+  in U.S. states. In Wikipedia, The Free Encyclopedia. Retrieved 03:11,
+  January 20, 2020, from
+  \url{https://en.wikipedia.org/w/index.php?title=Political_party_strength_in_U.S._states\&oldid=935536430}
+\item
+  United States Census Bureau. SUSB Historical Data.
+  \url{https://www.census.gov/data/tables/time-series/econ/susb/susb-historical.html}
+\item
+  Kaushik, Saurav. Beginner's Guide on Web Scraping in R (using rvest)
+  with hands-on example.
+  \url{https://www.analyticsvidhya.com/blog/2017/03/beginners-guide-on-web-scraping-in-r-using-rvest-with-hands-on-knowledge/}
+\end{enumerate}
+
+\hypertarget{appendix}{%
+\subsection{Appendix}\label{appendix}}
+
+\hypertarget{appendix-a---states-with-number-of-companies-found-with-word-son-and-daughter-and-ratio}{%
+\subsubsection{Appendix A - States with number of companies found with
+word son and daughter and
+ratio}\label{appendix-a---states-with-number-of-companies-found-with-word-son-and-daughter-and-ratio}}
+
+NOTE: add column indicating which is super conservative based on limit
+for search and why.
+
+NOTE: table looks bad, stargazer package maybe?
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{d[,}\KeywordTok{c}\NormalTok{(}\StringTok{"Name"}\NormalTok{,}\StringTok{"estimate"}\NormalTok{,}\StringTok{"son"}\NormalTok{,}\StringTok{"daughter"}\NormalTok{)]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##              Name estimate    son daughter
+## 1         Alabama        7  884.0      126
+## 2          Alaska       11  246.0       22
+## 4        Arkansas       17 1482.0       87
+## 5      California       24 3609.0      150
+## 7     Connecticut       20  875.0       43
+## 9         Florida        4  729.0      176
+## 10        Georgia       12 6002.0      497
+## 11         Hawaii       17 1454.0       88
+## 12          Idaho        2   60.0       39
+## 13       Illinois       48 2324.0       48
+## 14        Indiana       25 4928.0      195
+## 16         Kansas        5   75.0       14
+## 17       Kentucky        4   66.0       16
+## 20       Maryland        2  128.0       82
+## 21  Massachusetts       41 5979.0      147
+## 22       Michigan       24 2265.0       93
+## 23      Minnesota        2  392.0      213
+## 24    Mississippi       12 1918.0      165
+## 26        Montana        4  240.0       66
+## 28         Nevada       72 1440.0       20
+## 29  New Hampshire       27 3203.0      119
+## 30     New Jersey        2  173.0       73
+## 32       New York        2 1190.0      745
+## 34   North Dakota       26  605.0       23
+## 35           Ohio       26 2550.0      100
+## 37         Oregon        4 1000.0      227
+## 39   Rhode Island       17  206.0       12
+## 40 South Carolina       69 4083.3       59
+## 41   South Dakota       12  129.0       11
+## 42      Tennessee        2  203.0      132
+## 44           Utah        5   81.0       16
+## 45        Vermont       22 1361.0       63
+## 47     Washington       15 2424.0      161
+## 48  West Virginia        2  128.0       72
+## 49      Wisconsin       20  845.0       43
+## 50        Wyoming       11  238.0       21
+\end{verbatim}
+
+
+\end{document}

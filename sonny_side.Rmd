@@ -2,7 +2,9 @@
 title: 'Son Bias in the US: Evidence from Business Names'
 author: "Guillioli, Walter and Sood, Gaurav"
 date: "1/15/2020"
-output: html_document
+output:
+  html_document: default
+  pdf_document: default
 ---
 
 ```{r setup, include=FALSE}
@@ -16,6 +18,8 @@ setwd("C:/Users/wguil/OneDrive/Documents/GitHub/sonny_side/")
 
 #Load R packages
 library(tidyverse)
+library(tinytex)
+library(latexpdf)
 
 ```
 
