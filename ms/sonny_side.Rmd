@@ -1,10 +1,10 @@
 ---
 title: 'Son Bias in the US: Evidence from Business Names'
-author: "Guillioli, Walter and Sood, Gaurav"
-date: "1/15/2020"
+author: "Walter Guillioli and Gaurav Sood"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
 output:
-  html_document: default
   pdf_document: default
+  html_document: default
 ---
 
 ```{r setup, include=FALSE}
@@ -13,9 +13,6 @@ knitr::opts_chunk$set(echo = TRUE)
 #Clean R environment
 rm(list = ls())
 
-#Set working directory
-setwd("C:/Users/wguil/OneDrive/Documents/GitHub/sonny_side/")
-
 #Load R packages
 library(tidyverse)
 library(tinytex)
@@ -23,44 +20,41 @@ library(latexpdf)
 
 ```
 
-
-
-
 ```{r data, include=FALSE}
 #Load CSV file from Excel with data collected for the states
-d <- read.csv("states-work-tracker.csv", stringsAsFactors = FALSE)
+d <- read.csv("../states-work-tracker.csv", stringsAsFactors = FALSE)
 str(d)
 summary(d)
 table(d$Status, useNA = "always") #36 states are done as expected
-d <- d[,c(2:7)] #drop raw and unneeded cols
+d <- d[, c(2:7)] #drop raw and unneeded cols
 head(d)
 
 #Load CSV with region and division for each state
-regions <- read.csv("./data/_states/states_region_division.csv", stringsAsFactors = FALSE)
-regions <- regions[,-c(2)] #drop state code
+regions <- read.csv("../data/_states/states_region_division.csv", stringsAsFactors = FALSE)
+regions <- regions[, -c(2)] #drop state code
 
 #Load CSV with population estimate by state
-pop <- read.csv("./data/_states/nst-est2019-alldata.csv", stringsAsFactors = FALSE)
+pop <- read.csv("../data/_states/nst-est2019-alldata.csv", stringsAsFactors = FALSE)
 pop <- pop[pop$STATE != 0 & pop$STATE != 72,] #Excluse summary rows and Puerto Rico from file
 pop <- pop[,c("NAME","POPESTIMATE2019")] #Keep only columns of interest (state name and 2019 population)
 sum(pop$POPESTIMATE2019) #328.2M is estimated population
 pop$popestimate2019pct <- pop$POPESTIMATE2019 / sum(pop$POPESTIMATE2019) 
 
 #Load CSV with political party winnining 2016 election
-party <- read.csv("./data/_states/presidential_election.csv", stringsAsFactors = FALSE)
+party <- read.csv("../data/_states/presidential_election.csv", stringsAsFactors = FALSE)
 
 #Load CSV with GDP by state
-gdp <- read.csv("./data/_states/gdp_by_state.csv", stringsAsFactors = FALSE)
+gdp <- read.csv("../data/_states/gdp_by_state.csv", stringsAsFactors = FALSE)
 gdp <- gdp[,-c(1)] #remove rank column
 gdp$State <- trimws(gdp$State) #remove white space from name
 gdp$gdp_pct <- gdp$gdp_pct / 100 #make it as actual pct
 #gdp$gdp_mm <- as.integer(gdp$gdp_mm)
 
 #Load US Census data for # of businesses per state
-census <- read.csv("./data/_states/us_census_firms_2016.csv", stringsAsFactors = FALSE)
+census <- read.csv("../data/_states/us_census_firms_2016.csv", stringsAsFactors = FALSE)
 census <- census[census$employment_size == "01:  Total",] #Keep only row with total per area/state
 census$establishments_pct <- census$establishments_num / 7757807 #% of establishments in US
-census <- census[,c("area", "establishments_num", "establishments_pct")] #Keep only columns of interest
+census <- census[, c("area", "establishments_num", "establishments_pct")] #Keep only columns of interest
 
 #Merge/Join data to have one master dataset
 d <- merge(d, regions, by.x = "Name", by.y = "State", all.x = TRUE)
@@ -122,7 +116,7 @@ A sample of the final dataset used for analysis is displayed here:
 NOTE: This table looks horrible. See if I can do stargazer package here?
 
 ```{r, echo=FALSE }
-head(d[,c("Name", "estimate", "son", "daughter","Region","Division","popestimate2019pct", "presidentialelection2016", "gdp_pct", "establishments_pct")])
+head(d[, c("Name", "estimate", "son", "daughter","Region","Division","popestimate2019pct", "presidentialelection2016", "gdp_pct", "establishments_pct")])
 ```
 
 Question for Gaurav -- do we want to do some univariate EDA and description? I doubt it.
@@ -280,7 +274,7 @@ Although we didn't find any relatioship with the size of the states in terms of 
 
 5. United States Census Bureau. SUSB Historical Data. https://www.census.gov/data/tables/time-series/econ/susb/susb-historical.html
 
-6. Kaushik, Saurav. Beginner’s Guide on Web Scraping in R (using rvest) with hands-on example. https://www.analyticsvidhya.com/blog/2017/03/beginners-guide-on-web-scraping-in-r-using-rvest-with-hands-on-knowledge/
+6. Kaushik, Saurav. Beginner's Guide on Web Scraping in R (using rvest) with hands-on example. https://www.analyticsvidhya.com/blog/2017/03/beginners-guide-on-web-scraping-in-r-using-rvest-with-hands-on-knowledge/
 
 ## Appendix
 
@@ -288,7 +282,8 @@ Although we didn't find any relatioship with the size of the states in terms of 
 NOTE: add column indicating which is super conservative based on limit for search and why.
 
 NOTE: table looks bad, stargazer package maybe?
-```{r}
-d[,c("Name","estimate","son","daughter")]
+
+```{r, echo = F}
+d[, c("Name","estimate","son","daughter")]
 ```
 
