@@ -73,13 +73,14 @@ summary(d)
 ```
 
 ## 1. Introduction
-We explore bias and preference for business owners in the United States to inherit their businesses to their sons instead of their daughters. We do this by examining how common words "son(s)" compare to "daughter(s)" in the names of businesses.
+We explore preference for sons by looking at data among business owners in the United States to inherit their businesses to their sons instead of their daughters. We do this by examining how common words "son(s)" compare to "daughter(s)" in the names of businesses.
 
-To do this, we collect the information that states in the United States have available online as it relates to businesses already registered in the state. This process is not trivial since all the states have different ways and rules for searching this data, and in some cases obtaining all the data is impossible. 
+To do this, we collect data on registered businesses that states make available online. The process is not trivial as each state has a different interface for searching this data and different limits on what you can search for. In many cases, states do not allow for us to get all the data. 
 
-Once we collect the companies using the words son(s) and daughter(s), we estimate a ratio of these two numbers to measure the son to daughter bias per state. Finally, these data are correlated with other metrics in the state like GDP, population, geographic location, and political majority.
+Once we collect the companies using the words son(s) and daughter(s), we estimate a ratio of these two numbers to measure the son to daughter bias per state. Finally, we plot the ration against state like GDP, population, geographic location, and political majority.
 
 ## 2. Data and Methods Overview
+
 Our data acquisision process is divided in two steps which are briefly explained below.
 
 ### 2.1 Acquire Business Names across US states
