@@ -113,46 +113,8 @@ Scripts for addressing the first concern.
 
 3. For links to [all 50 SoS Business Entity Search Links](https://www.llcuniversity.com/50-secretary-of-state-sos-business-entity-search/)
 
-**By State**
+4. Other notes are [here](states-work-tracker.csv)
 
-* [AL](https://www.sos.alabama.gov/government-records/business-entity-records)
-    - caps returns at 1000.
+### Authors
 
-* [CA](https://businesssearch.sos.ca.gov/)
-    - gives the number of results. 
-    - you need to do separate searches for corporations and llc. 
-
-* [CT](https://www.concord-sots.ct.gov/CONCORD/online?sn=PublicInquiry&eid=9740)
-
-* [HI](https://hbe.ehawaii.gov/documents/search.html)
-    - gives counts but returns only 300. 
-    - problematic regex search as counts words with son in them and funny things like 'son of a beach'
-
-* [ID](https://sosbiz.idaho.gov/search/business)
-    - regex used: `.*_son(s)_.*` and `.*_daughter(s)_.*`
-
-* [MI](https://cofs.lara.state.mi.us/SearchApi/Search/Search)
-    - keyword search
-    - returns number of results
-
-* [MT](https://sosmt.gov/business/)
-    - offers downloadable list
-    - doesn't do a good regex search. need to run regex.
-
-* [NV](https://esos.nv.gov/EntitySearch/OnlineEntitySearch)
-    - pop-up tells us the number of search results if search results > 500
-
-* [OR](http://egov.sos.state.or.us/br/pkg_web_name_srch_inq.login)
-    - max results capped at 1000
-    - can copy and paste easily
-
-* [PA](https://www.corporations.pa.gov/Search/corpsearch) 
-    - doesn't seem to allow for exhaustive search
-
-* [WA](https://ccfs.sos.wa.gov/#/)
-    - gives the full list of results. downloadable.
-
-* [WI](https://www.wdfi.org/apps/CorpSearch/Advanced.aspx?type=Simple&q=son)
-    - Searches for "son" as a separate word.
-    - Had to do multiple searches---breaking by time---for son as results > 500
-
+Walter Guillioli and Gaurav Sood
