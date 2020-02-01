@@ -40,7 +40,7 @@ regions <- regions[, -c(2)] #drop state code
 #Load CSV with population estimate by state
 pop <- read.csv("../data/_states/nst-est2019-alldata.csv", stringsAsFactors = FALSE)
 pop <- pop[pop$STATE != 0 & pop$STATE != 72,] #Excluse summary rows and Puerto Rico from file
-pop <- pop[,c("NAME","POPESTIMATE2019")] #Keep only columns of interest (state name and 2019 population)
+pop <- pop[, c("NAME","POPESTIMATE2019")] #Keep only columns of interest (state name and 2019 population)
 sum(pop$POPESTIMATE2019) #328.2M is estimated population
 pop$popestimate2019pct <- pop$POPESTIMATE2019 / sum(pop$POPESTIMATE2019) 
 
@@ -153,8 +153,8 @@ ggplot(d, aes(x = estimate, y = reorder(Name, estimate))) +
 	#scale_x_continuous(limits = c(0, 75),
 	#	breaks = seq(0, 75, 5)) +
 	xlab("\nRatio") +
-	ylab("State Name\n") +
-	ggtitle("Figure 1: Ratio of company names using word 'son' vs 'daughter'")
+	ylab("") +
+	ggtitle("Figure 1: Ratio of company names with the word 'son' to 'daughter'")
 
 #Dot Plot of all states with estimate data
 #ggplot(d, aes(x = estimate, y = reorder(Name, estimate))) +#
@@ -163,7 +163,7 @@ ggplot(d, aes(x = estimate, y = reorder(Name, estimate))) +
 #		breaks = seq(0, 75, 5)) +
 #	xlab("\nRatio") +
 #	ylab("State Name\n") +
-#	ggtitle("Ratio of company names using word 'son' vs 'daughter'")
+#	ggtitle("Ratio of company names with the word 'son' to 'daughter'")
 
 
 
