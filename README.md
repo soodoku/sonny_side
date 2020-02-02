@@ -5,9 +5,8 @@ Are American businesses with the word "son(s)" more common than the word "daught
 ### Data, Scripts, Manuscript
 
 * [Data](data/)
-    - Searched on 11/10/2019 or later
     - [All 50 SoS Business Entity Search Links](https://www.llcuniversity.com/50-secretary-of-state-sos-business-entity-search/)
-    - Misc. notes on the data are posted [here](states-work-tracker.csv)
+    - [Misc. notes on the data](states-work-tracker.csv)
 
 * [Scripts](scripts/)
     - The ipython notebooks are for states where we needed to use a Selenium scraper. The R script is the analysis script. 
