@@ -4,6 +4,9 @@ author: "Walter Guillioli and Gaurav Sood"
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 output:
   pdf_document: default
+header-includes:
+- \usepackage{booktabs}
+- \usepackage{makecell}
 ---
 
 ## 1. Introduction
@@ -35,9 +38,9 @@ knitr::opts_chunk$set(echo = TRUE)
 
 #Load R packages
 library(tidyverse)
-library(tinytex)
-library(latexpdf)
+library(rmarkdown)
 library(knitr)
+library(kableExtra)
 ```
 
 ```{r data, include=FALSE}
@@ -98,11 +101,14 @@ sum(d$establishments_pct) #71.1%
 Table 1 shows a sample of 10 states from the final dataset used for analysis. 
 
 ```{r summary, echo=FALSE}
-
 cols2print <- c("Name", "estimate", "Region", "popestimate2019pct", "gdp_pct", "establishments_pct", "presidentialelection2016")
 colnames2print <- c("State", "Ratio", "US Region", "Population", "GDP", "Establishments", "Political Party")
 
-kable(d[, cols2print], row.names = FALSE, digits =3, col.names = colnames2print, caption = "Table 1: Summary of the Data", format = "latex")
+kable(d[, cols2print], row.names = FALSE, digits =3, 
+     col.names = colnames2print,
+     caption = "Summary of the Data",
+     format = "latex",
+     booktabs = T)
 ```
 ## 3. Results
 In all, as shown in Figure 1 we find that a conservative estimate of son to daughter ratio is between 2:1 to 72:1 across the 36 states where we have data with a median of 12:1. 
@@ -203,7 +209,8 @@ colnames2print <- c("State", "Son/Daughter",
                     "Companies w/ 'son'", "Companies w/ 'daughter'", 
                     "Conservative")
 
-kable(d[, cols2print], row.names = FALSE, digits =0, col.names = colnames2print, format = "latex")
+kable(d[, cols2print], row.names = FALSE, digits =0, col.names = colnames2print, format = "latex",
+     booktabs = T)
 ```
 
 ### Estimate of son to daughter ratio vs GDP % of US
