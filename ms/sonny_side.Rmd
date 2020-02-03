@@ -22,13 +22,11 @@ header-includes:
 - \usepackage{xcolor}
 ---
 
-## 1. Introduction
-
 Are American businesses with the word "son(s)" more common than the word "daughter(s)"? To answer the question, we assemble data on business names. In the US, businesses are registered with the state. And to allow businesses to check whether a particular name is taken, etc., each state provides a way to search for business names. But most states do not allow for sophisticated searches or return all the relevant search results. Because of these reasons, we can only estimate a very conservative lower bound. In all, based on data from 40 states, across states, the median ratio of businesses with the word 'son(s)' in their name to the word 'daughter(s)' is 12:1. 
 
 When we split by region, we find that the son to daughter ratio is generally higher in the Northeast and the Midwest compared to the South and the West. Analysis by political preferences leaves that democratic majority states have higher ratios than republican majority states. Lastly, counter-intuitively, correlation with state GDP is weak.
 
-## 2. Data and Methods
+## Data and Methods
 
 In the United States, businesses have to register with a state. Each state provides a website to search for business names. But the functionality of these websites varies a lot. Some states do not return all the search results. Some only allow for particular regex searches---returning all the names that include the search term. We describe the concerns in further detail below, including how we address the challenges:
 
@@ -123,7 +121,7 @@ kable(d[, cols2print], row.names = FALSE, digits =3,
      format = "latex",
      booktabs = T)
 ```
-## 3. Results
+## Results
 In all, as shown in Figure 1 we find that a conservative estimate of son to daughter ratio is between 2:1 to 72:1 across the 36 states where we have data with a median of 12:1. 
 
 ```{r, echo=FALSE}
@@ -155,7 +153,7 @@ ggplot(d, aes(x = estimate, y = reorder(Name, estimate))) +
 ```
 
 
-### 3.1 Covariates of Son Bias
+### Covariates of Son Bias
 
 We now proceed to explore how these results vary by location of the state in the United States, by the state population and political party and by its GDP and number of busines establishments.
 
@@ -258,7 +256,7 @@ ggplot(d, aes(x=presidentialelection2016, y=estimate)) +
 
 ```
 
-## 4. Conclusion
+## Conclusion
 There is clearly an inclination to name businesses including the word son(s) vs daughter(s). We found evidence for 36 states that that a conservative estimate of son to daughter ratio is between 2 to 1 to 72 to 1 across the 36 states where we have data with a median of 12 to 1. Despite not having data for 50 states we feel this is a good representation of the whole country since these 36 states represent 69.9% of the US population, 71.2% of the US GDP and 71.% of the registered establishments. 
 
 Although we didn't find any relatioship with the size of the states in terms of GDP, population or number of establishments we do see some differences across regions and political parties dominating the state. We cannot conclude any causality because of this but further exploration is recommended.
