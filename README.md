@@ -1,6 +1,6 @@
 ## Son Bias in the US: Evidence from Business Names
 
-Are American businesses with the word "son(s)" more common than the word "daughter(s)"? To answer the question, we assemble data on business names. In the US, businesses are registered with the state. And to allow businesses to check whether a particular name is taken, etc., each state provides a way to search for business names. But most states do not allow for sophisticated searches or return all the relevant search results. Because of these reasons, we can only estimate a very conservative lower bound. In all, based on data from 40 states, across states, the median ratio of businesses with the word 'son(s)' in their name to the word 'daughter(s)' is 12:1.
+Are American businesses with the word "son(s)" more common than the word "daughter(s)"? To answer the question, we assemble data on business names. In the US, businesses are registered with the state. And to allow businesses to check whether a particular name is taken, etc., each state provides a way to search for business names. But most states do not allow for sophisticated searches or return all the relevant search results. Because of these reasons, we can only estimate a very conservative lower bound. In all, based on data from 36 states, across states, the median ratio of businesses with the word 'son(s)' in their name to the word 'daughter(s)' is 12:1.
 
 ### Data, Scripts, Manuscript
 
