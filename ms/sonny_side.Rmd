@@ -22,6 +22,7 @@ header-includes:
 - \usepackage[normalem]{ulem}
 - \usepackage{makecell}
 - \usepackage{xcolor}
+- \floatplacement{figure}{H}
 ---
 
 Are American businesses with the word "son(s)" more common than the word "daughter(s)"? To answer the question, we assemble data on business names. In the US, businesses are registered with the state. And to allow businesses to check whether a particular name is taken, etc., each state provides a way to search for business names. But most states do not allow for sophisticated searches or return all the relevant search results. Because of these reasons, we can only estimate a very conservative lower bound. In all, based on data from 40 states, across states, the median ratio of businesses with the word 'son(s)' in their name to the word 'daughter(s)' is 12:1. 
@@ -158,9 +159,37 @@ ggplot(d, aes(x = estimate, y = reorder(Name, estimate))) +
 
 ### Covariates of Son Bias
 
-We now proceed to explore how these results vary by location of the state in the United States, by the state population and political party and by its GDP and number of busines establishments.
+We begin our investigatation with whether the son to daughter ratio varies by population of the state or number of businesses in the state. We do this as a way to assess the generalizability of our result. The upshot is that the ratio doesn't varies in any systematic way by state population (see Figure 2) or by number of establishments---a proxy of total number of businesses in a state (see Figure 3).
 
-a) **Differences by US Region**: When we look at the estimate of son to daughter ratio by Region in USA we see states in the Midwest and Northeast with higher ratios when comparing to the West and particularly the South. Figure 2 shows the biggest gap is Midwest vs South with a median ratio of 24:1 vs 5:1 respectively.
+
+```{r, echo=FALSE, fig.cap = "Estimate of son to daughter ratio vs % of US population per state"}
+ggplot(d, aes(x=estimate, y=popestimate2019pct)) + 
+  cust_theme +
+  geom_point(color = "#555555") +
+  labs(x="\nEstimate of son to daughter ratio",
+  y="\nPercentage of US population in State\n")
+```
+
+```{r, include=FALSE}
+cor(d$POPESTIMATE2019, d$estimate)
+cor(d$popestimate2019pct, d$estimate)
+```
+
+```{r, echo=FALSE, fig.cap = "Estimate of son to daughter ratio vs # of Establishments"}
+ggplot(d, aes(x=estimate, y=establishments_pct)) + 
+  cust_theme +
+  geom_point(color = "#555555") +
+  labs(x="\nEstimate of son to daughter ratio",y="\nEstablishments\n")
+```
+
+```{r, include=FALSE}
+cor(d$establishments_num, d$estimate)
+cor(d$establishments_pct, d$estimate)
+```
+
+Next, we assess whether the ratio of son to daughter in business names varies by politics of the state. We get to the question in two different ways.
+
+a) **Region**: When we look at estimates of son to daughter ratio by region, states in the Midwest and Northeast generally have higher ratios than in the West and the South. Figure 4 shows the biggest gap is Midwest vs. South with a median ratio of 24:1 vs 5:1 respectively.
 
 ```{r, echo=FALSE, fig.cap = "Estimate of son to daughter ratio by US Region"}
 ggplot(d, aes(x=Region, y=estimate)) + 
@@ -176,53 +205,9 @@ table(d$Region)
 aggregate(estimate ~ Region, d, FUN = median)
 ```
 
-b) **Relationship with the Population size of the State**: When we look at the estimate ratio of son vs daughter with the population fo the state we don't see any relationship between these data points. In fact the correlation if basically zero as seen in Figure 3.
+b) **Political Inclination of the State**: We expect liberal states to have smaller ratios than more conservative states. To do that, we see how ratios compare between states where the Republicans won the presidential vote in 2016 than where the Democrats won.  Counterintuitively, the ratio tends to be higher in Democrat states, with a median of 17 vs. a median of 11 for Republican states  (see Figure 5).
 
-```{r, echo=FALSE, fig.cap = "Estimate of son to daughter ratio vs % of US population per state"}
-ggplot(d, aes(x=estimate, y=popestimate2019pct)) + 
-  cust_theme +
-  geom_point(color = "#555555") +
-  labs(x="\nEstimate of son to daughter ratio",
-  y="\nPercentage of US population in State\n")
-```
-
-```{r, include=FALSE}
-cor(d$POPESTIMATE2019, d$estimate)
-cor(d$popestimate2019pct, d$estimate)
-```
-
-c) **Relationship with the GDP of the State**: We also looked at how the differences of the ratio of business names using son vs daughter could vary by state as it relates to the size of the state in terms of percentage of the gross domesic product (GDP) of the country. We didn't find any evidence of relationship between these two with a correlation of basically zero. The chart is on the appendix B.
-
-```{r, echo=FALSE, fig.cap = "Estimate of son to daughter ratio vs GDP % of US"}
-ggplot(d, aes(x=estimate, y=gdp_pct)) + 
-  cust_theme +
-  geom_point(color = "#555555") +
-  labs(x="\nEstimate of son to daughter ratio",
-       y="\nGDP Percentage\n")  
-```
-
-```{r, include=FALSE}
-cor(d$gdp_mm, d$estimate)
-cor(d$gdp_pct, d$estimate)
-```
-
-d) **Relationship with the number of Establishments of the State**: We also obtained data from the census organization from US that offers the number of registered establishments in the USA, this is not necesarily the same as the number of business companies registered per state but since obtaining that exact number wasn't not possible we use this as a proxy. Again, no evidence or correlation is observed. The chart is on the appendix C.
-
-```{r, echo=FALSE, fig.cap = "Estimate of son to daughter ratio vs # of Establishments"}
-ggplot(d, aes(x=estimate, y=establishments_pct)) + 
-  cust_theme +
-  geom_point(color = "#555555") +
-  labs(x="\nEstimate of son to daughter ratio",y="\nEstablishments\n")
-```
-
-```{r, include=FALSE}
-cor(d$establishments_num, d$estimate)
-cor(d$establishments_pct, d$estimate)
-```
-
-e) **Relationship with the major Political Party of the State**: Finally we looked at the voting data from the 2016 elections and compare how the ratio of son vs daughter is when separating states with a majority of Democratics vs Republicans. The ratio tends to be higher on Democratics states with a median of 17 vs a median of 11 for Republican states - see appendix D.
-
-```{r, echo=FALSE, fig.caption = "Estimate of son to daughter ratio by mayority Political party (2016 elections)"}
+```{r, echo=FALSE, fig.cap = "Estimate of son to daughter ratio by majority Political party (2016 elections)"}
 ggplot(d, aes(x=presidentialelection2016, y=estimate)) + 
   cust_theme +
   geom_boxplot(color = "#555555") +
@@ -236,10 +221,20 @@ table(d$presidentialelection2016)
 aggregate(estimate ~ presidentialelection2016, d, FUN = median)
 ```
 
-## Conclusion
-There is clearly an inclination to name businesses including the word son(s) vs daughter(s). We found evidence for 36 states that that a conservative estimate of son to daughter ratio is between 2 to 1 to 72 to 1 across the 36 states where we have data with a median of 12 to 1. Despite not having data for 50 states we feel this is a good representation of the whole country since these 36 states represent 69.9% of the US population, 71.2% of the US GDP and 71.% of the registered establishments. 
+Lastly, we investigate whether the ratio varies by income. We expect rich states to have smaller ratios than poorer states with the hypothesis that wealth is correlated with liberal attitudes. As Figure 6 shows, the relationship is weak. 
 
-Although we didn't find any relatioship with the size of the states in terms of GDP, population or number of establishments we do see some differences across regions and political parties dominating the state. We cannot conclude any causality because of this but further exploration is recommended.
+```{r, echo=FALSE, fig.cap = "Estimate of son to daughter ratio vs GDP % of US"}
+ggplot(d, aes(x=estimate, y=gdp_pct)) + 
+  cust_theme +
+  geom_point(color = "#555555") +
+  labs(x="\nEstimate of son to daughter ratio",
+       y="\nGDP Percentage\n")  
+```
+
+```{r, include=FALSE}
+cor(d$gdp_mm, d$estimate)
+cor(d$gdp_pct, d$estimate)
+```
 
 \newpage
 ## References
