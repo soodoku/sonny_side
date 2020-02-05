@@ -1,53 +1,53 @@
 Num,Name,Abbreviation,Status, estimate ,son,daughter,Daughter_search,Son_search,Comments,conservative_flag
-1,Alabama,AL,Gaurav did,7,884,126,,,"AL returns at max. 1000 results. Results for son(s) are over a 1000. But when you apply regex to the 1,000, 884 come up as true positive. So the most conservative son:daughter ratio is 4.",Yes
-2,Alaska,AK,Done,11,246,22,I copy pasted and did regex,Gaurav grabbed data with selenium. I did estimates and cleaning in R,,
+1,Alabama,AL,Done,7,884,126,,,"AL returns at max. 1000 results. Results for son(s) are over a 1000. But when you apply regex to the 1,000, 884 come up as true positive. So the most conservative son:daughter ratio is 4.",Yes
+2,Alaska,AK,Done,11,246,22,I copy pasted and did regex,,,
 3,Arizona,AZ,Can't be Done,,,,163 companies in 9 pages - need spider,Your Search Criteria returns 43783 results which is more than 500 results. Need to figure out how to get 500 son and then spider,Need to figure out how to create customized URL to use rvest - help!,
-4,Arkansas,AR,Done,17,1482,87,"91 records found, copied into csv. ",Gaurav pulled with rvest loop and I calculated,,
-5,California,CA,Gaurav did,24,3609,150,,,CA returns a max. of 500 results. But it gives you total results (3609 vs. 150). We download the 500 results for son(s) and apply the regex. 499 come up as true positive. So the most conservative son:daughter ratio is 24.,Yes
+4,Arkansas,AR,Done,17,1482,87,"91 records found, copied into csv. ",,,
+5,California,CA,Done,24,3609,150,,,CA returns a max. of 500 results. But it gives you total results (3609 vs. 150). We download the 500 results for son(s) and apply the regex. 499 come up as true positive. So the most conservative son:daughter ratio is 24. Gives the number of results. You need to do separate searches for corporations and llc.,Yes
 6,Colorado,CO,Can't be Done,,,,Need spider - Found 309 matching record(s).  Viewing page 1 of 16.,Only works with searches of 500 or less results so need to trim/hack. Results in 30 pages so need spider,I do get URL to crawl but get nothing in R. not sure why? See R for code and links.,
 7,Connecticut,CT,Done,20,875,43,Found 27 with DAUGHTER* & 19 with *DAUGHTER. Copied easily to CSV,Found 679 with son* and 2954 with *son. Was able to relatively easy copy/paste in xls and then dedup in R,,
 8,Delaware,DE,Can't be Done,,,,Found 33 and are in csv ready for regex,Only gives 50 results per search so I got 100 (son & sons) search. I can't hack more results,CAUTION: Use carefuly since son is super under represented. I Just can't get more than 50 searches of son. 24/33 was result. Don't use cause misleading,
 9,Florida,FL,Done,4,729,176,9 links parsed with spider,100+ links parsed with spider,horrible excercse since links have to be hard coded. Use with CAUTION since only searches that start with daughter and son were allowed. Couldn't search for *daughter or *son unfortunately. Results are very partial.,Yes
-10,Georgia,GA,Done,12,6002,497,Walter copy/pasted 516 rows from 21 screens,Gaurav pulled with selenium ,,
-11,Hawaii,HI,Gaurav did,17,1454,88,,,"HI returns a max. of 300 results. But it gives you total results (10,641 vs. 88). We download the 300 results for son(s) and apply the regex. 41 come up as true positive. So adjusted estimate = (41/300)*10,641 = 1454. The most conservative son:daughter ratio is 17.",Yes
-12,Idaho,ID,Gaurav did,2,60,39,,,regex used: .*_son(s)_.* and .*_daughter(s)_.*,
-13,Illinois,IL,Done,48,2324,48,Walter copy/pasted from search,Gaurav did selenium ,,
-14,Indiana,IN,Done,25,4928,195,I copy pasted from 8 pages,Gaurav pulled with selenium and I calculated,,
-15,Iowa,IA,Blocked,,,,Could copy/paste but spider would be better - Results 1 - 25 of 74,"son capped at 1000 results, sons capped at 1000 resuts. Need Spider - Results 1 - 25 of 1000",Blocked. URLs are customized but randomly so don't know how to iterate withouth having to copy paste all of them. Tried one of the links in R and failed anyway. Walter can do it with lots of copy/pastes if there is not another option?,
+10,Georgia,GA,Done,12,6002,497,Walter copy/pasted 516 rows from 21 screens,,,
+11,Hawaii,HI,Done,17,1454,88,,,"HI returns a max. of 300 results. But it gives you total results (10,641 vs. 88). We download the 300 results for son(s) and apply the regex. 41 come up as true positive. So adjusted estimate = (41/300)*10,641 = 1454. The most conservative son:daughter ratio is 17. Gives counts but returns only 300. Problematic regex search as counts words with son in them and funny things like 'son of a beach'",Yes
+12,Idaho,ID,Done,2,60,39,,,regex used: .*_son(s)_.* and .*_daughter(s)_.*,
+13,Illinois,IL,Done,48,2324,48,Walter copy/pasted from search,,,
+14,Indiana,IN,Done,25,4928,195,I copy pasted from 8 pages,,,
+15,Iowa,IA,Can't be Done,,,,Could copy/paste but spider would be better - Results 1 - 25 of 74,"son capped at 1000 results, sons capped at 1000 resuts. Need Spider - Results 1 - 25 of 1000",Blocked. URLs are customized but randomly so don't know how to iterate withouth having to copy paste all of them. Tried one of the links in R and failed anyway. Walter can do it with lots of copy/pastes if there is not another option? ,
 16,Kansas,KS,Done,5,75,14,"15 records found, easily copied to csv",results capped at 400 so searched for son and sons and rbind - 450-ish (need to dedup before regex),,Yes
 17,Kentucky,KY,Done,4,66,16,"17 rows found, copied to csv","only allows 250 results and requires 4 characters. Sons return 75, ""son "" returns 249 so I rbind (324) them and them dedup before estimate",,Yes
 18,Louisiana,LA,Can't be Done,,,,"250 in 10 pages, need spider","Capped at 250 in 10 pages, need spider",This is very odd and wouldn't use it and caveat heavily. Search results are limited to 250 results and there are 250 with daugther and 250 for son so ratio is 1 but who knows what else exists is Louisiana,
 19,Maine,ME,Can't be Done,,,,53 found and copied to csv,Results capped at 100. So got 100 sons and 100 son then rbind and then dedup,45/52 was ratio but it's wrong since son is underrepresented,
 20,Maryland,MD,Done,2,128,82,"84 rows found, easily copied to csv","capped at 400, so rbind 400 son and 172 sons, then dedup",,Yes
 21,Massachusetts,MA,Done,41,5979,147,"Using ""full text"" search found 29 daugther and 119 daughters records. Removed empty lines and dedup","Using ""full text"" search found 2154 son and 3902 sons records. Removed emplty lines and dedup.",,
-22,Michigan,MI,Gaurav did,24,2265,93,,,,
+22,Michigan,MI,Done,24,2265,93,,,keyword search. returns number of results,
 23,Minnesota,MN,Done,2,392,213,Generated 8 links with all combos based on search parameters and then did spider. Deduped before extraction of word. Could have also used the csv I copy/pasted since results are not capped,Generated 8 links with all combos based on search parameters and then did spider. Deduped before extraction of word. Each search is capped at 500 so careful due to underrepresentation,son is underrepresented due to search cap so careful,Yes
 24,Mississippi,MS,Done,12,1918,165,22 anyword == daughter + 143 anyword == daughters,752 anyword == son + 1166 anyword == sons,Search gives counts with exact match so I just added it. But can't bring to R to do regex or dedup without spider and don't get a frinedly URL,
-25,Missouri,MO,Blocked,,,,439 found but format is horrible to copy and paste and need spider,Capped at 1854 but need to do regex and can't get url to spider,"Horrible output format and can't customize URL for rvest. @Gaurav, can you scrap or I can try and do many copy/pastes?",
-26,Montana,MT,Gaurav did,4,240,66,,,"MT provides all the search results and we run a regex to narrow down to cases where son(s) is a separate word. A brief glimpse suggests all of the results are legitimate, of the variety X and Son(s) etc. There the ratio between business names with the word son and daughter is about 4.",Yes
+25,Missouri,MO,Blocked,,,,439 found but format is horrible to copy and paste and need spider,Capped at 1854 but need to do regex and can't get url to spider,Horrible output format and can't customize URL for rvest. ,
+26,Montana,MT,Done,4,240,66,,,"MT provides all the search results and we run a regex to narrow down to cases where son(s) is a separate word. A brief glimpse suggests all of the results are legitimate, of the variety X and Son(s) etc. There the ratio between business names with the word son and daughter is about 4.",Yes
 27,Nebraska,NE,Can't be Done,,,,41 rows found and copy/pasted to csv,keyword search of son gives error. Sons keyword search returns 1390 but really need spider to get to r to do regex,"Keep getting error, try later. Son search gives error due to count",
-28,Nevada,NV,Gaurav did,72,1440,20,,,,
-29,New Hampshire,NH,Done,27,3203,119,I copy pasted,Gaurav did selenium ,,
+28,Nevada,NV,Done,72,1440,20,,,pop-up tells us the number of search results if search results > 500,
+29,New Hampshire,NH,Done,27,3203,119,I copy pasted,,,
 30,New Jersey,NJ,Done,2,173,73,Was able to copy/paste all with daughter,Copy pasted but results truncated at 500 so combined son and sons search to increase n and then deduped,Super conservative estimate for son cause search results truncated at 500 on search. ,Yes
 31,New Mexico,NM,Blocked,,,,"52 contain daughter, need spider","7861 contain son, need spider",Has I'm not robot captcha. No friendly url to rvest is generated so what we do? Total No. of Records: 7877 Page 1 of 788,
 32,New York,NY,Done,2,1190,745,"Had to do multiple queries and spiders to maxime n, see R for details","Had to do multiple queries and spiders to maxime n, see R for details",Daugther(s) count is probably correct but son(s) is for sure underrepresented since cap at 500. Use with caution. This was lots of good work to get data. Remember captcha code expires so R code won't run and need to reget a new URL,Yes
 33,North Carolina,NC,Blocked,,,,"261 contain daughter, need spider","1930 contain son, need spider",Horrible output format and don't know how to do URL to rvest. Copy paste is almost impossible.,
 34,North Dakota,ND,Done,26,605,23,Was able to copy/paste but had to clean in R. # is accurate,Caps at 500 so did multiple searches with son/sons and start vs contains. Then copy/paste was horrible and had to dedup and clean,son is underrepresented due to search cap ,Yes
-35,Ohio,OH,Gaurav did,26,2550,100,,,,
+35,Ohio,OH,Done,26,2550,100,,,,
 36,Oklahoma,OK,Blocked,,,,"174 contain daughter, need spider","son capped at 500, sons cap at 500. need spider",Can't generate URL to rvest. Could copy paste but would be long.,
-37,Oregon,OR,Gaurav did,4,1000,227,,,"1000+ so son under rep. OR doesn't return more than 1,000 results. Results for son are over a 1000. But when you apply regex to the 1,000, 985 come up as true positive. So the most conservative son:daughter ratio is 4.",Yes
+37,Oregon,OR,Done,4,1000,227,,,"1000+ so son under rep. OR doesn't return more than 1,000 results. Results for son are over a 1000. But when you apply regex to the 1,000, 985 come up as true positive. So the most conservative son:daughter ratio is 4.",Yes
 38,Pennsylvania,PA,Can't be Done,,,,,,doesn't seem to allow for exhaustive search,
 39,Rhode Island,RI,Done,17,206,12,"Had to do 3 different searches: begins with, full text, inactive. 12 rows in csv to R","Had to do 3 different searches: begins with, full text, inactive. 314 rows in csv to R",,
 40,South Carolina,SC,Done,69,4083.3,59,173 contain daughter but only 60 are shown. Copy paste ok,"27222 have ""son"" but only 60 are shown. Copy paste ok",9/60 for son were true positive so extrapolate,Yes
 41,South Dakota,SD,Done,12,129,11,had to search twice (contains vs starts with) to get more results. Will dedup in R.,had to search twice (contains vs starts with) to get more results. Will dedup in R.,,
 42,Tennessee,TN,Done,2,203,132,"Was able to search ""contains"" and got 141. Copy pasted ok to csv",Problematic search since capped at 500. Searched multiple times for son/sons and start/contains mix to maximize n. But son is severely underrepresented,Son is severely underrepresented so caveat this estimate.,Yes
 43,Texas,TX,Can't be Done,,,,daughter search would yield 221 but doesn't show. Daughters show 152 results.,"son would yield 4,740 but doesn't show. Sons would yiled 275 but doesn't show",I think it doesn't show if 200+? Rows. What we do?,
-44,Utah,UT,Done,5,81,16,Copy pasted but it's messy cause combines all attributes but ok for our work,690 for son* copy pasted. For *son I need spider and I can't get URL link like Arkansas as Gaurav suggested,son is EXTREMELY underrepresented. If we want more accurate # I need help from Gaurav for son spider. But this ratio makes point and extremely conservative,Yes
-45,Vermont,VT,Done,22,1361,63,65 rows copy pasted to csv,Gaurav pulled with selenium and I calculated,,
+44,Utah,UT,Done,5,81,16,Copy pasted but it's messy cause combines all attributes but ok for our work,690 for son* copy pasted. ,son is EXTREMELY underrepresented. ,Yes
+45,Vermont,VT,Done,22,1361,63,65 rows copy pasted to csv,,,
 46,Virginia,VA,Blocked,,,,"Page 1 of 12, records 1 to 25 of 278 -- need spider",Your Search Criteria returns 29121 results which is more than 500 results. Can show all results but copy/paste would be horrible,Can't get URL to rvest and copy/paste would be too much. ,
-47,Washington,WA,Gaurav did,15,2424,161,,,"WA returns all the results and after applying the regex, we get 2,424 results for son(s). This means a ratio of 15.
+47,Washington,WA,Done,15,2424,161,,,"WA returns all the results and after applying the regex, we get 2,424 results for son(s). This means a ratio of 15.
 ",
-48,West Virginia,WV,Done,2,128,72,I copy pasted,Gaurav did selenium ,Super conservative estimate for son cause search results truncated at 1000,Yes
-49,Wisconsin,WI,Gaurav did,20,845,43,,,"Searches for ""son"" as a separate word.
+48,West Virginia,WV,Done,2,128,72,I copy pasted,,Super conservative estimate for son cause search results truncated at 1000,Yes
+49,Wisconsin,WI,Done,20,845,43,,,"Searches for ""son"" as a separate word.
 Had to do multiple searches---breaking by time---for son as results > 500",
 50,Wyoming,WY,Done,11,238,21,Full DB was downloaded,Full DB was downloaded,Was able to download the full DB in a friendly way. Had to do some sorting and cleaning in excel cause R was freaking so used edited version.,
